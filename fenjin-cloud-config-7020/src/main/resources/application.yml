@@ -1,0 +1,14 @@
+server:
+  port: 9003
+
+spring:
+  application:
+    name: fenjin-cloud-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/zhengmaoch/fenjin-services-cloud-config.git #GitHub�����git�ֿ�����
+
+#hosts���config��ַӳ��
+#  127.0.0.1       fenjin.config.com

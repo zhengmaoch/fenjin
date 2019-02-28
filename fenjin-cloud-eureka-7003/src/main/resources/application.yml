@@ -1,0 +1,23 @@
+#单机配置
+#server:
+#  port: 7003
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    register-with-eureka: false
+#    fetch-registry: false
+#    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+#集群配置
+server:
+  port: 7003
+eureka:
+  instance:
+    hostname: fenjin.eureka7003.com
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://fenjin.eureka7001.com:7001/eureka/,http://fenjin.eureka7002.com:7002/eureka/

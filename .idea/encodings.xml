@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-cloud-config-7020" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-cloud-eureka-7001" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-cloud-eureka-7002" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-cloud-eureka-7003" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-cloud-hystrix-dashboard-7030" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-cloud-zuul-gateway-7040" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-configuration-8110" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-inventory-8120" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-logs-9010" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-products-8130" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-reports-8140" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-system-9020" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-tests-8150" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-users-9001" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-users-9002" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-fjtms-users-9003" charset="UTF-8" />
+  </component>
+</project>
