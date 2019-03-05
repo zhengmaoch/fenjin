@@ -1,6 +1,6 @@
-package com.fenjin.cloud.dao;
+package com.fenjin.fjtms.users.dao;
 
-import com.fenjin.fjtms.core.domain.users.Permission;
+import com.fenjin.fjtms.core.domain.users.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -11,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @date: 2019-03-05 17:30
  * @version 1.0
  */
-public interface IPermissionRepository extends JpaRepository<Permission, String >, JpaSpecificationExecutor<Permission> {
+public interface IRoleRepository extends JpaRepository<Role, String >, JpaSpecificationExecutor<Role> {
 }

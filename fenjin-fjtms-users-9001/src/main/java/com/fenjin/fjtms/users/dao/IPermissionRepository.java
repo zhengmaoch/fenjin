@@ -1,4 +1,4 @@
-package com.fenjin.cloud.dao;
+package com.fenjin.fjtms.users.dao;
 
 import com.fenjin.fjtms.core.domain.users.Permission;
 import org.springframework.data.jpa.repository.JpaRepository;

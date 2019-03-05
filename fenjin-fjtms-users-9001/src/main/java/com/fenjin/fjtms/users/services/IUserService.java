@@ -7,10 +7,11 @@ import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import java.util.List;
 
 /**
- * <p>Title: 用户服务</p>
- * <p>Description: 用户服务</p>
- * @author chang
- * @date 2019-02-28
+ * @ClassName: IUserService
+ * @Descriprion: TODO(用一句话描述这个类的作用)
+ * @author: changzhengmao
+ * @date: 2019-02-28 17:30
+ * @version 1.0
  */
 public interface IUserService {
 
