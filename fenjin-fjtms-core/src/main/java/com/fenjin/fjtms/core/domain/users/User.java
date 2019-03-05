@@ -2,19 +2,14 @@ package com.fenjin.fjtms.core.domain.users;
 
 
 import com.fenjin.fjtms.core.domain.products.Department;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -217,7 +212,6 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "CreatedTime")
-    @NotNull(message = "创建时间不能为空")
     public Date getCreatedTime() {
         return createdTime;
     }
@@ -228,7 +222,6 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "UpdatedTime")
-    @NotNull(message = "更新时间不能为空")
     public Date getUpdatedTime() {
         return updatedTime;
     }

@@ -1,12 +1,11 @@
 package com.fenjin.fjtms.users.services;
 
 import com.fenjin.fjtms.core.domain.users.User;
+import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IUserRepository;
-import com.fenjin.fjtms.users.models.UserSearchModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +28,7 @@ public class UserService implements IUserService {
     private IUserRepository userRepository;
 
     @Override
-    @Cacheable(cacheNames = "users", key = "#userSearchModel+'_'+#pageIndex+'_'+#pageSize", condition = "#pageSize>0")
+    @Cacheable(cacheNames = "users", key = "#userSearchModel + '_' + #pageIndex + '_' + #pageSize", condition = "#pageSize>0")
     public List<User> getAllUsers(UserSearchModel userSearchModel, int pageIndex, int pageSize) {
 
         Pageable pageable=new PageRequest(pageIndex, pageSize);
@@ -60,7 +59,7 @@ public class UserService implements IUserService {
                         predicates.add(cb.like(root.get("phone").as(String.class), "%" + userSearchModel.getSearchPhone() + "%"));
                     }
                     if(!StringUtil.isEmpty(userSearchModel.getSearchIpAddress())){
-                        predicates.add(cb.like(root.get("ipAddress").as(String.class), "%" + userSearchModel.getSearchIpAddress() + "%"));
+                        predicates.add(cb.like(root.get("lastIpAddress").as(String.class), "%" + userSearchModel.getSearchIpAddress() + "%"));
                     }
                     if(userSearchModel.getSearchLastActivityFrom() != null){
                         predicates.add(cb.greaterThanOrEqualTo(root.get("lastActivityDate"), userSearchModel.getSearchLastActivityFrom()));
@@ -137,7 +136,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "users", key = "'users_'+#user.id")
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public boolean deleteUser(User user) {
 
         user.setDeleted(true);
@@ -149,7 +148,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    @CachePut(cacheNames = "users", key = "'users_'+#user.id")
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public boolean updateUser(User user) {
 
         user.setUpdatedTime(new Date());

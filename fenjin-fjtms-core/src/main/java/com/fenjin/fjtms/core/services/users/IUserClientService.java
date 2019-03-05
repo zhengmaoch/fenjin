@@ -1,9 +1,13 @@
 package com.fenjin.fjtms.core.services.users;
 
+import com.fenjin.fjtms.core.CommonResult;
 import com.fenjin.fjtms.core.domain.users.User;
+import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -12,21 +16,32 @@ import java.util.List;
 @FeignClient(value = "FENJIN-FJTMS-USERS", fallbackFactory = UserClientServiceFallbackFactory.class)
 public interface IUserClientService {
 
-    @PostMapping("/user/create")
-    void create(User user);
+    @PostMapping("/users/create")
+    CommonResult create(@RequestBody User user);
 
-    @DeleteMapping("/user/delete/{id}")
-    void delete(@PathVariable("id") String id);
+    @DeleteMapping("/users/delete/{id}")
+    CommonResult delete(@PathVariable("id") String id);
 
-    @PutMapping("/user/edit")
-    void edit(User user);
+    @DeleteMapping("/users/delete")
+    CommonResult delete(@RequestBody List<String> ids);
 
-    @GetMapping("/user/list")
-    List<User> list();
+    @PutMapping("/users/edit")
+    CommonResult edit(@RequestBody User user);
 
-    @GetMapping("/user/get/{id}")
-    User get(@PathVariable("id") String id);
+    @PostMapping("/list/{pageIndex}/{pageSize}")
+    CommonResult list(@RequestBody(required = false) UserSearchModel userSearchModel, @PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
-    @GetMapping("/discovery")
-    Object discovery();
+    @GetMapping("/users/get/{id}")
+    CommonResult get(@PathVariable("id") String id);
+
+    /**
+     * 根据用户名称查询用户信息
+     * @param username
+     * @return 用户
+     */
+    @GetMapping("/users/getByUsername/{username}")
+    CommonResult getUserByUsername(@PathVariable("username") String username);
+
+    @GetMapping("/users/discovery")
+    CommonResult discovery();
 }

@@ -2,7 +2,7 @@ package com.fenjin.fjtms.users.services;
 
 
 import com.fenjin.fjtms.core.domain.users.User;
-import com.fenjin.fjtms.users.models.UserSearchModel;
+import com.fenjin.fjtms.core.models.users.UserSearchModel;
 
 import java.util.List;
 

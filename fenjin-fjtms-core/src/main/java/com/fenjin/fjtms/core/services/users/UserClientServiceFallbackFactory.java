@@ -1,8 +1,12 @@
 package com.fenjin.fjtms.core.services.users;
 
+import com.fenjin.fjtms.core.CommonResult;
 import com.fenjin.fjtms.core.domain.users.User;
+import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,40 +23,43 @@ public class UserClientServiceFallbackFactory implements FallbackFactory<IUserCl
         return new IUserClientService(){
 
             @Override
-            public void create(User user) {
-
+            public CommonResult create(User user) {
+                return new CommonResult().failed();
             }
 
             @Override
-            public void delete(String id) {
-
+            public CommonResult delete(String id) {
+                return new CommonResult().failed();
             }
 
             @Override
-            public void edit(User user) {
-
+            public CommonResult delete(List<String> ids) {
+                return new CommonResult().failed();
             }
 
             @Override
-            public List<User> list() {
-
-                List<User> users = new ArrayList<User>();
-                User user = new User();
-                user.setId("没有对应的信息，该服务已暂停！");
-                users.add(user);
-                return users;
+            public CommonResult edit(User user) {
+                return new CommonResult().failed();
             }
 
             @Override
-            public User get(String id) {
-                User user = new User();
-                user.setId("该ID：" + id + "没有对应的信息，该服务已暂停！");
-                return user;
+            public CommonResult list(UserSearchModel userSearchModel, Integer pageIndex, Integer pageSize) {
+                return new CommonResult().failed();
             }
 
             @Override
-            public Object discovery() {
-                return "没有对应的微服务信息，该服务已暂停！";
+            public CommonResult get(String id) {
+                return new CommonResult().failed();
+            }
+
+            @Override
+            public CommonResult getUserByUsername(String username) {
+                return new CommonResult().failed();
+            }
+
+            @Override
+            public CommonResult discovery() {
+                return new CommonResult().failed();
             }
         };
     }

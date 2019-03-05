@@ -9,9 +9,11 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://fenjin.eureka7001.com:7001/eureka/,http://fenjin.eureka7002.com:7002/eureka/,http://fenjin.eureka7003.com:7003/eureka/
+#      defaultZone: http://192.168.110.9:7001/eureka/
+      defaultZone: http://localhost:7001/eureka/
   instance:
     instance-id: fenjin-cloud-zuul-gateway-7040
+#    hostname: 192.168.110.9
     prefer-ip-address: true
 
   #hosts文件添加：127.0.0.1       fenjin.gateway.com
@@ -21,14 +23,31 @@ eureka:
 zuul:
   ignored-services: "*" #忽略路径
   routes:
-    fenjin.serviceId: fenjin-cloud-feign-hystrix
-    fenjin.path: /fjtms/**
+    users:
+      serviceId: fenjin-fjtms-users
+      path: /users/**
+      strip-prefix: true
+      sensitiveHeaders: "*"
+    auth:
+      serviceId: fenjin-cloud-oauth2
+      path: /auth/**
+      strip-prefix: true
+      sensitiveHeaders: "*"
 
+security:
+  oauth2:
+    resource:
+#      user-info-uri:  http://192.168.110.9:7050/user
+      user-info-uri:  http://localhost:${server.port}/auth/api/user
+      prefer-token-info: false
+#      loadBalanced: true
+    client:
+      access-token-uri: http://localhost:${server.port}/auth/oauth/token
+      user-authorization-uri: http://localhost:${server.port}/auth/oauth/authorize
+      client-id: web
 
 info:
   app.name: fenjin-cloud-zuul-gateway
   company.name: www.fenjin.com
   build.artifactId: $project.artifactId$
   build.version: $project.version$
-
-

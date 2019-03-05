@@ -4,12 +4,27 @@ server:
   tomcat.max-threads: 0
   tomcat.uri-encoding: UTF-8
 
+security:
+  oauth2:
+    client:
+      accessTokenUri: http://localhost:7040/auth/oauth/token
+      userAuthorizationUri: http://localhost:7040/auth/oauth/authorize
+      clientId: first
+      clientSecret: passwordforauthserver
+    resource:
+      #      user-info-uri:  http://192.168.110.9:7050/user
+      user-info-uri:  http://localhost:7040/auth/api/user
+      prefer-token-info: false
+      id: fenjin-fjtms-users
+#      loadBalanced: true
+
+
 spring:
   application:
     name: fenjin-fjtms-users #微服务名称
   datasource:
-#    url: jdbc:mysql://localhost:3306/fjtms
-    url: jdbc:mysql://192.168.110.9:13306/fjtms
+    url: jdbc:mysql://localhost:3306/fjtms
+#    url: jdbc:mysql://192.168.110.9:13306/fjtms
     username: root
     password: 123456
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -20,8 +35,10 @@ spring:
       max-total: 5
       max-wait-millis: 200
   redis:
-    host: 192.168.110.9
-    port: 16379
+    host: localhost
+#    host: 192.168.110.9
+    port: 6379
+    database: 2
     timeout: 10000
     jedis:
       pool:
@@ -48,13 +65,14 @@ eureka:
   client: #微服务注册进eureka服务
     service-url:
 #      单机配置
-      defaultZone: http://192.168.110.9:7001/eureka
+#      defaultZone: http://192.168.110.9:7001/eureka
+      defaultZone: http://localhost:7001/eureka
 #      集群配置
 #      defaultZone: http://fenjin.eureka7001.com:7001/eureka/,http://fenjin.eureka7002.com:7002/eureka/,http://fenjin.eureka7003.com:7003/eureka/
   instance:
     instance-id: fenjin-fjtms-users-9001
+#    hostname: 192.168.110.9
     prefer-ip-address: true
-    hostname: 192.168.110.9
 
 info:
   app.name: fenjin-fjtms-users
