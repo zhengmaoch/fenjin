@@ -88,9 +88,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(redisTokenStore());
         tokenServices.setSupportRefreshToken(true);
-        tokenServices.setClientDetailsService(clientDetails());
-        tokenServices.setAccessTokenValiditySeconds(60*60*12); // token有效期自定义设置，默认12小时
-        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);//默认30天，这里修改
+//        tokenServices.setClientDetailsService(clientDetails());
+        // token有效期自定义设置，默认12小时
+        tokenServices.setAccessTokenValiditySeconds(60*60*12);
+        // refresh_token默认30天
+        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);
         return tokenServices;
     }
 
@@ -101,12 +103,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        // 开启/oauth/token_key验证端口无权限访问
-//        security.tokenKeyAccess("permitAll()");
-        // 开启/oauth/check_token验证端口认证权限访问
-        security.checkTokenAccess("isAuthenticated()");
-        security.checkTokenAccess("permitAll()");
-        security.allowFormAuthenticationForClients();
+
+        security.allowFormAuthenticationForClients()
+                // 开启/oauth/token_key验证端口无权限访问
+                .tokenKeyAccess("permitAll()")
+                // 开启/oauth/check_token验证端口认证权限访问
+                .checkTokenAccess("isAuthenticated()");
         log.info("AuthorizationServerSecurityConfigurer is complete!");
     }
 
@@ -118,11 +120,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-        clients.withClientDetails(clientDetails());
-//        clients.inMemory() // 使用in-memory存储
-//                .withClient("client") // client_id
-//                .secret("secret") // client_secret
-//                .authorizedGrantTypes("authorization_code") // 该client允许的授权类型
-//                .scopes("app"); // 允许的授权范围
+//        clients.withClientDetails(clientDetails());
+        clients.inMemory()
+                .withClient("android")
+                .scopes("read")
+                .secret("android")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+                .and()
+                .withClient("webapp")
+                .scopes("read")
+                .authorizedGrantTypes("implicit")
+                .and()
+                .withClient("browser")
+                .authorizedGrantTypes("refresh_token", "password")
+                .scopes("read");
     }
 }

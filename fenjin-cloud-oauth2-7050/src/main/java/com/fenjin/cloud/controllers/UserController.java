@@ -1,6 +1,6 @@
 package com.fenjin.cloud.controllers;
 
-import com.fenjin.fjtms.core.CommonResult;
+import com.fenjin.fjtms.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +32,13 @@ public class UserController {
         return user;
     }
 
-    @DeleteMapping(value = "/exit")
-    public CommonResult revokeToken(String token){
+    @DeleteMapping(value = "/logout")
+    public Result revokeToken(String token){
 
         if (consumerTokenServices.revokeToken(token)){
-            return new CommonResult().success("注销成功");
+            return new Result().success("注销成功");
         }else {
-            return new CommonResult().failed();
+            return new Result().failed("注销失败");
         }
     }
 }

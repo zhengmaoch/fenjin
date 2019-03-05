@@ -1,6 +1,6 @@
 package com.fenjin.fjtms.core.services.users;
 
-import com.fenjin.fjtms.core.CommonResult;
+import com.fenjin.fjtms.core.Result;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -17,5 +17,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface IRoleClientService {
 
     @GetMapping("/roles/getByUserId/{userId}")
-    CommonResult getRolesByUserId(String userId);
+    Result getRolesByUserId(String userId);
 }

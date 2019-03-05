@@ -1,14 +1,11 @@
 package com.fenjin.fjtms.core.services.users;
 
-import com.fenjin.fjtms.core.CommonResult;
+import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,43 +20,43 @@ public class UserClientServiceFallbackFactory implements FallbackFactory<IUserCl
         return new IUserClientService(){
 
             @Override
-            public CommonResult create(User user) {
-                return new CommonResult().failed();
+            public Result create(User user) {
+                return new Result().failed();
             }
 
             @Override
-            public CommonResult delete(String id) {
-                return new CommonResult().failed();
+            public Result delete(String id) {
+                return new Result().failed();
             }
 
             @Override
-            public CommonResult delete(List<String> ids) {
-                return new CommonResult().failed();
+            public Result delete(List<String> ids) {
+                return new Result().failed();
             }
 
             @Override
-            public CommonResult edit(User user) {
-                return new CommonResult().failed();
+            public Result edit(User user) {
+                return new Result().failed();
             }
 
             @Override
-            public CommonResult list(UserSearchModel userSearchModel, Integer pageIndex, Integer pageSize) {
-                return new CommonResult().failed();
+            public Result list(UserSearchModel userSearchModel, Integer pageIndex, Integer pageSize) {
+                return new Result().failed();
             }
 
             @Override
-            public CommonResult get(String id) {
-                return new CommonResult().failed();
+            public Result get(String id) {
+                return new Result().failed();
             }
 
             @Override
-            public CommonResult getUserByUsername(String username) {
-                return new CommonResult().failed();
+            public Result getUserByUsername(String username) {
+                return new Result().failed();
             }
 
             @Override
-            public CommonResult discovery() {
-                return new CommonResult().failed();
+            public Result discovery() {
+                return new Result().failed();
             }
         };
     }
