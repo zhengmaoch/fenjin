@@ -8,6 +8,7 @@
     <file url="file://$PROJECT_DIR$/fenjin-cloud-eureka-7003" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fenjin-cloud-hystrix-dashboard-7030" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fenjin-cloud-zuul-gateway-7040" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fenjin-fjtms-configuration-8110" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fenjin-fjtms-core" charset="UTF-8" />
@@ -18,7 +19,5 @@
     <file url="file://$PROJECT_DIR$/fenjin-fjtms-system-9020" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fenjin-fjtms-tests-8150" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fenjin-fjtms-users-9001" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/fenjin-fjtms-users-9002" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/fenjin-fjtms-users-9003" charset="UTF-8" />
   </component>
 </project>
