@@ -1,20 +1,18 @@
-package com.fenjin.cloud.config;
+package com.fenjin.fjtms.users.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * @version 1.0
  * @ClassName: ResourceServerConfig
- * @Descriprion: TODO(资源服务器配置)
+ * @Descriprion: TODO(OAuth资源服务配置)
  * @author: changzhengmao
- * @date: 2019-03-01 16:41
+ * @date: 2019-03-05 17:20
  */
 @Configuration
 @EnableResourceServer
@@ -27,17 +25,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
-                .requestMatchers().antMatchers("/api/**")
+                .requestMatchers().antMatchers("/users/**")
                 .and()
                 .authorizeRequests()
-                .anyRequest().authenticated()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/users/**").authenticated()
                 .and()
                 .httpBasic();
     }
-
-//    @Override
-//    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-//        super.configure(resources);
-//    }
 }

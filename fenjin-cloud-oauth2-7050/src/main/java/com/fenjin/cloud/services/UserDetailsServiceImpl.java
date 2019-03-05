@@ -1,6 +1,6 @@
 package com.fenjin.cloud.services;
 
-import com.fenjin.fjtms.core.CommonResult;
+import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.Permission;
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.services.users.IPermissionClientService;
@@ -42,8 +42,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        CommonResult userResult = userService.getUserByUsername(username);
-        if (userResult.getCode() != CommonResult.SUCCESS) {
+        Result userResult = userService.getUserByUsername(username);
+        if (userResult.getCode() != Result.SUCCESS) {
             throw new UsernameNotFoundException("用户:" + username + ",不存在!");
         }
 
@@ -53,15 +53,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         // 获取角色
-        CommonResult roleResult = roleService.getRolesByUserId(user.getId());
-        if (roleResult.getCode() != CommonResult.SUCCESS){
+        Result roleResult = roleService.getRolesByUserId(user.getId());
+        if (roleResult.getCode() != Result.SUCCESS){
             List<Role> roles = (List<Role>) roleResult.getData();
             for (Role role:roles){
                 GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getSystemName());
                 grantedAuthorities.add(grantedAuthority);
                 //获取权限
-                CommonResult permissionResult  = permissionService.getPermissionsByRoleId(role.getId());
-                if (permissionResult.getCode() != CommonResult.SUCCESS){
+                Result permissionResult  = permissionService.getPermissionsByRoleId(role.getId());
+                if (permissionResult.getCode() != Result.SUCCESS){
                     List<Permission> permissions = (List<Permission>) permissionResult.getData();
                     for (Permission permission:permissions
                     ) {

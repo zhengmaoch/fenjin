@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 @Configuration
 @EnableWebSecurity
 @Order(2)
-@EnableGlobalMethodSecurity(prePostEnabled = true) // 注解@PreAutoorize,@PostAuthorize,..可用
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 用户信息服务
@@ -78,23 +77,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 关闭csrf，拦截所有请求
-//        http.requestMatchers().antMatchers("/oauth/**")
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/oauth/**").authenticated()
-//                .and()
-//                .csrf().disable();
-        http
-                .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .and()
-                .requestMatchers().antMatchers("/api/**")
+        http.requestMatchers().antMatchers("/oauth/**")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/oauth/**").authenticated()
                 .and()
-                .httpBasic();
+                .csrf().disable();
+//        http
+//                .csrf().disable()
+//                .exceptionHandling()
+//                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+//                .and()
+//                .requestMatchers().antMatchers("/api/**")
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/api/**").authenticated()
+//                .and()
+//                .httpBasic();
     }
 
     @Override

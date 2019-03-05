@@ -1,7 +1,8 @@
 package com.fenjin.fjtms.core;
 
 import com.fenjin.fjtms.core.utils.JsonUtil;
-import com.github.pagehelper.PageInfo;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.validation.BindingResult;
 
 import java.util.HashMap;
@@ -9,19 +10,28 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 通用返回对象
+ * 响应实体
  */
-public class CommonResult {
+@Accessors(chain = true)
+@NoArgsConstructor
+public class Result {
     //操作成功
     public static final int SUCCESS = 200;
     //操作失败
     public static final int FAILED = 500;
-    //参数校验失败
-    public static final int VALIDATE_FAILED = 404;
     //未认证
     public static final int UNAUTHORIZED = 401;
+    //未激活
+    public static final int  NOT_ACTIVED = 402;
     //未授权
     public static final int  FORBIDDEN = 403;
+    //参数校验失败
+    public static final int VALIDATE_FAILED = 404;
+    //数据库错误
+    public static final int  DB_ERROR = 501;
+    //参数为空
+    public static final int  PARAM_PARAMETER_IS_NULL = 502;
+
 
     private int code;
     private String message;
@@ -32,7 +42,7 @@ public class CommonResult {
      *
      * @param data 获取的数据
      */
-    public CommonResult success(Object data) {
+    public Result success(Object data) {
         this.code = SUCCESS;
         this.message = "操作成功";
         this.data = data;
@@ -42,7 +52,7 @@ public class CommonResult {
     /**
      * 返回分页成功数据
      */
-    public CommonResult pageSuccess(int pageIndex, int pageSize, int total, List data) {
+    public Result pageSuccess(int pageIndex, int pageSize, int total, List data) {
 //        PageInfo pageInfo = new PageInfo(data);
         Map<String, Object> result = new HashMap<>();
         result.put("pageSize", pageSize);
@@ -59,9 +69,18 @@ public class CommonResult {
     /**
      * 普通失败提示信息
      */
-    public CommonResult failed() {
+    public Result failed() {
         this.code = FAILED;
         this.message = "操作失败";
+        return this;
+    }
+
+    /**
+     * 普通失败提示信息
+     */
+    public Result failed(String message) {
+        this.code = FAILED;
+        this.message = message;
         return this;
     }
 
@@ -70,7 +89,7 @@ public class CommonResult {
      *
      * @param message 错误信息
      */
-    public CommonResult validateFailed(String message) {
+    public Result validateFailed(String message) {
         this.code = VALIDATE_FAILED;
         this.message = message;
         return this;
@@ -81,7 +100,7 @@ public class CommonResult {
      *
      * @param message 错误信息
      */
-    public CommonResult unauthorized(String message) {
+    public Result unauthorized(String message) {
         this.code = UNAUTHORIZED;
         this.message = "暂未登录或token已经过期";
         this.data = message;
@@ -93,7 +112,7 @@ public class CommonResult {
      *
      * @param message 错误信息
      */
-    public CommonResult forbidden(String message) {
+    public Result forbidden(String message) {
         this.code = FORBIDDEN;
         this.message = "没有相关权限";
         this.data = message;
@@ -104,7 +123,7 @@ public class CommonResult {
      * 参数验证失败使用
      * @param result 错误信息
      */
-    public CommonResult validateFailed(BindingResult result) {
+    public Result validateFailed(BindingResult result) {
         validateFailed(result.getFieldError().getDefaultMessage());
         return this;
     }

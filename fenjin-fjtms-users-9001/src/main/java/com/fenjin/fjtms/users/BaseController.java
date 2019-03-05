@@ -1,45 +1,45 @@
 package com.fenjin.fjtms.users;
 
-import com.fenjin.fjtms.core.CommonResult;
+import com.fenjin.fjtms.core.Result;
 
 import java.util.List;
 
 public class BaseController {
 
 
-    public CommonResult commonResult(Object object){
+    public Result commonResult(Object object){
 
-        CommonResult commonResult;
+        Result result;
         if(object != null){
-            commonResult = new CommonResult().success(object);
+            result = new Result().success(object);
         }
         else {
-            commonResult = new CommonResult().failed();
+            result = new Result().failed();
         }
-        return commonResult;
+        return result;
     }
 
-    public CommonResult commonResult(boolean b){
+    public Result commonResult(boolean b){
 
-        CommonResult commonResult;
+        Result result;
         if(b){
-            commonResult = new CommonResult().success(b);
+            result = new Result().success(b);
         }
         else {
-            commonResult = new CommonResult().failed();
+            result = new Result().failed();
         }
-        return commonResult;
+        return result;
     }
 
-    public CommonResult commonResult(int pageIndex, int pageSize, int total, List data){
+    public Result commonResult(int pageIndex, int pageSize, int total, List data){
 
-        CommonResult commonResult;
+        Result result;
         if(data != null){
-            commonResult = new CommonResult().pageSuccess(pageIndex, pageSize, total, data);
+            result = new Result().pageSuccess(pageIndex, pageSize, total, data);
         }
         else {
-            commonResult = new CommonResult().failed();
+            result = new Result().failed();
         }
-        return commonResult;
+        return result;
     }
 }

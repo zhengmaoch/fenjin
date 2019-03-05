@@ -12,6 +12,7 @@
         <module name="fenjin-cloud-eureka-7003" />
         <module name="fenjin-cloud-feign-hystrix-7010" />
         <module name="fenjin-cloud-hystrix-dashboard-7030" />
+        <module name="fenjin-cloud-oauth2-7050" />
         <module name="fenjin-cloud-zuul-gateway-7040" />
         <module name="fenjin-fjtms-configuration-8110" />
         <module name="fenjin-fjtms-core" />
@@ -28,12 +29,10 @@
       <module name="demo" target="1.8" />
       <module name="fenjin-cloud-config-7020" target="1.8" />
       <module name="fenjin-cloud-config-9003" target="1.8" />
-      <module name="fenjin-cloud-eureka-7001" target="1.8" />
       <module name="fenjin-cloud-eureka-7002" target="1.8" />
       <module name="fenjin-cloud-eureka-7003" target="1.8" />
       <module name="fenjin-cloud-feign-hystrix-7010" target="1.8" />
       <module name="fenjin-cloud-hystrix-dashboard-7030" target="1.8" />
-      <module name="fenjin-cloud-zuul-gateway-7040" target="1.8" />
       <module name="fenjin-core" target="1.8" />
       <module name="fenjin-fjtms-configuration-8110" target="1.8" />
       <module name="fenjin-fjtms-inventories-8120" target="1.8" />
