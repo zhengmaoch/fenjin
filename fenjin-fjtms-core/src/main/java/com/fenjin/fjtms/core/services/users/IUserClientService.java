@@ -38,7 +38,7 @@ public interface IUserClientService {
      * @return 用户
      */
     @GetMapping("/users/getByUsername/{username}")
-    Result getUserByUsername(@PathVariable("username") String username);
+    Result getByUsername(@PathVariable("username") String username);
 
     @GetMapping("/users/discovery")
     Result discovery();

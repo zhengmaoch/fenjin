@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author: changzhengmao
  * @date: 2019-03-01 17:56
  */
-@FeignClient(value = "FENJIN-FJTMS-USERS")
+@FeignClient(value = "FENJIN-FJTMS-USERS", fallbackFactory = PermissionClientServiceFallbackFactory.class)
 public interface IPermissionClientService {
 
-    @GetMapping("/permissions/getPermissionByRoleId/{roleId}")
-    Result getPermissionsByRoleId(String roleId);
+    @GetMapping("/permissions/getByRoleId/{roleId}")
+    Result getByRoleId(String roleId);
 }

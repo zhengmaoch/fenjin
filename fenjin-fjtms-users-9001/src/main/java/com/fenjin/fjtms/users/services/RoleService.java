@@ -1,8 +1,10 @@
 package com.fenjin.fjtms.users.services;
 
 import com.fenjin.fjtms.core.domain.users.Role;
+import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IRoleRepository;
+import com.fenjin.fjtms.users.dao.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,6 +31,9 @@ public class RoleService implements IRoleService {
 
     @Autowired
     private IRoleRepository roleRepository;
+
+    @Autowired
+    private IUserRepository userRepository;
     
     @Override
     @Cacheable(cacheNames = "roles", key = "'roles_'+#rolename")
@@ -55,8 +60,11 @@ public class RoleService implements IRoleService {
     }
 
     @Override
+    @Cacheable(cacheNames = "roles", key = "'roles_'+#userId")
     public List<Role> getRolesByUserId(String userId) {
-        return null;
+
+        User user = userRepository.findOne(userId);
+        return user.getRoles();
     }
 
     @Transactional

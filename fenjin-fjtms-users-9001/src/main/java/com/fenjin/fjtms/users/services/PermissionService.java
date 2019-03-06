@@ -1,8 +1,10 @@
 package com.fenjin.fjtms.users.services;
 
 import com.fenjin.fjtms.core.domain.users.Permission;
+import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IPermissionRepository;
+import com.fenjin.fjtms.users.dao.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,6 +32,9 @@ public class PermissionService implements IPermissionService{
     @Autowired
     private IPermissionRepository permissionRepository;
 
+    @Autowired
+    private IRoleRepository roleRepository;
+
     @Override
     @Cacheable(cacheNames = "permissions", key = "'permissions_'+#permissionname")
     public List<Permission> getAllPermissions(String permissionname) {
@@ -55,8 +60,11 @@ public class PermissionService implements IPermissionService{
     }
 
     @Override
+    @Cacheable(cacheNames = "permissions", key = "'permissions_'+#roleId")
     public List<Permission> getPermissionsByRoleId(String roleId) {
-        return null;
+
+        Role role = roleRepository.getOne(roleId);
+        return role.getPermissions();
     }
 
     @Transactional

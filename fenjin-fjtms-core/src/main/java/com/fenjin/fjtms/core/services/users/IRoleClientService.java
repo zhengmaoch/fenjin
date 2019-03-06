@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @date: 2019-03-01 17:56
  */
 
-@FeignClient(value = "FENJIN-FJTMS-USERS")
+@FeignClient(value = "FENJIN-FJTMS-USERS", fallbackFactory = RoleClientServiceFallbackFactory.class)
 public interface IRoleClientService {
 
     @GetMapping("/roles/getByUserId/{userId}")
-    Result getRolesByUserId(String userId);
+    Result getByUserId(String userId);
 }

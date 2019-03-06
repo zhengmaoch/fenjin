@@ -50,7 +50,7 @@ public class UserClientServiceFallbackFactory implements FallbackFactory<IUserCl
             }
 
             @Override
-            public Result getUserByUsername(String username) {
+            public Result getByUsername(String username) {
                 return new Result().failed();
             }
 
