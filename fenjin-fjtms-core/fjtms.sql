@@ -555,10 +555,21 @@ CREATE TABLE `role`  (
   `Active` tinyint(1) NOT NULL COMMENT '激活状态，只有激活的角色才可以使用',
   `IsSystemRole` tinyint(1) NOT NULL COMMENT '系统角色，系统角色是不可以删除的',
   `SystemName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '系统中角色关键字名称',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
   `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
   `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
+
+INSERT INTO `role` VALUES ('1', '系统管理员', 1, 1, 'Administrators', 0, NOW(), NOW());
+INSERT INTO `role` VALUES ('2', '注册用户', 1, 1, 'Registered', 0, NOW(), NOW());
+INSERT INTO `role` VALUES ('3', '试品管理员', 1, 0, 'ProductManager', 0, NOW(), NOW());
+INSERT INTO `role` VALUES ('4', '试验员', 1, 0, 'Experimenter', 0, NOW(), NOW());
+INSERT INTO `role` VALUES ('5', '试验中心管理员', 1, 0, 'CenterManager', 0, NOW(), NOW());
+INSERT INTO `role` VALUES ('6', '检修员', 1, 0, 'Maintainer', 0, NOW(), NOW());
+INSERT INTO `role` VALUES ('7', '库房管理员', 1, 0, 'WarehouseManager', 0, NOW(), NOW());
+INSERT INTO `role` VALUES ('8', '地市级领导', 1, 0, 'DistrictLeader', 0, NOW(), NOW());
+INSERT INTO `role` VALUES ('9', '省级领导', 1, 0, 'ProvinceLeader', 0, NOW(), NOW());
 
 -- ----------------------------
 -- Table structure for s_scheduletask
@@ -628,11 +639,11 @@ CREATE TABLE `user`  (
   `FailedLoginAttempts` int(11) NOT NULL COMMENT '登录失败次数',
   `CannotLoginUntilDate` datetime(0) NULL DEFAULT NULL COMMENT '下次登录时间',
   `Active` tinyint(1) NOT NULL COMMENT '激活状态，只有激活的用户才可以登录系统',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
   `IsSystemAccount` tinyint(1) NOT NULL COMMENT '系统账号，系统账号不可以删除',
   `LastIpAddress` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最近登录主机IP地址',
   `LastLoginDate` datetime(0) NULL DEFAULT NULL COMMENT '最近一次登录时间',
   `LastActivityDate` datetime(0) NULL DEFAULT NULL COMMENT '最近一次活动时间，最近一次操作时间',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
   `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
   `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
   PRIMARY KEY (`Id`) USING BTREE,
@@ -640,6 +651,8 @@ CREATE TABLE `user`  (
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
   CONSTRAINT `FK_User_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户' ROW_FORMAT = Dynamic;
+
+INSERT INTO `user` VALUES ('1', 'admin', '系统管理员', 'e31042a18f6aab44676eac536a8a4563', NULL, NULL, '18071026720', 'zhengmaoch@qq.com', 0, 0, NULL, 1, 1, '192.168.145.1', NOW(), NULL, 0, NOW(), NOW());
 
 -- ----------------------------
 -- Table structure for s_userroles

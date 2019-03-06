@@ -45,7 +45,7 @@ public class PermissionController extends BaseController {
         }
         try {
 
-            if(permissionService.getAllPermissions(permission.getName()) != null){
+            if(permissionService.getAllPermissions(permission.getName()).size() > 0){
                 return new Result().validateFailed("权限名已存在");
             }
 

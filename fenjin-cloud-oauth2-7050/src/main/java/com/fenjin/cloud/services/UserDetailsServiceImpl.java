@@ -42,9 +42,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Result userResult = userService.getUserByUsername(username);
+        Result userResult = userService.getByUsername(username);
         if (userResult.getCode() != Result.SUCCESS) {
-            throw new UsernameNotFoundException("用户:" + username + ",不存在!");
+            throw new UsernameNotFoundException("用户:" + username + "不存在!");
         }
 
         com.fenjin.fjtms.core.domain.users.User user = new com.fenjin.fjtms.core.domain.users.User();
@@ -53,14 +53,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         // 获取角色
-        Result roleResult = roleService.getRolesByUserId(user.getId());
+        Result roleResult = roleService.getByUserId(user.getId());
         if (roleResult.getCode() != Result.SUCCESS){
             List<Role> roles = (List<Role>) roleResult.getData();
             for (Role role:roles){
                 GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getSystemName());
                 grantedAuthorities.add(grantedAuthority);
                 //获取权限
-                Result permissionResult  = permissionService.getPermissionsByRoleId(role.getId());
+                Result permissionResult  = permissionService.getByRoleId(role.getId());
                 if (permissionResult.getCode() != Result.SUCCESS){
                     List<Permission> permissions = (List<Permission>) permissionResult.getData();
                     for (Permission permission:permissions

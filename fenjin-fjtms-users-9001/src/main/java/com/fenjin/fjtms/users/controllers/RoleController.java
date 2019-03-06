@@ -44,7 +44,7 @@ public class RoleController extends BaseController {
         }
         try {
 
-            if(roleService.getAllRoles(role.getName()) != null){
+            if(roleService.getAllRoles(role.getName()).size() > 0){
                 return new Result().validateFailed("角色名已存在");
             }
 
