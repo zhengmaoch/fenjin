@@ -39,11 +39,11 @@ public class UserController {
 //        return userClientService.list();
 //    }
 
-    @GetMapping("/get/{id}")
-    public Result get(@PathVariable("id") String id){
-
-        return userClientService.get(id);
-    }
+//    @GetMapping("/get/{id}")
+//    public Result get(@PathVariable("id") String id){
+//
+//        return userClientService.g(id);
+//    }
 
 
 //    配置本地访问地址
