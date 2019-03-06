@@ -513,6 +513,9 @@ CREATE TABLE `permission`  (
   `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
   `SystemName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '系统权限名称',
   `Category` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限分类，可用模块名',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限' ROW_FORMAT = Dynamic;
 

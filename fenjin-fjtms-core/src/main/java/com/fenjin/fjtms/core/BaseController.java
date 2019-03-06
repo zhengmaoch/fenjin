@@ -4,39 +4,23 @@ import java.util.List;
 
 public class BaseController {
 
-    public Result commonResult(Object object){
+    public Result Result(Object object){
 
-        Result result;
-        if(object != null){
-            result = new Result().success(object);
-        }
-        else {
-            result = new Result().failed();
-        }
-        return result;
+        return object == null ? new Result().failed() : new Result().success(object);
     }
 
-    public Result commonResult(boolean b){
+    public Result Result(boolean b){
 
-        Result result;
-        if(b){
-            result = new Result().success(b);
-        }
-        else {
-            result = new Result().failed();
-        }
-        return result;
+        return b ?  new Result().success(b) : new Result().failed();
     }
 
-    public Result commonResult(int pageIndex, int pageSize, int total, List data){
+    public Result Result(List data){
 
-        Result result;
-        if(data != null){
-            result = new Result().pageSuccess(pageIndex, pageSize, total, data);
-        }
-        else {
-            result = new Result().failed();
-        }
-        return result;
+        return data == null ? new Result().failed() : new Result().success(data);
+    }
+
+    public Result Result(int pageIndex, int pageSize, int total, List data){
+
+        return data == null ? new Result().failed() : new Result().pageSuccess(pageIndex, pageSize, total, data);
     }
 }

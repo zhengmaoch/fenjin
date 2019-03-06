@@ -1,8 +1,6 @@
 package com.fenjin.fjtms.core;
 
 import com.fenjin.fjtms.core.utils.JsonUtil;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.springframework.validation.BindingResult;
 
 import java.util.HashMap;
@@ -10,28 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 响应实体
+ * 通用返回对象
  */
-@Accessors(chain = true)
-@NoArgsConstructor
 public class Result {
     //操作成功
     public static final int SUCCESS = 200;
     //操作失败
     public static final int FAILED = 500;
-    //未认证
-    public static final int UNAUTHORIZED = 401;
-    //未激活
-    public static final int  NOT_ACTIVED = 402;
-    //未授权
-    public static final int  FORBIDDEN = 403;
     //参数校验失败
     public static final int VALIDATE_FAILED = 404;
-    //数据库错误
-    public static final int  DB_ERROR = 501;
-    //参数为空
-    public static final int  PARAM_PARAMETER_IS_NULL = 502;
-
+    //未认证
+    public static final int UNAUTHORIZED = 401;
+    //未授权
+    public static final int  FORBIDDEN = 403;
 
     private int code;
     private String message;
@@ -46,6 +35,20 @@ public class Result {
         this.code = SUCCESS;
         this.message = "操作成功";
         this.data = data;
+        return this;
+    }
+
+    /**
+     * 成功返回List数据
+     *
+     * @param data 获取的数据
+     */
+    public Result success(List data) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", data);
+        this.code = SUCCESS;
+        this.message = "操作成功";
+        this.data = result;
         return this;
     }
 
@@ -76,7 +79,7 @@ public class Result {
     }
 
     /**
-     * 普通失败提示信息
+     * 自定义失败提示信息
      */
     public Result failed(String message) {
         this.code = FAILED;
