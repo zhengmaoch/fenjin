@@ -40,7 +40,7 @@ public class RoleService implements IRoleService {
         Specification<Role> specification = new Specification<Role>() {
             @Override
             public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.like(root.get("rolename").as(String.class), "%" + rolename + "%");
+                return cb.like(root.get("name").as(String.class), "%" + rolename + "%");
             }
         };
 

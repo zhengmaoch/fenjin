@@ -40,7 +40,7 @@ public class PermissionService implements IPermissionService{
         Specification<Permission> specification = new Specification<Permission>() {
             @Override
             public Predicate toPredicate(Root<Permission> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.like(root.get("permissionname").as(String.class), "%" + permissionname + "%");
+                return cb.like(root.get("name").as(String.class), "%" + permissionname + "%");
             }
         };
 

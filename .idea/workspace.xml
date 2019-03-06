@@ -3,16 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8d7975eb-7115-42f3-89ce-25ca4e9f6c04" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/dao/IPermissionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/dao/IRoleRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/dao/IUserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/DepartmentUsers.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/products/DepartmentUsers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/PermissionRoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/RolePermissions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/UserRoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/UserRoles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/config/RedisConfig.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/fenjin-cloud-config-7020/target/" />
     <ignored path="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/target/" />
@@ -111,7 +101,7 @@
         <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/config/RedisConfig.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="41" column="57" selection-start-line="41" selection-start-column="57" selection-end-line="41" selection-end-column="57" />
+              <caret line="41" column="81" selection-start-line="41" selection-start-column="81" selection-end-line="41" selection-end-column="81" />
             </state>
           </provider>
         </entry>
@@ -316,7 +306,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551843696756" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551844437619" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -393,7 +383,7 @@
       <updated>1551772899376</updated>
       <workItem from="1551772915548" duration="6013000" />
       <workItem from="1551783844071" duration="3987000" />
-      <workItem from="1551832566938" duration="4338000" />
+      <workItem from="1551832566938" duration="5038000" />
     </task>
     <task id="LOCAL-00001" summary="完善授权认证功能">
       <created>1551778705284</created>
@@ -409,15 +399,21 @@
       <option name="project" value="LOCAL" />
       <updated>1551832684621</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="// 多个缓存的名称,目前只定义了一个&#10;        cacheManager.setCacheNames(Arrays.asList(&quot;users&quot;,&quot;roles&quot;,&quot;permissions&quot;));">
+      <created>1551843797425</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1551843797425</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14338000" />
+    <option name="totallyTimeSpent" value="15038000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="4" width="1936" height="1056" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7914201" visible="true" weight="0.16044776" />
       <window_info id="Structure" order="1" sideWeight="0.20857988" side_tool="true" weight="0.18656716" />
@@ -465,7 +461,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="完善授权认证功能" />
     <MESSAGE value="add roleservice" />
-    <option name="LAST_COMMIT_MESSAGE" value="add roleservice" />
+    <MESSAGE value="// 多个缓存的名称,目前只定义了一个&#10;        cacheManager.setCacheNames(Arrays.asList(&quot;users&quot;,&quot;roles&quot;,&quot;permissions&quot;));" />
+    <option name="LAST_COMMIT_MESSAGE" value="// 多个缓存的名称,目前只定义了一个&#10;        cacheManager.setCacheNames(Arrays.asList(&quot;users&quot;,&quot;roles&quot;,&quot;permissions&quot;));" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/pom.xml">
@@ -771,7 +768,7 @@
     <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/config/RedisConfig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="41" column="57" selection-start-line="41" selection-start-column="57" selection-end-line="41" selection-end-column="57" />
+          <caret line="41" column="81" selection-start-line="41" selection-start-column="81" selection-end-line="41" selection-end-column="81" />
         </state>
       </provider>
     </entry>
