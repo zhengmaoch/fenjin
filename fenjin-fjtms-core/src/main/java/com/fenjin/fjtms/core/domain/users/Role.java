@@ -4,7 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +15,7 @@ public class Role implements Serializable {
     private boolean active;
     private boolean isSystemRole;
     private String systemName;
+    private boolean deleted;
     private Date createdTime;
     private Date updatedTime;
 
@@ -71,6 +72,16 @@ public class Role implements Serializable {
     }
 
     @Basic
+    @Column(name = "Deleted")
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @Basic
     @Column(name = "CreatedTime")
     public Date getCreatedTime() {
         return createdTime;
@@ -97,6 +108,7 @@ public class Role implements Serializable {
         Role Role = (Role) o;
         return active == Role.active &&
                 isSystemRole == Role.isSystemRole &&
+                deleted == Role.deleted &&
                 Objects.equals(id, Role.id) &&
                 Objects.equals(name, Role.name) &&
                 Objects.equals(systemName, Role.systemName) &&
@@ -106,7 +118,7 @@ public class Role implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, active, isSystemRole, systemName, createdTime, updatedTime);
+        return Objects.hash(id, name, active, isSystemRole, systemName, deleted, createdTime, updatedTime);
     }
 
 }

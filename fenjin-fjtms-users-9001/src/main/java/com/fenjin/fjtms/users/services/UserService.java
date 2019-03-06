@@ -21,6 +21,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @ClassName: UserService
+ * @Descriprion: TODO(用一句话描述这个类的作用)
+ * @author: changzhengmao
+ * @date: 2019-02-28 17:30
+ * @version 1.0
+ */
 @Service
 public class UserService implements IUserService {
 
@@ -28,7 +35,7 @@ public class UserService implements IUserService {
     private IUserRepository userRepository;
 
     @Override
-    @Cacheable(cacheNames = "users", key = "#userSearchModel + '_' + #pageIndex + '_' + #pageSize", condition = "#pageSize>0")
+    @Cacheable(cacheNames = "users", key = "'users_'+#userSearchModel + '_' + #pageIndex + '_' + #pageSize", condition = "#pageSize>0")
     public List<User> getAllUsers(UserSearchModel userSearchModel, int pageIndex, int pageSize) {
 
         Pageable pageable=new PageRequest(pageIndex, pageSize);
@@ -90,6 +97,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Cacheable(cacheNames = "users", key = "'users_'+#username")
     public User getUserByUsername(String username) {
         if(StringUtil.isEmpty(username)) {
             return null;
@@ -105,6 +113,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Cacheable(cacheNames = "users", key = "'users_'+#email")
     public User getUserByEmail(String email) {
         if(StringUtil.isEmpty(email)) {
             return null;

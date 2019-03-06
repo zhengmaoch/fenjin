@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +14,9 @@ public class Permission implements Serializable {
     private String name;
     private String systemName;
     private String category;
+    private boolean deleted;
+    private Date createdTime;
+    private Date updatedTime;
 
     @Id
     @Column(name = "Id")
@@ -56,20 +60,54 @@ public class Permission implements Serializable {
         this.category = category;
     }
 
+    @Basic
+    @Column(name = "Deleted")
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @Basic
+    @Column(name = "CreatedTime")
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    @Basic
+    @Column(name = "UpdatedTime")
+    public Date getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Permission that = (Permission) o;
-        return Objects.equals(id, that.id) &&
+        return deleted == that.deleted &&
+                Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(systemName, that.systemName) &&
-                Objects.equals(category, that.category);
+                Objects.equals(category, that.category) &&
+                Objects.equals(createdTime, that.createdTime) &&
+                Objects.equals(updatedTime, that.updatedTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, systemName, category);
+        return Objects.hash(id, name, systemName, category, deleted, createdTime, updatedTime);
     }
 
 }
