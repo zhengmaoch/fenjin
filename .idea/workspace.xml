@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8d7975eb-7115-42f3-89ce-25ca4e9f6c04" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/fjtms.sql" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/fjtms.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IUserClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IUserClientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/PermissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/PermissionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/RoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/UserController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/fenjin-cloud-config-7020/target/" />
     <ignored path="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/target/" />
@@ -35,7 +29,26 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/services/UserDetailsServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="256">
+              <caret line="67" column="104" selection-start-line="67" selection-start-column="91" selection-end-line="67" selection-end-column="104" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/UserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="39" column="42" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -156,6 +169,51 @@
               <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
               <item name="fenjin" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fenjin" type="462c0819:PsiDirectoryNode" />
+              <item name="fenjin-fjtms-users-9001" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fenjin" type="462c0819:PsiDirectoryNode" />
+              <item name="fenjin-fjtms-users-9001" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fenjin" type="462c0819:PsiDirectoryNode" />
+              <item name="fenjin-fjtms-users-9001" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fenjin" type="462c0819:PsiDirectoryNode" />
+              <item name="fenjin-fjtms-users-9001" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fenjin" type="462c0819:PsiDirectoryNode" />
+              <item name="fenjin-fjtms-users-9001" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="users" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fenjin" type="462c0819:PsiDirectoryNode" />
+              <item name="fenjin-fjtms-users-9001" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="users" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -167,7 +225,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551864352938" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551864780904" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -246,7 +304,7 @@
       <updated>1551772899376</updated>
       <workItem from="1551772915548" duration="6013000" />
       <workItem from="1551783844071" duration="3987000" />
-      <workItem from="1551832566938" duration="16155000" />
+      <workItem from="1551832566938" duration="16395000" />
     </task>
     <task id="LOCAL-00001" summary="完善授权认证功能">
       <created>1551778705284</created>
@@ -297,14 +355,22 @@
       <option name="project" value="LOCAL" />
       <updated>1551857219810</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="数据库添加用户，角色，权限及关系数据">
+      <created>1551864471549</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1551864471549</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26155000" />
+    <option name="totallyTimeSpent" value="26395000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7914201" visible="true" weight="0.1609808" />
       <window_info id="Structure" order="1" sideWeight="0.20857988" side_tool="true" weight="0.18656716" />
@@ -354,7 +420,8 @@
     <MESSAGE value="add roleservice" />
     <MESSAGE value="// 多个缓存的名称,目前只定义了一个&#10;        cacheManager.setCacheNames(Arrays.asList(&quot;users&quot;,&quot;roles&quot;,&quot;permissions&quot;));" />
     <MESSAGE value="RoleClientServiceFallbackFactory" />
-    <option name="LAST_COMMIT_MESSAGE" value="RoleClientServiceFallbackFactory" />
+    <MESSAGE value="数据库添加用户，角色，权限及关系数据" />
+    <option name="LAST_COMMIT_MESSAGE" value="数据库添加用户，角色，权限及关系数据" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/fenjin-cloud-zuul-gateway-7040/src/main/resources/application.yml">
@@ -617,13 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/services/UserDetailsServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="67" column="50" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/RoleController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-216">
@@ -674,13 +734,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="146" column="33" selection-start-line="146" selection-start-column="33" selection-end-line="146" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/RolePermissions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -706,6 +759,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/services/UserDetailsServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="67" column="104" selection-start-line="67" selection-start-column="91" selection-end-line="67" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="39" column="42" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="42" />
         </state>
       </provider>
     </entry>

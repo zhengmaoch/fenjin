@@ -37,7 +37,7 @@ public class UserController extends BaseController {
     private DiscoveryClient discoveryClient;
 
     @PostMapping("/create")
-    @PreAuthorize("hasAnyAuthority('create')")
+    @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "创建新用户", notes = "用户Id由系统自动生成，Json格式用户对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User")
     public Result create(@Valid @RequestBody User user, BindingResult bindingResult) {
@@ -66,7 +66,7 @@ public class UserController extends BaseController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyAuthority('delete')")
+    @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "删除指定Id的用户", notes = "该操作为逻辑删除")
     @ApiImplicitParam(paramType="query", name = "id", value = "用户Id", required = true, dataType = "String")
     public Result delete(@PathVariable String id) {
@@ -81,7 +81,7 @@ public class UserController extends BaseController {
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyAuthority('delete')")
+    @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "根据Id集合批量删除用户", notes = "该操作为逻辑删除", produces = "application/json")
     @ApiImplicitParam(paramType="query", name = "ids", value = "用户Id集合", dataType = "List<String>")
     public Result delete(@RequestBody List<String> ids) {
@@ -98,7 +98,7 @@ public class UserController extends BaseController {
     }
 
     @PutMapping("/edit")
-    @PreAuthorize("hasAnyAuthority('edit')")
+    @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "修改用户", notes = "传输Json格式用户对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User")
     public Result edit(@Valid @RequestBody User user, BindingResult bindingResult) {
@@ -125,7 +125,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/list/{pageIndex}/{pageSize}")
-    @PreAuthorize("hasAnyAuthority('query')")
+    @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "分页查询指定条件的用户集合")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "body", name = "userSearchModel", value = "用户查询参数", required = false, dataType = "UserSearchModel"),
@@ -141,7 +141,7 @@ public class UserController extends BaseController {
 
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyAuthority('query')")
+    @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "查询指定Id的用户")
     @ApiImplicitParam(paramType="query", name = "id", value = "用户Id", required = true, dataType = "String")
     public Result get(@PathVariable String id) {
@@ -150,7 +150,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/discovery")
-    @PreAuthorize("hasAnyAuthority('manager')")
+    @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "获取当前微服务部署地址和端口号")
     public Result discovery()
     {

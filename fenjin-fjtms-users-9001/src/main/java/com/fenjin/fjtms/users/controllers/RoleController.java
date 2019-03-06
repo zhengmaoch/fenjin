@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class RoleController extends BaseController {
     private DiscoveryClient discoveryClient;
 
     @PostMapping("/create")
+    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "创建新角色", notes = "角色Id由系统自动生成，Json格式角色对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "role", value = "有效的角色实例", required = true, dataType = "Role")
     public Result create(@Valid @RequestBody Role role, BindingResult bindingResult) {
@@ -57,6 +59,7 @@ public class RoleController extends BaseController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "删除指定Id的角色", notes = "该操作为逻辑删除")
     @ApiImplicitParam(paramType="query", name = "id", value = "角色Id", required = true, dataType = "String")
     public Result delete(@PathVariable String id) {
@@ -71,6 +74,7 @@ public class RoleController extends BaseController {
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "根据Id集合批量删除角色", notes = "该操作为逻辑删除", produces = "application/json")
     @ApiImplicitParam(paramType="query", name = "ids", value = "角色Id集合", dataType = "List<String>")
     public Result delete(@RequestBody List<String> ids) {
@@ -87,6 +91,7 @@ public class RoleController extends BaseController {
     }
 
     @PutMapping("/edit")
+    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "修改角色", notes = "传输Json格式角色对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "role", value = "有效的角色实例", required = true, dataType = "Role")
     public Result edit(@Valid @RequestBody Role role, BindingResult bindingResult) {
@@ -113,6 +118,7 @@ public class RoleController extends BaseController {
     }
 
     @PostMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "查询指定条件的角色集合")
     public Result list(@RequestBody(required = false) String roleName) {
 
@@ -122,6 +128,7 @@ public class RoleController extends BaseController {
 
 
     @GetMapping("/get/{id}")
+    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "查询指定Id的角色")
     @ApiImplicitParam(paramType="query", name = "id", value = "角色Id", required = true, dataType = "String")
     public Result get(@PathVariable String id) {
@@ -130,6 +137,7 @@ public class RoleController extends BaseController {
     }
 
     @PostMapping("/getByUserId/{userId}")
+    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "查询指定userId的角色集合")
     public Result getByUserId(@PathVariable String userId) {
 
@@ -138,6 +146,7 @@ public class RoleController extends BaseController {
     }
 
     @GetMapping("/discovery")
+    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "获取当前微服务部署地址和端口号")
     public Result discovery()
     {
