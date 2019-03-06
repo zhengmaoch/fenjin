@@ -14,24 +14,6 @@ import java.util.List;
 @FeignClient(value = "FENJIN-FJTMS-USERS", fallbackFactory = UserClientServiceFallbackFactory.class)
 public interface IUserClientService {
 
-    @PostMapping("/users/create")
-    Result create(@RequestBody User user);
-
-    @DeleteMapping("/users/delete/{id}")
-    Result delete(@PathVariable("id") String id);
-
-    @DeleteMapping("/users/delete")
-    Result delete(@RequestBody List<String> ids);
-
-    @PutMapping("/users/edit")
-    Result edit(@RequestBody User user);
-
-    @PostMapping("/list/{pageIndex}/{pageSize}")
-    Result list(@RequestBody(required = false) UserSearchModel userSearchModel, @PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
-
-    @GetMapping("/users/get/{id}")
-    Result get(@PathVariable("id") String id);
-
     /**
      * 根据用户名称查询用户信息
      * @param username
@@ -39,7 +21,4 @@ public interface IUserClientService {
      */
     @GetMapping("/users/getByUsername/{username}")
     Result getByUsername(@PathVariable("username") String username);
-
-    @GetMapping("/users/discovery")
-    Result discovery();
 }

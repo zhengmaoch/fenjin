@@ -363,7 +363,7 @@ CREATE TABLE `warehouse`  (
   `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
   PRIMARY KEY (`Id`) USING BTREE,
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
-  CONSTRAINT `FK_Warehouse_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Warehouse_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '库房' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -381,7 +381,7 @@ CREATE TABLE `activitylog`  (
   INDEX `IX_ActivityLogTypeId`(`ActivityLogTypeId`) USING BTREE,
   INDEX `IX_UserId`(`UserId`) USING BTREE,
   CONSTRAINT `FK_ActivityLog_ActivityLogType_ActivityLogTypeId` FOREIGN KEY (`ActivityLogTypeId`) REFERENCES `d_activitylogtype` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ActivityLog_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `s_user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_ActivityLog_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户活动日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -409,7 +409,7 @@ CREATE TABLE `department`  (
   INDEX `IX_ParentDepartmentId`(`ParentDepartmentId`) USING BTREE,
   INDEX `IX_AreaId`(`AreaId`) USING BTREE,
   CONSTRAINT `FK_Department_Area_AreaId` FOREIGN KEY (`AreaId`) REFERENCES `d_area` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_Department_Department_ParentDepartmentId` FOREIGN KEY (`ParentDepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `FK_Department_Department_ParentDepartmentId` FOREIGN KEY (`ParentDepartmentId`) REFERENCES `department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '组织架构（部门）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -427,8 +427,8 @@ CREATE TABLE `departmentusers`  (
   UNIQUE INDEX `IX_Department_Id_UserId`(`UserId`, `DepartmentId`) USING BTREE,
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
   INDEX `IX_UserId`(`UserId`) USING BTREE,
-  CONSTRAINT `FK_Department_User_Mapping_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_Department_User_Mapping_UserId` FOREIGN KEY (`UserId`) REFERENCES `s_user` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `FK_Department_User_Mapping_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_Department_User_Mapping_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门用户关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -482,7 +482,7 @@ CREATE TABLE `equipment`  (
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
   CONSTRAINT `FK_Equipment_EquipmentType_EquipmentTypeId` FOREIGN KEY (`EquipmentTypeId`) REFERENCES `d_equipmenttype` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Equipment_Manufacturer_ManufacturerId` FOREIGN KEY (`ManufacturerId`) REFERENCES `p_manufacturer` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Equipment_Manufacturer_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Equipment_Manufacturer_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备（库房、试验中心）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -501,7 +501,7 @@ CREATE TABLE `log`  (
   `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
   PRIMARY KEY (`Id`) USING BTREE,
   INDEX `IX_UserId`(`UserId`) USING BTREE,
-  CONSTRAINT `FK_Log_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `s_user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Log_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -519,18 +519,22 @@ CREATE TABLE `permission`  (
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限' ROW_FORMAT = Dynamic;
 
+INSERT INTO `permission` VALUES ('10', 'Manage Users', 'ManageUsers', 'Users', 0, NOW(), NOW());
+INSERT INTO `permission` VALUES ('11', 'Manage Roles', 'ManageRoles', 'Users', 0, NOW(), NOW());
+INSERT INTO `permission` VALUES ('12', 'Manage Permissions', 'ManagePermissions', 'Users', 0, NOW(), NOW());
+
 -- ----------------------------
 -- Table structure for s_permissionroles
 -- ----------------------------
-DROP TABLE IF EXISTS `permissionroles`;
-CREATE TABLE `permissionroles`  (
+DROP TABLE IF EXISTS `rolepermissions`;
+CREATE TABLE `rolepermissions`  (
   `Permission_Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限Id，引用Permission的Id',
   `Role_Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色Id，引用Role的Id',
-  PRIMARY KEY (`Permission_Id`, `Role_Id`) USING BTREE,
-  INDEX `IX_Permission_Id`(`Permission_Id`) USING BTREE,
-  INDEX `IX_Role_Id`(`Role_Id`) USING BTREE,
-  CONSTRAINT `FK_Permission_Role_Mapping_Permission_Permission_Id` FOREIGN KEY (`Permission_Id`) REFERENCES `s_permission` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Permission_Role_Mapping_Role_Role_Id` FOREIGN KEY (`Role_Id`) REFERENCES `s_role` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`PermissionId`, `RoleId`) USING BTREE,
+  INDEX `IX_PermissionId`(`PermissionId`) USING BTREE,
+  INDEX `IX_RoleId`(`RoleId`) USING BTREE,
+  CONSTRAINT `FK_Permission_Role_Mapping_Permission_Permission_Id` FOREIGN KEY (`PermissionId`) REFERENCES `permission` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Permission_Role_Mapping_Role_Role_Id` FOREIGN KEY (`RoleId`) REFERENCES `role` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限角色关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -652,7 +656,7 @@ CREATE TABLE `user`  (
   PRIMARY KEY (`Id`) USING BTREE,
   UNIQUE INDEX `IX_Username`(`Username`) USING BTREE,
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
-  CONSTRAINT `FK_User_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_User_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户' ROW_FORMAT = Dynamic;
 
 INSERT INTO `user` VALUES ('1', 'admin', '系统管理员', 'e31042a18f6aab44676eac536a8a4563', NULL, NULL, '18071026720', 'zhengmaoch@qq.com', 0, 0, NULL, 1, 1, '192.168.145.1', NOW(), NULL, 0, NOW(), NOW());
@@ -662,13 +666,13 @@ INSERT INTO `user` VALUES ('1', 'admin', '系统管理员', 'e31042a18f6aab44676
 -- ----------------------------
 DROP TABLE IF EXISTS `userroles`;
 CREATE TABLE `userroles`  (
-  `User_Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
-  `Role_Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色Id，引用Role的Id',
-  PRIMARY KEY (`User_Id`, `Role_Id`) USING BTREE,
-  INDEX `IX_User_Id`(`User_Id`) USING BTREE,
-  INDEX `IX_Role_Id`(`Role_Id`) USING BTREE,
-  CONSTRAINT `FK_User_Role_Mapping_Role_Role_Id` FOREIGN KEY (`Role_Id`) REFERENCES `s_role` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_User_Role_Mapping_User_User_Id` FOREIGN KEY (`User_Id`) REFERENCES `s_user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
+  `RoleId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色Id，引用Role的Id',
+  PRIMARY KEY (`UserId`, `RoleId`) USING BTREE,
+  INDEX `IX_User_Id`(`UserId`) USING BTREE,
+  INDEX `IX_Role_Id`(`RoleId`) USING BTREE,
+  CONSTRAINT `FK_User_Role_Mapping_Role_Role_Id` FOREIGN KEY (`RoleId`) REFERENCES `role` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_User_Role_Mapping_User_User_Id` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色关系，以服务器为准进行同步' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -721,9 +725,9 @@ CREATE TABLE `inspection`  (
   INDEX `IX_TestCenterId`(`TestCenterId`) USING BTREE,
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
   INDEX `IX_UserId`(`UserId`) USING BTREE,
-  CONSTRAINT `FK_Inspection_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Inspection_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Inspection_TestCenter_TestCenterId` FOREIGN KEY (`TestCenterId`) REFERENCES `t_testcenter` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Inspection_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `s_user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Inspection_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '送检单' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -753,7 +757,7 @@ CREATE TABLE `inspectionrecord`  (
   INDEX `FK_InspectionProducts_VoltageLevel_VoltageLevelId`(`VoltageLevelId`) USING BTREE,
   CONSTRAINT `FK_InspectionProducts_Category_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `p_category` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_InspectionProducts_Inspection_InspectionId` FOREIGN KEY (`InspectionId`) REFERENCES `t_inspection` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_InspectionProducts_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `s_user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_InspectionProducts_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_InspectionProducts_VoltageLevel_VoltageLevelId` FOREIGN KEY (`VoltageLevelId`) REFERENCES `p_voltagelevel` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '送检记录' ROW_FORMAT = Dynamic;
 
@@ -918,7 +922,7 @@ CREATE TABLE `test`  (
   PRIMARY KEY (`Id`) USING BTREE,
   INDEX `IX_TestCenterId`(`TestCenterId`) USING BTREE,
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
-  CONSTRAINT `FK_Test_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Test_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Test_TestCenter_TestCenterId` FOREIGN KEY (`TestCenterId`) REFERENCES `t_testcenter` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验单' ROW_FORMAT = Dynamic;
 
@@ -953,7 +957,7 @@ CREATE TABLE `testcenter`  (
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
   INDEX `IX_AreaId`(`AreaId`) USING BTREE,
   CONSTRAINT `FK_TestCenter_Area_AreaId` FOREIGN KEY (`AreaId`) REFERENCES `d_area` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_TestCenter_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `FK_TestCenter_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验中心' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -972,7 +976,7 @@ CREATE TABLE `testcenterdepartments`  (
   UNIQUE INDEX `IX_TestCenterId_DepartmentId`(`TestCenterId`, `DepartmentId`) USING BTREE,
   INDEX `IX_TestCenterId`(`TestCenterId`) USING BTREE,
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
-  CONSTRAINT `FK_TestCenter_Department_Mapping_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_TestCenter_Department_Mapping_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TestCenter_Department_Mapping_TestCenter_TestCenterId` FOREIGN KEY (`TestCenterId`) REFERENCES `t_testcenter` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验中心送检单位关系' ROW_FORMAT = Dynamic;
 
@@ -993,7 +997,7 @@ CREATE TABLE `testcenterprojects`  (
   INDEX `IX_TestCenterId`(`TestCenterId`) USING BTREE,
   INDEX `IX_ProjectId`(`ProjectId`) USING BTREE,
   INDEX `IX_EquipmentId`(`EquipmentId`) USING BTREE,
-  CONSTRAINT `FK_TestCenter_Project_Mapping_Equipment_EquipmentId` FOREIGN KEY (`EquipmentId`) REFERENCES `s_equipment` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_TestCenter_Project_Mapping_Equipment_EquipmentId` FOREIGN KEY (`EquipmentId`) REFERENCES `equipment` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TestCenter_Project_Mapping_Project_ProjectId` FOREIGN KEY (`ProjectId`) REFERENCES `t_project` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TestCenter_Project_Mapping_TestCenter_TestCenterId` FOREIGN KEY (`TestCenterId`) REFERENCES `t_testcenter` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验中心试验项目配置' ROW_FORMAT = Dynamic;
@@ -1042,7 +1046,7 @@ CREATE TABLE `testdata`  (
   CONSTRAINT `FK_TestData_ProjectCategory_ProjectCategoryId` FOREIGN KEY (`ProjectCategoryId`) REFERENCES `t_projectcategory` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TestData_Project_ProjectId` FOREIGN KEY (`ProjectId`) REFERENCES `t_project` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TestData_TestCenter_TestCenterId` FOREIGN KEY (`TestCenterId`) REFERENCES `t_testcenter` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_TestData_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `s_user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_TestData_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验数据（自动试验设备获取）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1081,7 +1085,7 @@ CREATE TABLE `testpictures`  (
   PRIMARY KEY (`Id`) USING BTREE,
   INDEX `IX_TestId`(`TestId`) USING BTREE,
   INDEX `IX_PictureId`(`PictureId`) USING BTREE,
-  CONSTRAINT `FK_Test_Picture_Maiping_Picture_PictureId` FOREIGN KEY (`PictureId`) REFERENCES `s_picture` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Test_Picture_Maiping_Picture_PictureId` FOREIGN KEY (`PictureId`) REFERENCES `picture` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Test_Picture_Maiping_Test_TestId` FOREIGN KEY (`TestId`) REFERENCES `t_test` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验单附件图片' ROW_FORMAT = Dynamic;
 
@@ -1155,11 +1159,11 @@ CREATE TABLE `testrecord`  (
   INDEX `IX_EquipmentId`(`EquipmentId`) USING BTREE,
   INDEX `IX_UserId`(`UserId`) USING BTREE,
   INDEX `IX_RFID`(`RFID`) USING BTREE,
-  CONSTRAINT `FK_Record_Equipment_EquipmentId` FOREIGN KEY (`EquipmentId`) REFERENCES `s_equipment` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_Record_Equipment_EquipmentId` FOREIGN KEY (`EquipmentId`) REFERENCES `equipment` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Record_Product_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `p_product` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Record_Project_ProjectId` FOREIGN KEY (`ProjectId`) REFERENCES `t_project` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Record_Test_TestId` FOREIGN KEY (`TestId`) REFERENCES `t_test` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Record_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `s_user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Record_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1181,8 +1185,8 @@ CREATE TABLE `testwarning`  (
   PRIMARY KEY (`Id`) USING BTREE,
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
   INDEX `IX_SmsMessageId`(`SmsMessageId`) USING BTREE,
-  CONSTRAINT `FK_TestWarning_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `s_department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_TestWarning_SmsMessage_SmsMessageId` FOREIGN KEY (`SmsMessageId`) REFERENCES `s_smsmessage` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `FK_TestWarning_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_TestWarning_SmsMessage_SmsMessageId` FOREIGN KEY (`SmsMessageId`) REFERENCES `smsmessage` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验预警' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

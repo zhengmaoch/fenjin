@@ -49,11 +49,11 @@ public class PermissionController extends BaseController {
                 return new Result().validateFailed("权限名已存在");
             }
 
-            return commonResult(permissionService.createPermission(permission));
+            return Result(permissionService.createPermission(permission));
         }
         catch (Exception e){
             log.error(e.getMessage());
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -64,10 +64,10 @@ public class PermissionController extends BaseController {
 
         Permission permission = permissionService.getPermissionById(id);
         if(permission != null){
-            return commonResult(permissionService.deletePermission(permission));
+            return Result(permissionService.deletePermission(permission));
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -80,10 +80,10 @@ public class PermissionController extends BaseController {
             for(String id : ids){
                 permissionService.deletePermission(permissionService.getPermissionById(id));
             }
-            return commonResult(true);
+            return Result(true);
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -99,15 +99,15 @@ public class PermissionController extends BaseController {
         if(permission != null){
             try {
                 permissionService.updatePermission(permission);
-                return commonResult(true);
+                return Result(true);
             }
             catch (Exception e){
                 log.error(e.getMessage());
-                return commonResult(false);
+                return Result(false);
             }
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
 
 
@@ -118,7 +118,7 @@ public class PermissionController extends BaseController {
     public Result list(@RequestBody(required = false) String permissionName) {
 
         List<Permission> permissions = permissionService.getAllPermissions(permissionName);
-        return commonResult(permissions);
+        return Result(permissions);
     }
 
 
@@ -127,7 +127,7 @@ public class PermissionController extends BaseController {
     @ApiImplicitParam(paramType="query", name = "id", value = "权限Id", required = true, dataType = "String")
     public Result get(@PathVariable String id) {
 
-        return commonResult(permissionService.getPermissionById(id));
+        return Result(permissionService.getPermissionById(id));
     }
 
     @PostMapping("/getByRoleId/{roleId}")
@@ -135,7 +135,7 @@ public class PermissionController extends BaseController {
     public Result getByRoleId(@PathVariable String roleId) {
 
         List<Permission> permissions = permissionService.getPermissionsByRoleId(roleId);
-        return commonResult(permissions);
+        return Result(permissions);
     }
 
     @GetMapping("/discovery")
@@ -150,6 +150,6 @@ public class PermissionController extends BaseController {
             System.out.println(element.getServiceId() + "\t" + element.getHost() + "\t" + element.getPort() + "\t"
                     + element.getUri());
         }
-        return commonResult(this.discoveryClient);
+        return Result(this.discoveryClient);
     }
 }

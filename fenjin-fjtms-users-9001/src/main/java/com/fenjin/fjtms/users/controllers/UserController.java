@@ -57,11 +57,11 @@ public class UserController extends BaseController {
                 return new Result().validateFailed("邮箱已存在");
             }
 
-            return commonResult(userService.createUser(user));
+            return Result(userService.createUser(user));
         }
         catch (Exception e){
             log.error(e.getMessage());
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -73,10 +73,10 @@ public class UserController extends BaseController {
 
         User user = userService.getUserById(id);
         if(user != null){
-            return commonResult(userService.deleteUser(user));
+            return Result(userService.deleteUser(user));
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -90,10 +90,10 @@ public class UserController extends BaseController {
             for(String id : ids){
                 userService.deleteUser(userService.getUserById(id));
             }
-            return commonResult(true);
+            return Result(true);
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -110,15 +110,15 @@ public class UserController extends BaseController {
         if(user != null){
             try {
                 userService.updateUser(user);
-                return commonResult(true);
+                return Result(true);
             }
             catch (Exception e){
                 log.error(e.getMessage());
-                return commonResult(false);
+                return Result(false);
             }
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
 
 
@@ -136,7 +136,7 @@ public class UserController extends BaseController {
 
         int total = userService.getAllUsers(userSearchModel, 0, Integer.MAX_VALUE).size();
         List users = userService.getAllUsers(userSearchModel, pageIndex, pageSize);
-        return commonResult(pageIndex, pageSize, total, users);
+        return Result(pageIndex, pageSize, total, users);
     }
 
 
@@ -146,7 +146,7 @@ public class UserController extends BaseController {
     @ApiImplicitParam(paramType="query", name = "id", value = "用户Id", required = true, dataType = "String")
     public Result get(@PathVariable String id) {
 
-        return commonResult(userService.getUserById(id));
+        return Result(userService.getUserById(id));
     }
 
     @GetMapping("/discovery")
@@ -162,6 +162,6 @@ public class UserController extends BaseController {
             System.out.println(element.getServiceId() + "\t" + element.getHost() + "\t" + element.getPort() + "\t"
                     + element.getUri());
         }
-        return commonResult(this.discoveryClient);
+        return Result(this.discoveryClient);
     }
 }

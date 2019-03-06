@@ -48,11 +48,11 @@ public class RoleController extends BaseController {
                 return new Result().validateFailed("角色名已存在");
             }
 
-            return commonResult(roleService.createRole(role));
+            return Result(roleService.createRole(role));
         }
         catch (Exception e){
             log.error(e.getMessage());
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -63,10 +63,10 @@ public class RoleController extends BaseController {
 
         Role role = roleService.getRoleById(id);
         if(role != null){
-            return commonResult(roleService.deleteRole(role));
+            return Result(roleService.deleteRole(role));
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -79,10 +79,10 @@ public class RoleController extends BaseController {
             for(String id : ids){
                 roleService.deleteRole(roleService.getRoleById(id));
             }
-            return commonResult(true);
+            return Result(true);
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
     }
 
@@ -98,15 +98,15 @@ public class RoleController extends BaseController {
         if(role != null){
             try {
                 roleService.updateRole(role);
-                return commonResult(true);
+                return Result(true);
             }
             catch (Exception e){
                 log.error(e.getMessage());
-                return commonResult(false);
+                return Result(false);
             }
         }
         else {
-            return commonResult(false);
+            return Result(false);
         }
 
 
@@ -117,7 +117,7 @@ public class RoleController extends BaseController {
     public Result list(@RequestBody(required = false) String roleName) {
 
         List<Role> roles = roleService.getAllRoles(roleName);
-        return commonResult(roles);
+        return Result(roles);
     }
 
 
@@ -126,7 +126,7 @@ public class RoleController extends BaseController {
     @ApiImplicitParam(paramType="query", name = "id", value = "角色Id", required = true, dataType = "String")
     public Result get(@PathVariable String id) {
 
-        return commonResult(roleService.getRoleById(id));
+        return Result(roleService.getRoleById(id));
     }
 
     @PostMapping("/getByUserId/{userId}")
@@ -134,7 +134,7 @@ public class RoleController extends BaseController {
     public Result getByUserId(@PathVariable String userId) {
 
         List<Role> roles = roleService.getRolesByUserId(userId);
-        return commonResult(roles);
+        return Result(roles);
     }
 
     @GetMapping("/discovery")
@@ -149,6 +149,6 @@ public class RoleController extends BaseController {
             System.out.println(element.getServiceId() + "\t" + element.getHost() + "\t" + element.getPort() + "\t"
                     + element.getUri());
         }
-        return commonResult(this.discoveryClient);
+        return Result(this.discoveryClient);
     }
 }
