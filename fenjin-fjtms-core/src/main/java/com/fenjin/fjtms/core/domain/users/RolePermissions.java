@@ -5,13 +5,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "permissionroles")
-public class PermissionRoles implements Serializable {
+@Table(name = "rolepermissions")
+public class RolePermissions implements Serializable {
     private String permissionId;
     private String roleId;
 
     @Id
-    @Column(name = "Permission_Id")
+    @Column(name = "PermissionId")
     public String getPermissionId() {
         return permissionId;
     }
@@ -21,7 +21,7 @@ public class PermissionRoles implements Serializable {
     }
 
     @Id
-    @Column(name = "Role_Id")
+    @Column(name = "RoleId")
     public String getRoleId() {
         return roleId;
     }
@@ -34,7 +34,7 @@ public class PermissionRoles implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PermissionRoles that = (PermissionRoles) o;
+        RolePermissions that = (RolePermissions) o;
         return Objects.equals(permissionId, that.permissionId) &&
                 Objects.equals(roleId, that.roleId);
     }

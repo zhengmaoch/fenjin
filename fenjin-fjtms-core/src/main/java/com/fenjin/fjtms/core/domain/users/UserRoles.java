@@ -11,7 +11,7 @@ public class UserRoles implements Serializable {
     private String roleId;
 
     @Id
-    @Column(name = "User_Id")
+    @Column(name = "UserId")
     public String getUserId() {
         return userId;
     }
@@ -21,7 +21,7 @@ public class UserRoles implements Serializable {
     }
 
     @Id
-    @Column(name = "Role_Id")
+    @Column(name = "RoleId")
     public String getRoleId() {
         return roleId;
     }

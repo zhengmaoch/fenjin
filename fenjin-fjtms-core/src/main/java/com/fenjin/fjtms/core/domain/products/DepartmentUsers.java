@@ -1,4 +1,4 @@
-package com.fenjin.fjtms.core.domain.users;
+package com.fenjin.fjtms.core.domain.products;
 
 import org.hibernate.annotations.GenericGenerator;
 

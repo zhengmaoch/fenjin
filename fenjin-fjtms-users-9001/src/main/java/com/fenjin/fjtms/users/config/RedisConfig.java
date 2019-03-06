@@ -39,7 +39,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
         // 多个缓存的名称,目前只定义了一个
-        cacheManager.setCacheNames(Arrays.asList("users"));
+        cacheManager.setCacheNames(Arrays.asList("users","roles","permissions"));
         // 设置缓存过期时间(秒)
         cacheManager.setDefaultExpiration(1800L);
         // 启动时加载远程缓存

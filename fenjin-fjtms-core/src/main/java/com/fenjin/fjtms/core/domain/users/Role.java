@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +19,10 @@ public class Role implements Serializable {
     private boolean deleted;
     private Date createdTime;
     private Date updatedTime;
+
+    @ManyToMany
+    @JoinTable(name = "RolePermissions",joinColumns=@JoinColumn(name="RoleId"),inverseJoinColumns=@JoinColumn(name="PermissionId"))
+    private List<Permission> permissions;
 
     @Id
     @Column(name = "Id")
@@ -121,4 +126,11 @@ public class Role implements Serializable {
         return Objects.hash(id, name, active, isSystemRole, systemName, deleted, createdTime, updatedTime);
     }
 
+    public List<Permission> getPermissions(){
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> roles){
+        this.permissions = permissions;
+    }
 }

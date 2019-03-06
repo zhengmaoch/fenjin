@@ -38,9 +38,13 @@ public class User implements Serializable {
     private Date createdTime;
     private Date updatedTime;
 
+//    @ManyToMany
+//    @JoinTable(name = "DepartmentUsers",joinColumns=@JoinColumn(name="UserId"),inverseJoinColumns=@JoinColumn(name="DepartmentId"))
+//    private List<Department> departments;
+
     @ManyToMany
-    @JoinTable(name = "DepartmentUsers",joinColumns=@JoinColumn(name="UserId"),inverseJoinColumns=@JoinColumn(name="DepartmentId"))
-    private List<Department> departments;
+    @JoinTable(name = "UserRoles",joinColumns=@JoinColumn(name="UserId"),inverseJoinColumns=@JoinColumn(name="RoleId"))
+    private List<Role> roles;
 
     @Id
     @Column(name = "Id")
@@ -57,7 +61,7 @@ public class User implements Serializable {
     @Basic
     @Column(name = "Username")
     @NotBlank(message="用户名不能为空")
-    @Length(max = 30, min = 2, message = "用户名长度限制2~30字符")
+    @Length(min = 2, message = "用户名长度必须大于2个字符")
     public String getUsername() {
         return username;
     }
@@ -260,4 +264,11 @@ public class User implements Serializable {
         return Objects.hash(id, username, fullName, password, post, phone, email, requireReLogin, failedLoginAttempts, cannotLoginUntilDate, active, deleted, isSystemAccount, lastIpAddress, lastLoginDate, lastActivityDate, createdTime, updatedTime);
     }
 
+    public List<Role> getRoles(){
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles){
+        this.roles = roles;
+    }
 }

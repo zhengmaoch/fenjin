@@ -1,5 +1,6 @@
 package com.fenjin.cloud.cotrollers;
 
+import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.services.users.IUserClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,32 +15,32 @@ public class UserController {
     @Autowired
     private IUserClientService userClientService;
 
-    @PostMapping("/create")
-    public void create(User user){
+//    @PostMapping("/create")
+//    public void create(User user){
+//
+//        userClientService.create(user);
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public void delete(@PathVariable("id") String id){
+//
+//        userClientService.delete(id);
+//    }
+//
+//    @PutMapping("/edit")
+//    public void edit(User user){
+//
+//        userClientService.edit(user);
+//    }
+//
+//    @RequestMapping("/list")
+//    public List<User> list(){
+//
+//        return userClientService.list();
+//    }
 
-        userClientService.create(user);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") String id){
-
-        userClientService.delete(id);
-    }
-
-    @PutMapping("/edit")
-    public void edit(User user){
-
-        userClientService.edit(user);
-    }
-
-    @RequestMapping("/list")
-    public List<User> list(){
-
-        return userClientService.list();
-    }
-
-    @RequestMapping("/get/{id}")
-    public User get(@PathVariable("id") String id){
+    @GetMapping("/get/{id}")
+    public Result get(@PathVariable("id") String id){
 
         return userClientService.get(id);
     }
