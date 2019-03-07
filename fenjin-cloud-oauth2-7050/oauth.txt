@@ -1,3 +1,5 @@
+http://localhost:9001/users/get/1
+
 请求测试一下未认证效果
 GET:
 http://localhost:7040/users/users/get/1

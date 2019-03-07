@@ -260,7 +260,7 @@ public class User implements Serializable {
     }
 
     @ManyToMany
-    @JsonIgnore
+//    @JsonIgnore
     @JoinTable(name = "UserRoles",joinColumns=@JoinColumn(name="UserId"),inverseJoinColumns=@JoinColumn(name="RoleId"))
     public List<Role> getRoles(){
         return roles;

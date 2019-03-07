@@ -31,6 +31,7 @@
       <module name="fenjin-cloud-config-9003" target="1.8" />
       <module name="fenjin-cloud-eureka-7002" target="1.8" />
       <module name="fenjin-cloud-eureka-7003" target="1.8" />
+      <module name="fenjin-cloud-feign-hystrix-7010" target="1.8" />
       <module name="fenjin-cloud-hystrix-dashboard-7030" target="1.8" />
       <module name="fenjin-core" target="1.8" />
       <module name="fenjin-fjtms-configuration-8110" target="1.8" />

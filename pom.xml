@@ -127,7 +127,7 @@
         <module>fenjin-cloud-eureka-7001</module>
         <!--<module>fenjin-cloud-eureka-7002</module>-->
         <!--<module>fenjin-cloud-eureka-7003</module>-->
-        <module>fenjin-cloud-feign-hystrix-7010</module>
+        <!--<module>fenjin-cloud-feign-hystrix-7010</module>-->
         <!--<module>fenjin-cloud-hystrix-dashboard-7030</module>-->
         <module>fenjin-cloud-oauth2-7050</module>
         <module>fenjin-cloud-zuul-gateway-7040</module>
