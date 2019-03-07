@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d7975eb-7115-42f3-89ce-25ca4e9f6c04" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/PermissionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/RoleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/fjtms.sql" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/fjtms.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IPermissionClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IPermissionClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IRoleClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IRoleClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/fenjin-cloud-config-7020/target/" />
     <ignored path="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/target/" />
@@ -35,102 +38,97 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/services/UserDetailsServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="59" column="51" selection-start-line="59" selection-start-column="40" selection-end-line="59" selection-end-column="51" />
+            <state relative-caret-position="250">
+              <caret line="37" column="22" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/fenjin-auth.sql">
+        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IRoleClientService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-476">
-              <caret line="20" column="37" lean-forward="true" selection-end-line="135" selection-end-column="25" />
+            <state relative-caret-position="289">
+              <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IPermissionClientService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/UserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="50" column="39" lean-forward="true" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/RoleController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="28" column="38" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/fjtms.sql">
+        <entry file="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/PermissionController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1088">
-              <caret line="68" column="39" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/Role.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2006">
-              <caret line="124" column="105" selection-start-line="124" selection-start-column="105" selection-end-line="124" selection-end-column="105" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2737">
-              <caret line="161" column="4" selection-start-line="161" selection-start-column="4" selection-end-line="161" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/UserRoles.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-              <folding>
-                <element signature="e#335#336#0" expanded="true" />
-                <element signature="e#364#365#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/IRoleService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+            <state relative-caret-position="340">
+              <caret line="20" column="35" lean-forward="true" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#923#924#0" expanded="true" />
+                <element signature="e#968#969#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/IUserService.java">
+        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+            <state relative-caret-position="272">
+              <caret line="23" column="65" selection-start-line="23" selection-start-column="65" selection-end-line="23" selection-end-column="65" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/RoleService.java">
+        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/PermissionClientServiceFallbackFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="67" selection-start-line="66" selection-start-column="30" selection-end-line="67" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="204">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/PermissionService.java">
+        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IUserClientService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
-              <caret line="66" column="37" selection-start-line="66" selection-start-column="37" selection-end-line="66" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="272">
+              <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/RoleClientServiceFallbackFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -193,8 +191,6 @@
         <option value="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/config/RedisConfig.java" />
         <option value="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/RoleService.java" />
         <option value="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/PermissionService.java" />
-        <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IPermissionClientService.java" />
-        <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IRoleClientService.java" />
         <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/PermissionClientServiceFallbackFactory.java" />
         <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/RoleClientServiceFallbackFactory.java" />
         <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/BaseController.java" />
@@ -221,9 +217,13 @@
         <option value="$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/controllers/UserController.java" />
         <option value="$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/controllers/UserController.java" />
         <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IUserClientService.java" />
-        <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java" />
         <option value="$PROJECT_DIR$/fenjin-cloud-zuul-gateway-7040/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/services/UserDetailsServiceImpl.java" />
+        <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java" />
+        <option value="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/RoleController.java" />
+        <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IRoleClientService.java" />
+        <option value="$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IPermissionClientService.java" />
+        <option value="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/PermissionController.java" />
       </list>
     </option>
   </component>
@@ -267,11 +267,6 @@
               <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
               <item name="fenjin" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="fenjin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fenjin" type="462c0819:PsiDirectoryNode" />
-              <item name="fenjin-fjtms-core" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -289,7 +284,7 @@
     <property name="RequestMappingsPanelWidth2" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551959932396" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551960294304" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -465,15 +460,21 @@
       <option name="project" value="LOCAL" />
       <updated>1551931371396</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="修改数据库脚本">
+      <created>1551960282921</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1551960282921</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50636000" />
+    <option name="totallyTimeSpent" value="51407000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.52309984" visible="true" weight="0.14605543" />
       <window_info id="Structure" order="1" sideWeight="0.47690016" side_tool="true" weight="0.15831557" />
@@ -499,7 +500,7 @@
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50053304" side_tool="true" weight="0.22426869" />
       <window_info anchor="bottom" id="Java Enterprise" order="13" />
       <window_info anchor="bottom" id="Database Changes" order="14" />
-      <window_info anchor="bottom" id="Version Control" order="15" visible="true" weight="0.25460455" />
+      <window_info anchor="bottom" id="Version Control" order="15" visible="true" weight="0.2426869" />
       <window_info anchor="bottom" id="Run Dashboard" order="16" sideWeight="0.49946696" weight="0.5011136" />
       <window_info anchor="bottom" id="Messages" order="17" weight="0.32962137" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -527,7 +528,8 @@
     <MESSAGE value="数据库添加用户，角色，权限及关系数据" />
     <MESSAGE value="添加接口授权" />
     <MESSAGE value="添加修改密码接口，配置密码加密算法" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加修改密码接口，配置密码加密算法" />
+    <MESSAGE value="修改数据库脚本" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改数据库脚本" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -542,57 +544,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/pom.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="84" column="8" selection-start-line="84" selection-start-column="8" selection-end-line="92" selection-end-column="21" />
-        </state>
-      </provider>
-      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/FenjinCloudOauth27050Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-          <folding>
-            <element signature="e#719#720#0" expanded="true" />
-            <element signature="e#790#791#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/RoleClientServiceFallbackFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/PermissionClientServiceFallbackFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.13.RELEASE/spring-webmvc-4.3.13.RELEASE.jar!/org/springframework/web/servlet/mvc/method/annotation/ServletInvocableHandlerMethod.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.13.RELEASE/spring-webmvc-4.3.13.RELEASE.jar!/org/springframework/web/servlet/mvc/method/AbstractHandlerMethodAdapter.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.13.RELEASE/spring-web-4.3.13.RELEASE.jar!/org/springframework/web/filter/RequestContextFilter.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.13.RELEASE/spring-web-4.3.13.RELEASE.jar!/org/springframework/web/filter/HttpPutFormContentFilter.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.13.RELEASE/spring-web-4.3.13.RELEASE.jar!/org/springframework/web/filter/HiddenHttpMethodFilter.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.13.RELEASE/spring-web-4.3.13.RELEASE.jar!/org/springframework/web/filter/CharacterEncodingFilter.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.13.RELEASE/spring-web-4.3.13.RELEASE.jar!/org/springframework/web/filter/OncePerRequestFilter.class" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.5.23/tomcat-embed-core-8.5.23.jar!/org/apache/catalina/core/StandardWrapperValve.class" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.5.23/tomcat-embed-core-8.5.23.jar!/org/apache/catalina/core/StandardContextValve.class" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.5.23/tomcat-embed-core-8.5.23.jar!/org/apache/catalina/authenticator/AuthenticatorBase.class" />
@@ -604,13 +555,6 @@
     <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.5.23/tomcat-embed-core-8.5.23.jar!/org/apache/coyote/AbstractProcessorLight.class" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.5.23/tomcat-embed-core-8.5.23.jar!/org/apache/coyote/AbstractProtocol.class" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.5.23/tomcat-embed-core-8.5.23.jar!/org/apache/tomcat/util/net/NioEndpoint.class" />
-    <entry file="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="50" column="22" lean-forward="true" selection-start-line="50" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/FenjinCloudFeignHystrix7010Application.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -650,13 +594,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="37" column="44" lean-forward="true" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IUserClientService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="22" column="18" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -711,13 +648,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/services/UserDetailsServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="59" column="51" selection-start-line="59" selection-start-column="40" selection-end-line="59" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/fenjin-auth.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-476">
@@ -727,8 +657,137 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/fjtms.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="68" column="39" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="39" />
+        <state relative-caret-position="-34">
+          <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/Role.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2006">
+          <caret line="124" column="105" selection-start-line="124" selection-start-column="105" selection-end-line="124" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/domain/users/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2737">
+          <caret line="161" column="4" selection-start-line="161" selection-start-column="4" selection-end-line="161" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/IRoleService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/IUserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/RoleService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="67" selection-start-line="66" selection-start-column="30" selection-end-line="67" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-users-9001/src/main/java/com/fenjin/fjtms/users/services/PermissionService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="66" column="37" selection-start-line="66" selection-start-column="37" selection-end-line="66" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-cloud-oauth2-7050/src/main/java/com/fenjin/cloud/services/UserDetailsServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="37" column="22" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/UserClientServiceFallbackFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="23" column="65" selection-start-line="23" selection-start-column="65" selection-end-line="23" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/RoleClientServiceFallbackFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/PermissionClientServiceFallbackFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="50" column="39" lean-forward="true" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IUserClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/RoleController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" column="38" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IRoleClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-fjtms-core/src/main/java/com/fenjin/fjtms/core/services/users/IPermissionClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/src/main/java/com/fenjin/cloud/cotrollers/PermissionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="35" lean-forward="true" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#923#924#0" expanded="true" />
+            <element signature="e#968#969#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
