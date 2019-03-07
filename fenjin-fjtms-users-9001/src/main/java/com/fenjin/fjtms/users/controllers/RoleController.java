@@ -136,7 +136,7 @@ public class RoleController extends BaseController {
         return Result(roleService.getRoleById(id));
     }
 
-    @PostMapping("/getByUserId/{userId}")
+    @GetMapping("/getByUserId/{userId}")
 //    @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "查询指定userId的角色集合")
     public Result getByUserId(@PathVariable String userId) {

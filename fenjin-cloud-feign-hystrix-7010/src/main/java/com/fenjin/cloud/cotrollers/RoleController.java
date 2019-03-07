@@ -2,7 +2,6 @@ package com.fenjin.cloud.cotrollers;
 
 import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.services.users.IRoleClientService;
-import com.fenjin.fjtms.core.services.users.IUserClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

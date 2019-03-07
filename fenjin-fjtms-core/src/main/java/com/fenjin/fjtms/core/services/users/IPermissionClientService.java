@@ -16,5 +16,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface IPermissionClientService {
 
     @GetMapping("/permissions/getByRoleId/{roleId}")
-    Result getByRoleId(@PathVariable String roleId);
+    Result getByRoleId(@PathVariable("roleId") String roleId);
 }

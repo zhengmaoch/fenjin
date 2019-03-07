@@ -18,5 +18,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface IRoleClientService {
 
     @GetMapping("/roles/getByUserId/{userId}")
-    Result getByUserId(@PathVariable String userId);
+    Result getByUserId(@PathVariable("userId") String userId);
 }

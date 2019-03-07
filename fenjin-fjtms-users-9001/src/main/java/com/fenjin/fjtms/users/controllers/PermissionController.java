@@ -137,7 +137,7 @@ public class PermissionController extends BaseController {
         return Result(permissionService.getPermissionById(id));
     }
 
-    @PostMapping("/getByRoleId/{roleId}")
+    @GetMapping("/getByRoleId/{roleId}")
 //    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "查询指定roleId的权限集合")
     public Result getByRoleId(@PathVariable String roleId) {
