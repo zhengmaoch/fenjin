@@ -6,6 +6,7 @@ import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.services.users.IPermissionClientService;
 import com.fenjin.fjtms.core.services.users.IRoleClientService;
 import com.fenjin.fjtms.core.services.users.IUserClientService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,8 +48,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("用户:" + username + "不存在!");
         }
 
-        com.fenjin.fjtms.core.domain.users.User user = new com.fenjin.fjtms.core.domain.users.User();
-        BeanUtils.copyProperties(userResult.getData(),user);
+        ObjectMapper mapper = new ObjectMapper();
+
+
+        com.fenjin.fjtms.core.domain.users.User user = mapper.convertValue(userResult.getData(), com.fenjin.fjtms.core.domain.users.User.class);
+//        BeanUtils.copyProperties(userResult.getData(),user);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 

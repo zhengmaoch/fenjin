@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class PermissionController extends BaseController {
     private DiscoveryClient discoveryClient;
 
     @PostMapping("/create")
-    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
+//    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "创建新权限", notes = "权限Id由系统自动生成，Json格式权限对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "permission", value = "有效的权限实例", required = true, dataType = "Permission")
     public Result create(@Valid @RequestBody Permission permission, BindingResult bindingResult) {
@@ -60,7 +60,7 @@ public class PermissionController extends BaseController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
+//    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "删除指定Id的权限", notes = "该操作为逻辑删除")
     @ApiImplicitParam(paramType="query", name = "id", value = "权限Id", required = true, dataType = "String")
     public Result delete(@PathVariable String id) {
@@ -75,7 +75,7 @@ public class PermissionController extends BaseController {
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
+//    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "根据Id集合批量删除权限", notes = "该操作为逻辑删除", produces = "application/json")
     @ApiImplicitParam(paramType="query", name = "ids", value = "权限Id集合", dataType = "List<String>")
     public Result delete(@RequestBody List<String> ids) {
@@ -92,7 +92,7 @@ public class PermissionController extends BaseController {
     }
 
     @PutMapping("/edit")
-    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
+//    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "修改权限", notes = "传输Json格式权限对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "permission", value = "有效的权限实例", required = true, dataType = "Permission")
     public Result edit(@Valid @RequestBody Permission permission, BindingResult bindingResult) {
@@ -119,7 +119,7 @@ public class PermissionController extends BaseController {
     }
 
     @PostMapping("/list")
-    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
+//    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "查询指定条件的权限集合")
     public Result list(@RequestBody(required = false) String permissionName) {
 
@@ -129,7 +129,7 @@ public class PermissionController extends BaseController {
 
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
+//    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "查询指定Id的权限")
     @ApiImplicitParam(paramType="query", name = "id", value = "权限Id", required = true, dataType = "String")
     public Result get(@PathVariable String id) {
@@ -138,7 +138,7 @@ public class PermissionController extends BaseController {
     }
 
     @PostMapping("/getByRoleId/{roleId}")
-    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
+//    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "查询指定roleId的权限集合")
     public Result getByRoleId(@PathVariable String roleId) {
 
@@ -147,7 +147,7 @@ public class PermissionController extends BaseController {
     }
 
     @GetMapping("/discovery")
-    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
+//    @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "获取当前微服务部署地址和端口号")
     public Result discovery()
     {

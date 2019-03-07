@@ -1,6 +1,7 @@
 package com.fenjin.fjtms.core.domain.users;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fenjin.fjtms.core.domain.products.Department;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,6 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -37,14 +39,7 @@ public class User implements Serializable {
     private boolean deleted;
     private Date createdTime;
     private Date updatedTime;
-
-//    @ManyToMany
-//    @JoinTable(name = "DepartmentUsers",joinColumns=@JoinColumn(name="UserId"),inverseJoinColumns=@JoinColumn(name="DepartmentId"))
-//    private List<Department> departments;
-
-    @ManyToMany
-    @JoinTable(name = "UserRoles",joinColumns=@JoinColumn(name="UserId"),inverseJoinColumns=@JoinColumn(name="RoleId"))
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
     @Id
     @Column(name = "Id")
@@ -264,6 +259,9 @@ public class User implements Serializable {
         return Objects.hash(id, username, fullName, password, post, phone, email, requireReLogin, failedLoginAttempts, cannotLoginUntilDate, active, deleted, isSystemAccount, lastIpAddress, lastLoginDate, lastActivityDate, createdTime, updatedTime);
     }
 
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "UserRoles",joinColumns=@JoinColumn(name="UserId"),inverseJoinColumns=@JoinColumn(name="RoleId"))
     public List<Role> getRoles(){
         return roles;
     }

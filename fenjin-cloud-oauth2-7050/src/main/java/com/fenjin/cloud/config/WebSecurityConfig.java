@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 /**
  * @version 1.0
@@ -40,8 +41,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
 
-        return new BCryptPasswordEncoder();
-//        return new NoEncryptPasswordEncoder();
+//        return new BCryptPasswordEncoder();
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence charSequence) {
+                return charSequence.toString();
+            }
+
+            @Override
+            public boolean matches(CharSequence charSequence, String s) {
+                return s.equals(charSequence.toString());
+            }
+        };
     }
 
     /**

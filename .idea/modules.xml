@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/fenjin-cloud-config-7020/fenjin-cloud-config-7020.iml" filepath="$PROJECT_DIR$/fenjin-cloud-config-7020/fenjin-cloud-config-7020.iml" />
       <module fileurl="file://$PROJECT_DIR$/fenjin-cloud-eureka-7002/fenjin-cloud-eureka-7002.iml" filepath="$PROJECT_DIR$/fenjin-cloud-eureka-7002/fenjin-cloud-eureka-7002.iml" />
       <module fileurl="file://$PROJECT_DIR$/fenjin-cloud-eureka-7003/fenjin-cloud-eureka-7003.iml" filepath="$PROJECT_DIR$/fenjin-cloud-eureka-7003/fenjin-cloud-eureka-7003.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/fenjin-cloud-feign-hystrix-7010.iml" filepath="$PROJECT_DIR$/fenjin-cloud-feign-hystrix-7010/fenjin-cloud-feign-hystrix-7010.iml" />
       <module fileurl="file://$PROJECT_DIR$/fenjin-cloud-hystrix-dashboard-7030/fenjin-cloud-hystrix-dashboard-7030.iml" filepath="$PROJECT_DIR$/fenjin-cloud-hystrix-dashboard-7030/fenjin-cloud-hystrix-dashboard-7030.iml" />
       <module fileurl="file://$PROJECT_DIR$/fenjin-fjtms-configuration-8110/fenjin-fjtms-configuration-8110.iml" filepath="$PROJECT_DIR$/fenjin-fjtms-configuration-8110/fenjin-fjtms-configuration-8110.iml" />
       <module fileurl="file://$PROJECT_DIR$/fenjin-fjtms-inventory-8120/fenjin-fjtms-inventory-8120.iml" filepath="$PROJECT_DIR$/fenjin-fjtms-inventory-8120/fenjin-fjtms-inventory-8120.iml" />

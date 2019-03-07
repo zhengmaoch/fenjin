@@ -45,6 +45,11 @@ public class UserController {
 //        return userClientService.g(id);
 //    }
 
+    @GetMapping("/getByUsername/{username}")
+    public Result get(@PathVariable("username") String username){
+
+        return userClientService.getByUsername(username);
+    }
 
 //    配置本地访问地址
 //    private static final String REST_URL_PREFIX = "http://localhost:8001";

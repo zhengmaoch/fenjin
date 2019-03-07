@@ -1,9 +1,11 @@
 package com.fenjin.fjtms.core.domain.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -19,10 +21,7 @@ public class Role implements Serializable {
     private boolean deleted;
     private Date createdTime;
     private Date updatedTime;
-
-    @ManyToMany
-    @JoinTable(name = "RolePermissions",joinColumns=@JoinColumn(name="RoleId"),inverseJoinColumns=@JoinColumn(name="PermissionId"))
-    private List<Permission> permissions;
+    private List<Permission> permissions = new ArrayList<>();
 
     @Id
     @Column(name = "Id")
@@ -126,6 +125,9 @@ public class Role implements Serializable {
         return Objects.hash(id, name, active, isSystemRole, systemName, deleted, createdTime, updatedTime);
     }
 
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "RolePermissions",joinColumns=@JoinColumn(name="RoleId"),inverseJoinColumns=@JoinColumn(name="PermissionId"))
     public List<Permission> getPermissions(){
         return permissions;
     }
