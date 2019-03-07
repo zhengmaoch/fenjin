@@ -7,7 +7,7 @@ import com.fenjin.fjtms.core.services.users.IPermissionClientService;
 import com.fenjin.fjtms.core.services.users.IRoleClientService;
 import com.fenjin.fjtms.core.services.users.IUserClientService;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.BeanUtils;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -49,8 +49,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-
-
         com.fenjin.fjtms.core.domain.users.User user = mapper.convertValue(userResult.getData(), com.fenjin.fjtms.core.domain.users.User.class);
 //        BeanUtils.copyProperties(userResult.getData(),user);
 
@@ -59,14 +57,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // 获取角色
         Result roleResult = roleService.getByUserId(user.getId());
         if (roleResult.getCode() != Result.SUCCESS){
-            List<Role> roles = (List<Role>) roleResult.getData();
+            List<Role> roles = mapper.convertValue(roleResult.getData(), new TypeReference<List<Role>>() { });
             for (Role role:roles){
                 GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getSystemName());
                 grantedAuthorities.add(grantedAuthority);
                 //获取权限
                 Result permissionResult  = permissionService.getByRoleId(role.getId());
                 if (permissionResult.getCode() != Result.SUCCESS){
-                    List<Permission> permissions = (List<Permission>) permissionResult.getData();
+                    List<Permission> permissions = mapper.convertValue(permissionResult.getData(), new TypeReference<List<Permission>>() { });
                     for (Permission permission:permissions
                     ) {
                         GrantedAuthority authority = new SimpleGrantedAuthority(permission.getSystemName());
