@@ -1,0 +1,26 @@
+请求测试一下未认证效果
+GET:
+http://localhost:7040/users/users/get/1
+
+获取认证token
+POST:
+authorzation type=basic auth,username=android,password=android
+http://localhost:7040/auth/oauth/token?grant_type=password&username=admin&password=31042a18f6aab44676eac536a8a4563
+
+使用access_token请求auth服务下的用户信息
+GET:
+http://localhost:7040/auth/users/user?access_token=85e98076-adc1-4098-8891-210b6b4d7b0f
+
+使用access_token请求users服务下的接口
+GET:
+http://localhost:7040/users/users/get/1?access_token=85e98076-adc1-4098-8891-210b6b4d7b0f
+
+刷新token
+POST:
+authorzation type=basic auth,username=android,password=android
+http://localhost:7040/auth/oauth/token?grant_type=refresh_token&refresh_token=85e98076-adc1-4098-8891-210b6b4d7b0f
+
+
+注销token
+DELEDE：
+http://localhost:7040/auth/users/logout?access_token=85e98076-adc1-4098-8891-210b6b4d7b0f
