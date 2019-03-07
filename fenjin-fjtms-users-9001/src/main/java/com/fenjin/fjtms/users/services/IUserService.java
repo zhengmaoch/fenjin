@@ -64,4 +64,5 @@ public interface IUserService {
      * @return
      */
     boolean updateUser(User user);
+
 }

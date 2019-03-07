@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,6 +129,7 @@ public class UserService implements IUserService {
         return userRepository.findOne(specification);
     }
 
+
     /**
      * insertUser,updateUser,delete方法需要绑定事务
      * 使用@Transactional进行事务绑定
@@ -164,4 +166,5 @@ public class UserService implements IUserService {
         userRepository.save(user);
         return true;
     }
+
 }

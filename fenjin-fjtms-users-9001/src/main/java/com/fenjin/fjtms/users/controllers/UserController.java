@@ -6,6 +6,7 @@ import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import com.fenjin.fjtms.core.utils.StringUtil;
+import com.fenjin.fjtms.users.services.ChangePasswordRequest;
 import com.fenjin.fjtms.users.services.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +59,9 @@ public class UserController extends BaseController {
                 return new Result().validateFailed("邮箱已存在");
             }
 
+            // 密码加密
+            BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(user.getPassword().trim()));
             return Result(userService.createUser(user));
         }
         catch (Exception e){
@@ -122,6 +127,42 @@ public class UserController extends BaseController {
         }
 
 
+    }
+
+    @PutMapping("/changepassword")
+    @PreAuthorize("hasAnyAuthority('ManageUsers')")
+    @ApiOperation(value = "修改用户密码", notes = "传输Json格式用户对象", produces = "application/json")
+    @ApiImplicitParam(paramType="body", name = "request", value = "有效的用户密码请求", required = true, dataType = "ChangePasswordRequest")
+    public Result changePassword(@RequestBody ChangePasswordRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            FieldError error = (FieldError) bindingResult.getAllErrors().get(0);
+            return new Result().validateFailed(error.getDefaultMessage());
+        }
+        if(request == null){
+            return new Result().validateFailed("request不能为空");
+        }
+        if(StringUtil.isEmpty(request.userId)){
+            return new Result().validateFailed("userId不能为空");
+        }
+
+        User user = userService.getUserById(request.userId);
+        if(user == null){
+            return new Result().validateFailed("Id为" + request.userId + "的用户不存在");
+        }
+
+        // 密码加密
+        BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
+        if(request.validateRequest && encoder.matches(request.oldPassword, user.getPassword())){
+            return new Result().validateFailed("原始密码不正确");
+        }
+
+        if(request.oldPassword == request.newPassword){
+            return new Result().validateFailed("新密码不能与原始密码相同");
+        }
+
+        user.setPassword(encoder.encode(request.newPassword));
+        return Result(userService.updateUser(user));
     }
 
     @PostMapping("/list/{pageIndex}/{pageSize}")
