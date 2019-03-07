@@ -3,22 +3,40 @@
 
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50723
+ Source Server Version : 50721
  Source Host           : localhost:3306
  Source Schema         : fjtms
 
  Target Server Type    : MySQL
- Target Server Version : 50723
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 22/02/2019 14:09:09
+ Date: 07/03/2019 20:04:08
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for d_activitylogtype
+-- Table structure for activitylog
+-- ----------------------------
+DROP TABLE IF EXISTS `activitylog`;
+CREATE TABLE `activitylog`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `ActivityLogTypeId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '活动日志类型Id，引用ActivityLogType的Id',
+  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
+  `Comment` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志内容',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `IpAddress` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前主机的IP地址',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_ActivityLogTypeId`(`ActivityLogTypeId`) USING BTREE,
+  INDEX `IX_UserId`(`UserId`) USING BTREE,
+  CONSTRAINT `FK_ActivityLog_ActivityLogType_ActivityLogTypeId` FOREIGN KEY (`ActivityLogTypeId`) REFERENCES `d_activitylogtype` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ActivityLog_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户活动日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for activitylogtype
 -- ----------------------------
 DROP TABLE IF EXISTS `activitylogtype`;
 CREATE TABLE `activitylogtype`  (
@@ -30,7 +48,7 @@ CREATE TABLE `activitylogtype`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '活动日志类型' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for d_area
+-- Table structure for area
 -- ----------------------------
 DROP TABLE IF EXISTS `area`;
 CREATE TABLE `area`  (
@@ -57,197 +75,7 @@ CREATE TABLE `area`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '区域（省、市、区、县）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for d_equipmenttype
--- ----------------------------
-DROP TABLE IF EXISTS `equipmenttype`;
-CREATE TABLE `equipmenttype`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设备类型名称',
-  `Description` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备描述',
-  `PictureId` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备图片Id，引用Picture的Id',
-  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  UNIQUE INDEX `IX_Name`(`Name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备类型' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for d_stockinouttype
--- ----------------------------
-DROP TABLE IF EXISTS `stockinouttype`;
-CREATE TABLE `stockinouttype`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '出入库类型名称',
-  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  UNIQUE INDEX `IX_Name`(`Name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库业务类型' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for d_warehousetype
--- ----------------------------
-DROP TABLE IF EXISTS `warehousetype`;
-CREATE TABLE `warehousetype`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房类型名称',
-  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '库房类型' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for i_check
--- ----------------------------
-DROP TABLE IF EXISTS `check`;
-CREATE TABLE `check`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
-  `WarehouseId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房Id，引用Warehouse的Id',
-  `Type` int(11) NOT NULL COMMENT '检查类型：0使用前检查，1定检，2零时检查',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_WarehouseId`(`WarehouseId`) USING BTREE,
-  CONSTRAINT `FK_Checking_Warehouse_WarehouseId` FOREIGN KEY (`WarehouseId`) REFERENCES `p_warehouse` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '检查单' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for i_check_record
--- ----------------------------
-DROP TABLE IF EXISTS `checkrecord`;
-CREATE TABLE `checkrecord`  (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `check_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `created_time` datetime(0) NULL DEFAULT NULL,
-  `deleted` tinyint(4) NULL DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `product_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `rfid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `status` tinyint(4) NULL DEFAULT NULL,
-  `updated_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `FKi6q1un6bavgmkhbhdft9vgscv`(`check_id`) USING BTREE,
-  INDEX `FKeqo7f7br0gowya3ygkimau761`(`product_id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for i_checkitem
--- ----------------------------
-DROP TABLE IF EXISTS `checkitem`;
-CREATE TABLE `checkitem`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `CategoryId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具分类Id，引用Category的Id',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '检查项名称',
-  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_CategoryIdId`(`CategoryId`) USING BTREE,
-  CONSTRAINT `FK_CheckItem_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `p_category` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '检查项' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for i_checkrecord
--- ----------------------------
-DROP TABLE IF EXISTS `checkrecord`;
-CREATE TABLE `checkrecord`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `CheckId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '检查单Id，引用Check的Id',
-  `ProductId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片Id，引用Product的Id',
-  `RFID` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具RFID，引用Product的RFID',
-  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `Status` tinyint(1) NOT NULL COMMENT '工具检查状态',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_CheckId`(`CheckId`) USING BTREE,
-  INDEX `IX_ProductId`(`ProductId`) USING BTREE,
-  CONSTRAINT `FK_CheckRecord_Check_CheckId` FOREIGN KEY (`CheckId`) REFERENCES `i_check` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_CheckRecord_Product_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `p_product` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '检查记录' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for i_stockoutin
--- ----------------------------
-DROP TABLE IF EXISTS `stockoutin`;
-CREATE TABLE `stockoutin`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
-  `WarehouseId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房Id，引用Warehouse的Id',
-  `WorkNumber` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工单编号',
-  `Process` tinyint(1) NOT NULL COMMENT '业务处理：1采购、2检修、3抢修、4借用、5报废',
-  `IsStockOut` tinyint(1) NOT NULL COMMENT '出入库状态：0出库，1入库',
-  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_WarehouseId`(`WarehouseId`) USING BTREE,
-  CONSTRAINT `FK_StockOutIn_Warehouse_WarehouseId` FOREIGN KEY (`WarehouseId`) REFERENCES `p_warehouse` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库单' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for i_stockoutinrecord
--- ----------------------------
-DROP TABLE IF EXISTS `stockoutinrecord`;
-CREATE TABLE `stockoutinrecord`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `StockOutInId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '出入库单编号',
-  `ProductId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片Id，引用Product的Id',
-  `RFID` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具RFID，引用Product的RFID',
-  `IsStockOut` tinyint(1) NOT NULL COMMENT '出入库状态：0出库，1入库',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_StockOutInId`(`StockOutInId`) USING BTREE,
-  INDEX `IX_ProductId`(`ProductId`) USING BTREE,
-  CONSTRAINT `FK_StockOutInRecord_Product_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `p_product` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_StockOutInRecord_StockOutIn_StockOutInId` FOREIGN KEY (`StockOutInId`) REFERENCES `i_stockoutin` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库记录' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for i_warehousesetting
--- ----------------------------
-DROP TABLE IF EXISTS `warehousesetting`;
-CREATE TABLE `warehousesetting`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `WarehouseTypeId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房类型Id，引用WarehouseType的Id',
-  `CategoryId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具分类Id，引用Category的Id',
-  `VoltageLevelId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电压等级Id，引用VoltageLevel的Id',
-  `Count` int(11) NOT NULL COMMENT '工具数量配置',
-  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_CategoryIdId`(`CategoryId`) USING BTREE,
-  INDEX `IX_VoltageLevelId`(`VoltageLevelId`) USING BTREE,
-  INDEX `IX_WarehouseTypeId`(`WarehouseTypeId`) USING BTREE,
-  CONSTRAINT `FK_WarehouseSetting_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `p_category` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_WarehouseSetting_VoltageLevelId` FOREIGN KEY (`VoltageLevelId`) REFERENCES `p_voltagelevel` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_WarehouseSetting_WarehouseTypeId` FOREIGN KEY (`WarehouseTypeId`) REFERENCES `d_warehousetype` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '库房配置' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for p_category
+-- Table structure for category
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category`  (
@@ -274,118 +102,64 @@ CREATE TABLE `category`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工具分类' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for p_manufacturer
+-- Table structure for check
 -- ----------------------------
-DROP TABLE IF EXISTS `manufacturer`;
-CREATE TABLE `manufacturer`  (
+DROP TABLE IF EXISTS `check`;
+CREATE TABLE `check`  (
   `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '厂商全名，通过网络验证真实存在的名称',
-  `ShortName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '简称，按照使用习惯命名',
-  `Area` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地区',
-  `Address` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '厂商地址',
-  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '厂商' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for p_product
--- ----------------------------
-DROP TABLE IF EXISTS `product`;
-CREATE TABLE `product`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具名称即使用编号',
-  `RFID` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'RFID唯一编码',
-  `CategoryId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类Id，引用Category的Id',
-  `WarehouseId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房Id，引用Warehouse的Id',
-  `ManufacturerId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '厂商Id，引用Manufacture的Id',
-  `Specification` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '规格型号',
-  `VoltageLevelId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电压等级Id，引用VoltageLevel的Id',
-  `TestDate` datetime(0) NULL DEFAULT NULL COMMENT '试验日期',
-  `NextTestDate` datetime(0) NULL DEFAULT NULL COMMENT '下次试验日期=试验日期+试验周期-1天',
-  `Status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '工具状态：0新增，1待检，2合格，3不合格，4报废',
-  `StockStatus` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '库存状态：0在库，1试验，2抢修，3检修',
-  `IsMaster` tinyint(1) NULL DEFAULT NULL COMMENT '主物资：1主物资，0非主物资，配合GroupId使用',
-  `GroupId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组合标识：用GUID',
-  `ScrapReason` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '报废原因',
-  `ProductionDate` datetime(0) NULL DEFAULT NULL COMMENT '生产日期',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  UNIQUE INDEX `IX_RFID`(`RFID`) USING BTREE,
-  INDEX `IX_CategoryId`(`CategoryId`) USING BTREE,
-  INDEX `IX_WarehouseId`(`WarehouseId`) USING BTREE,
-  INDEX `IX_ManufacturerId`(`ManufacturerId`) USING BTREE,
-  INDEX `IX_VoltageLevelId`(`VoltageLevelId`) USING BTREE,
-  CONSTRAINT `FK_Product_Category_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `p_category` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Product_Manufacturer_ManufacturerId` FOREIGN KEY (`ManufacturerId`) REFERENCES `p_manufacturer` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_Product_VoltageLevel_VoltageLevelId` FOREIGN KEY (`VoltageLevelId`) REFERENCES `p_voltagelevel` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Product_Warehouse_WarehouseId` FOREIGN KEY (`WarehouseId`) REFERENCES `p_warehouse` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工具（试品）' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for p_voltagelevel
--- ----------------------------
-DROP TABLE IF EXISTS `voltagelevel`;
-CREATE TABLE `voltagelevel`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电压等级名称',
-  `Code` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标准编码，用于方便第三方进行数据导入',
-  `ExtensionCode` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展编码，用于方便第三方系统对接',
-  `RateVoltage` double NOT NULL COMMENT '电压等级对应的电压值',
-  `VoltageTypeId` int(11) NOT NULL COMMENT '电压类型：10交流，20直流',
-  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  UNIQUE INDEX `IX_Name`(`Name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '电压等级' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for p_warehouse
--- ----------------------------
-DROP TABLE IF EXISTS `warehouse`;
-CREATE TABLE `warehouse`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `DepartmentId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门Id，引用Department的Id',
-  `IsCabinet` tinyint(1) NOT NULL COMMENT '是否为单个工具柜库房',
-  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
-  CONSTRAINT `FK_Warehouse_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '库房' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for s_activitylog
--- ----------------------------
-DROP TABLE IF EXISTS `activitylog`;
-CREATE TABLE `activitylog`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `ActivityLogTypeId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '活动日志类型Id，引用ActivityLogType的Id',
   `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
-  `Comment` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志内容',
+  `WarehouseId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房Id，引用Warehouse的Id',
+  `Type` int(11) NOT NULL COMMENT '检查类型：0使用前检查，1定检，2零时检查',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
   `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `IpAddress` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前主机的IP地址',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
   PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_ActivityLogTypeId`(`ActivityLogTypeId`) USING BTREE,
-  INDEX `IX_UserId`(`UserId`) USING BTREE,
-  CONSTRAINT `FK_ActivityLog_ActivityLogType_ActivityLogTypeId` FOREIGN KEY (`ActivityLogTypeId`) REFERENCES `d_activitylogtype` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ActivityLog_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户活动日志' ROW_FORMAT = Dynamic;
+  INDEX `IX_WarehouseId`(`WarehouseId`) USING BTREE,
+  CONSTRAINT `FK_Checking_Warehouse_WarehouseId` FOREIGN KEY (`WarehouseId`) REFERENCES `p_warehouse` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '检查单' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for s_department
+-- Table structure for checkitem
+-- ----------------------------
+DROP TABLE IF EXISTS `checkitem`;
+CREATE TABLE `checkitem`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `CategoryId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具分类Id，引用Category的Id',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '检查项名称',
+  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_CategoryIdId`(`CategoryId`) USING BTREE,
+  CONSTRAINT `FK_CheckItem_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `p_category` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '检查项' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for checkrecord
+-- ----------------------------
+DROP TABLE IF EXISTS `checkrecord`;
+CREATE TABLE `checkrecord`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `CheckId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '检查单Id，引用Check的Id',
+  `ProductId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片Id，引用Product的Id',
+  `RFID` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具RFID，引用Product的RFID',
+  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `Status` tinyint(1) NOT NULL COMMENT '工具检查状态',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_CheckId`(`CheckId`) USING BTREE,
+  INDEX `IX_ProductId`(`ProductId`) USING BTREE,
+  CONSTRAINT `FK_CheckRecord_Check_CheckId` FOREIGN KEY (`CheckId`) REFERENCES `i_check` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CheckRecord_Product_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `p_product` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '检查记录' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for department
 -- ----------------------------
 DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department`  (
@@ -413,7 +187,25 @@ CREATE TABLE `department`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '组织架构（部门）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for s_departmentusers
+-- Table structure for departmentcategory
+-- ----------------------------
+DROP TABLE IF EXISTS `departmentcategory`;
+CREATE TABLE `departmentcategory`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `TestCenterId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '试验中心Id，引用TestCenter的Id',
+  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_TestCenterId`(`TestCenterId`) USING BTREE,
+  CONSTRAINT `FK_DepartmentCategory_TestCenter_TestCenterId` FOREIGN KEY (`TestCenterId`) REFERENCES `t_testcenter` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门分类，试验中心对送检单进行分类统计' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for departmentusers
 -- ----------------------------
 DROP TABLE IF EXISTS `departmentusers`;
 CREATE TABLE `departmentusers`  (
@@ -432,7 +224,7 @@ CREATE TABLE `departmentusers`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门用户关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for s_download
+-- Table structure for download
 -- ----------------------------
 DROP TABLE IF EXISTS `download`;
 CREATE TABLE `download`  (
@@ -449,7 +241,7 @@ CREATE TABLE `download`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件（二进制）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for s_equipment
+-- Table structure for equipment
 -- ----------------------------
 DROP TABLE IF EXISTS `equipment`;
 CREATE TABLE `equipment`  (
@@ -481,220 +273,30 @@ CREATE TABLE `equipment`  (
   INDEX `IX_ManufacturerId`(`ManufacturerId`) USING BTREE,
   INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
   CONSTRAINT `FK_Equipment_EquipmentType_EquipmentTypeId` FOREIGN KEY (`EquipmentTypeId`) REFERENCES `d_equipmenttype` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Equipment_Manufacturer_ManufacturerId` FOREIGN KEY (`ManufacturerId`) REFERENCES `p_manufacturer` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Equipment_Manufacturer_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Equipment_Manufacturer_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Equipment_Manufacturer_ManufacturerId` FOREIGN KEY (`ManufacturerId`) REFERENCES `p_manufacturer` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备（库房、试验中心）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for s_log
+-- Table structure for equipmenttype
 -- ----------------------------
-DROP TABLE IF EXISTS `log`;
-CREATE TABLE `log`  (
+DROP TABLE IF EXISTS `equipmenttype`;
+CREATE TABLE `equipmenttype`  (
   `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `LogLevelId` int(11) NOT NULL COMMENT '日志级别',
-  `ShortMessage` varchar(400) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志描述',
-  `FullMessage` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '日志详细内容',
-  `IpAddress` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '记录日志的主机IP地址',
-  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前登录用户Id，引用User的Id',
-  `PageUrl` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前页面地址',
-  `ReferrerUrl` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '引用页面地址',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_UserId`(`UserId`) USING BTREE,
-  CONSTRAINT `FK_Log_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for s_permission
--- ----------------------------
-DROP TABLE IF EXISTS `permission`;
-CREATE TABLE `permission`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `SystemName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '系统权限名称',
-  `Category` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限分类，可用模块名',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限' ROW_FORMAT = Dynamic;
-
-INSERT INTO `permission` VALUES ('10', 'Manage Users', 'ManageUsers', 'Users', 0, NOW(), NOW());
-INSERT INTO `permission` VALUES ('11', 'Manage Roles', 'ManageRoles', 'Users', 0, NOW(), NOW());
-INSERT INTO `permission` VALUES ('12', 'Manage Permissions', 'ManagePermissions', 'Users', 0, NOW(), NOW());
-
--- ----------------------------
--- Table structure for s_permissionroles
--- ----------------------------
-DROP TABLE IF EXISTS `rolepermissions`;
-CREATE TABLE `rolepermissions`  (
-  `Permission_Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限Id，引用Permission的Id',
-  `Role_Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色Id，引用Role的Id',
-  PRIMARY KEY (`PermissionId`, `RoleId`) USING BTREE,
-  INDEX `IX_PermissionId`(`PermissionId`) USING BTREE,
-  INDEX `IX_RoleId`(`RoleId`) USING BTREE,
-  CONSTRAINT `FK_Permission_Role_Mapping_Permission_Permission_Id` FOREIGN KEY (`PermissionId`) REFERENCES `permission` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Permission_Role_Mapping_Role_Role_Id` FOREIGN KEY (`RoleId`) REFERENCES `role` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限角色关系' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for s_picture
--- ----------------------------
-DROP TABLE IF EXISTS `picture`;
-CREATE TABLE `picture`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `PictureBinary` longblob NULL COMMENT '图片二进制流文件',
-  `MimeType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片类型',
-  `SeoFilename` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片SEO文件名',
-  `AltAttribute` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '可选名称',
-  `TitleAttribute` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片名称',
-  `IsNew` tinyint(1) NOT NULL COMMENT '新图片',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '图片（二进制）' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for s_role
--- ----------------------------
-DROP TABLE IF EXISTS `role`;
-CREATE TABLE `role`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `Active` tinyint(1) NOT NULL COMMENT '激活状态，只有激活的角色才可以使用',
-  `IsSystemRole` tinyint(1) NOT NULL COMMENT '系统角色，系统角色是不可以删除的',
-  `SystemName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '系统中角色关键字名称',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
-
-INSERT INTO `role` VALUES ('1', '系统管理员', 1, 1, 'Administrators', 0, NOW(), NOW());
-INSERT INTO `role` VALUES ('2', '注册用户', 1, 1, 'Registered', 0, NOW(), NOW());
-INSERT INTO `role` VALUES ('3', '试品管理员', 1, 0, 'ProductManager', 0, NOW(), NOW());
-INSERT INTO `role` VALUES ('4', '试验员', 1, 0, 'Experimenter', 0, NOW(), NOW());
-INSERT INTO `role` VALUES ('5', '试验中心管理员', 1, 0, 'CenterManager', 0, NOW(), NOW());
-INSERT INTO `role` VALUES ('6', '检修员', 1, 0, 'Maintainer', 0, NOW(), NOW());
-INSERT INTO `role` VALUES ('7', '库房管理员', 1, 0, 'WarehouseManager', 0, NOW(), NOW());
-INSERT INTO `role` VALUES ('8', '地市级领导', 1, 0, 'DistrictLeader', 0, NOW(), NOW());
-INSERT INTO `role` VALUES ('9', '省级领导', 1, 0, 'ProvinceLeader', 0, NOW(), NOW());
-
--- ----------------------------
--- Table structure for s_scheduletask
--- ----------------------------
-DROP TABLE IF EXISTS `scheduletask`;
-CREATE TABLE `scheduletask`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `Seconds` int(11) NOT NULL COMMENT '间隔时间，单位秒（s）',
-  `Type` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务类型',
-  `Enabled` tinyint(1) NOT NULL COMMENT '启用',
-  `StopOnError` tinyint(1) NOT NULL COMMENT '错误停止状态',
-  `LeasedByMachineName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务租用机器名',
-  `LeasedUntilUtc` datetime(0) NULL DEFAULT NULL COMMENT '任务租用时间',
-  `LastStartUtc` datetime(0) NULL DEFAULT NULL COMMENT '最近一次开始时间',
-  `LastEndUtc` datetime(0) NULL DEFAULT NULL COMMENT '最近一次结束时间',
-  `LastSuccessUtc` datetime(0) NULL DEFAULT NULL COMMENT '最近一次成功执行时间',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '自动任务' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for s_setting
--- ----------------------------
-DROP TABLE IF EXISTS `setting`;
-CREATE TABLE `setting`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置名称',
-  `Value` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置键值',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '选项设置' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for s_smsmessage
--- ----------------------------
-DROP TABLE IF EXISTS `smsmessage`;
-CREATE TABLE `smsmessage`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `From` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发送者',
-  `To` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '接收人',
-  `Sign` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置键值',
-  `TemplateCode` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模板编号',
-  `TemplateParameter` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模板参数',
-  `Content` varchar(400) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模板内容',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `SendTime` datetime(0) NULL DEFAULT NULL COMMENT '发送时间',
-  `Successful` tinyint(1) NOT NULL COMMENT '发送成功',
-  `Result` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发送结果',
-  `Priority` int(11) NOT NULL COMMENT '发送优先级',
-  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '短信消息模板' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for s_user
--- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Username` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录账号',
-  `FullName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '真实姓名',
-  `Password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录密码',
-  `DepartmentId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门Id，引用Department的Id，默认部门',
-  `Post` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职位',
-  `Phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话号码',
-  `Email` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子邮箱',
-  `RequireReLogin` tinyint(1) NOT NULL COMMENT '重新登录请求',
-  `FailedLoginAttempts` int(11) NOT NULL COMMENT '登录失败次数',
-  `CannotLoginUntilDate` datetime(0) NULL DEFAULT NULL COMMENT '下次登录时间',
-  `Active` tinyint(1) NOT NULL COMMENT '激活状态，只有激活的用户才可以登录系统',
-  `IsSystemAccount` tinyint(1) NOT NULL COMMENT '系统账号，系统账号不可以删除',
-  `LastIpAddress` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最近登录主机IP地址',
-  `LastLoginDate` datetime(0) NULL DEFAULT NULL COMMENT '最近一次登录时间',
-  `LastActivityDate` datetime(0) NULL DEFAULT NULL COMMENT '最近一次活动时间，最近一次操作时间',
-  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
-  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
-  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
-  PRIMARY KEY (`Id`) USING BTREE,
-  UNIQUE INDEX `IX_Username`(`Username`) USING BTREE,
-  INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
-  CONSTRAINT `FK_User_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户' ROW_FORMAT = Dynamic;
-
-INSERT INTO `user` VALUES ('1', 'admin', '系统管理员', 'e31042a18f6aab44676eac536a8a4563', NULL, NULL, '18071026720', 'zhengmaoch@qq.com', 0, 0, NULL, 1, 1, '192.168.145.1', NOW(), NULL, 0, NOW(), NOW());
-
--- ----------------------------
--- Table structure for s_userroles
--- ----------------------------
-DROP TABLE IF EXISTS `userroles`;
-CREATE TABLE `userroles`  (
-  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
-  `RoleId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色Id，引用Role的Id',
-  PRIMARY KEY (`UserId`, `RoleId`) USING BTREE,
-  INDEX `IX_User_Id`(`UserId`) USING BTREE,
-  INDEX `IX_Role_Id`(`RoleId`) USING BTREE,
-  CONSTRAINT `FK_User_Role_Mapping_Role_Role_Id` FOREIGN KEY (`RoleId`) REFERENCES `role` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_User_Role_Mapping_User_User_Id` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色关系，以服务器为准进行同步' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for t_departmentcategory
--- ----------------------------
-DROP TABLE IF EXISTS `departmentcategory`;
-CREATE TABLE `departmentcategory`  (
-  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
-  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `TestCenterId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '试验中心Id，引用TestCenter的Id',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设备类型名称',
+  `Description` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备描述',
+  `PictureId` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备图片Id，引用Picture的Id',
   `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
   `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
   `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
   `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
   `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
   PRIMARY KEY (`Id`) USING BTREE,
-  INDEX `IX_TestCenterId`(`TestCenterId`) USING BTREE,
-  CONSTRAINT `FK_DepartmentCategory_TestCenter_TestCenterId` FOREIGN KEY (`TestCenterId`) REFERENCES `t_testcenter` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门分类，试验中心对送检单进行分类统计' ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `IX_Name`(`Name`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备类型' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_inspection
+-- Table structure for inspection
 -- ----------------------------
 DROP TABLE IF EXISTS `inspection`;
 CREATE TABLE `inspection`  (
@@ -731,7 +333,7 @@ CREATE TABLE `inspection`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '送检单' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_inspectionrecord
+-- Table structure for inspectionrecord
 -- ----------------------------
 DROP TABLE IF EXISTS `inspectionrecord`;
 CREATE TABLE `inspectionrecord`  (
@@ -762,7 +364,117 @@ CREATE TABLE `inspectionrecord`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '送检记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_project
+-- Table structure for log
+-- ----------------------------
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE `log`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `LogLevelId` int(11) NOT NULL COMMENT '日志级别',
+  `ShortMessage` varchar(400) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志描述',
+  `FullMessage` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '日志详细内容',
+  `IpAddress` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '记录日志的主机IP地址',
+  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前登录用户Id，引用User的Id',
+  `PageUrl` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前页面地址',
+  `ReferrerUrl` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '引用页面地址',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_UserId`(`UserId`) USING BTREE,
+  CONSTRAINT `FK_Log_User_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for manufacturer
+-- ----------------------------
+DROP TABLE IF EXISTS `manufacturer`;
+CREATE TABLE `manufacturer`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '厂商全名，通过网络验证真实存在的名称',
+  `ShortName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '简称，按照使用习惯命名',
+  `Area` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地区',
+  `Address` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '厂商地址',
+  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '厂商' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for permission
+-- ----------------------------
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `SystemName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '系统权限名称',
+  `Category` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限分类，可用模块名',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of permission
+-- ----------------------------
+INSERT INTO `permission` VALUES ('10', 'Manage Users', 'ManageUsers', 'Users', 0, '2019-03-07 19:59:01', '2019-03-07 19:59:01');
+INSERT INTO `permission` VALUES ('11', 'Manage Roles', 'ManageRoles', 'Users', 0, '2019-03-07 19:59:01', '2019-03-07 19:59:01');
+INSERT INTO `permission` VALUES ('12', 'Manage Permissions', 'ManagePermissions', 'Users', 0, '2019-03-07 19:59:01', '2019-03-07 19:59:01');
+
+-- ----------------------------
+-- Table structure for picture
+-- ----------------------------
+DROP TABLE IF EXISTS `picture`;
+CREATE TABLE `picture`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `PictureBinary` longblob NULL COMMENT '图片二进制流文件',
+  `MimeType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片类型',
+  `SeoFilename` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片SEO文件名',
+  `AltAttribute` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '可选名称',
+  `TitleAttribute` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片名称',
+  `IsNew` tinyint(1) NOT NULL COMMENT '新图片',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '图片（二进制）' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for product
+-- ----------------------------
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具名称即使用编号',
+  `RFID` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'RFID唯一编码',
+  `CategoryId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类Id，引用Category的Id',
+  `WarehouseId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房Id，引用Warehouse的Id',
+  `ManufacturerId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '厂商Id，引用Manufacture的Id',
+  `Specification` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '规格型号',
+  `VoltageLevelId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电压等级Id，引用VoltageLevel的Id',
+  `TestDate` datetime(0) NULL DEFAULT NULL COMMENT '试验日期',
+  `NextTestDate` datetime(0) NULL DEFAULT NULL COMMENT '下次试验日期=试验日期+试验周期-1天',
+  `Status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '工具状态：0新增，1待检，2合格，3不合格，4报废',
+  `StockStatus` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '库存状态：0在库，1试验，2抢修，3检修',
+  `IsMaster` tinyint(1) NULL DEFAULT NULL COMMENT '主物资：1主物资，0非主物资，配合GroupId使用',
+  `GroupId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组合标识：用GUID',
+  `ScrapReason` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '报废原因',
+  `ProductionDate` datetime(0) NULL DEFAULT NULL COMMENT '生产日期',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  UNIQUE INDEX `IX_RFID`(`RFID`) USING BTREE,
+  INDEX `IX_CategoryId`(`CategoryId`) USING BTREE,
+  INDEX `IX_WarehouseId`(`WarehouseId`) USING BTREE,
+  INDEX `IX_ManufacturerId`(`ManufacturerId`) USING BTREE,
+  INDEX `IX_VoltageLevelId`(`VoltageLevelId`) USING BTREE,
+  CONSTRAINT `FK_Product_Category_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `p_category` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Product_Manufacturer_ManufacturerId` FOREIGN KEY (`ManufacturerId`) REFERENCES `p_manufacturer` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_Product_VoltageLevel_VoltageLevelId` FOREIGN KEY (`VoltageLevelId`) REFERENCES `p_voltagelevel` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Product_Warehouse_WarehouseId` FOREIGN KEY (`WarehouseId`) REFERENCES `p_warehouse` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '工具（试品）' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for project
 -- ----------------------------
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project`  (
@@ -807,23 +519,7 @@ CREATE TABLE `project`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验项目参数，按照试验规程内置' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_project_type
--- ----------------------------
-DROP TABLE IF EXISTS `projecttype`;
-CREATE TABLE `projecttype`  (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `created_time` datetime(0) NULL DEFAULT NULL,
-  `deleted` tinyint(4) NULL DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `display_order` int(11) NULL DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `published` tinyint(4) NULL DEFAULT NULL,
-  `updated_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for t_projectcategory
+-- Table structure for projectcategory
 -- ----------------------------
 DROP TABLE IF EXISTS `projectcategory`;
 CREATE TABLE `projectcategory`  (
@@ -845,7 +541,7 @@ CREATE TABLE `projectcategory`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验项目分类' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_projecttype
+-- Table structure for projecttype
 -- ----------------------------
 DROP TABLE IF EXISTS `projecttype`;
 CREATE TABLE `projecttype`  (
@@ -862,7 +558,108 @@ CREATE TABLE `projecttype`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验项目' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_standard
+-- Table structure for role
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `Active` tinyint(1) NOT NULL COMMENT '激活状态，只有激活的角色才可以使用',
+  `IsSystemRole` tinyint(1) NOT NULL COMMENT '系统角色，系统角色是不可以删除的',
+  `SystemName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '系统中角色关键字名称',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES ('1', '系统管理员', 1, 1, 'Administrators', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+INSERT INTO `role` VALUES ('2', '注册用户', 1, 1, 'Registered', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+INSERT INTO `role` VALUES ('3', '试品管理员', 1, 0, 'ProductManager', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+INSERT INTO `role` VALUES ('4', '试验员', 1, 0, 'Experimenter', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+INSERT INTO `role` VALUES ('5', '试验中心管理员', 1, 0, 'CenterManager', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+INSERT INTO `role` VALUES ('6', '检修员', 1, 0, 'Maintainer', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+INSERT INTO `role` VALUES ('7', '库房管理员', 1, 0, 'WarehouseManager', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+INSERT INTO `role` VALUES ('8', '地市级领导', 1, 0, 'DistrictLeader', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+INSERT INTO `role` VALUES ('9', '省级领导', 1, 0, 'ProvinceLeader', 0, '2019-03-07 20:00:11', '2019-03-07 20:00:11');
+
+-- ----------------------------
+-- Table structure for rolepermissions
+-- ----------------------------
+DROP TABLE IF EXISTS `rolepermissions`;
+CREATE TABLE `rolepermissions`  (
+  `PermissionId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限Id，引用Permission的Id',
+  `RoleId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色Id，引用Role的Id',
+  PRIMARY KEY (`PermissionId`, `RoleId`) USING BTREE,
+  INDEX `IX_PermissionId`(`PermissionId`) USING BTREE,
+  INDEX `IX_RoleId`(`RoleId`) USING BTREE,
+  CONSTRAINT `FK_Permission_Role_Mapping_Permission_Permission_Id` FOREIGN KEY (`PermissionId`) REFERENCES `permission` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Permission_Role_Mapping_Role_Role_Id` FOREIGN KEY (`RoleId`) REFERENCES `role` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限角色关系' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of rolepermissions
+-- ----------------------------
+INSERT INTO `rolepermissions` VALUES ('10', '1');
+INSERT INTO `rolepermissions` VALUES ('11', '1');
+INSERT INTO `rolepermissions` VALUES ('12', '1');
+
+-- ----------------------------
+-- Table structure for scheduletask
+-- ----------------------------
+DROP TABLE IF EXISTS `scheduletask`;
+CREATE TABLE `scheduletask`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `Seconds` int(11) NOT NULL COMMENT '间隔时间，单位秒（s）',
+  `Type` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务类型',
+  `Enabled` tinyint(1) NOT NULL COMMENT '启用',
+  `StopOnError` tinyint(1) NOT NULL COMMENT '错误停止状态',
+  `LeasedByMachineName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务租用机器名',
+  `LeasedUntilUtc` datetime(0) NULL DEFAULT NULL COMMENT '任务租用时间',
+  `LastStartUtc` datetime(0) NULL DEFAULT NULL COMMENT '最近一次开始时间',
+  `LastEndUtc` datetime(0) NULL DEFAULT NULL COMMENT '最近一次结束时间',
+  `LastSuccessUtc` datetime(0) NULL DEFAULT NULL COMMENT '最近一次成功执行时间',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '自动任务' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for setting
+-- ----------------------------
+DROP TABLE IF EXISTS `setting`;
+CREATE TABLE `setting`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置名称',
+  `Value` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置键值',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '选项设置' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for smsmessage
+-- ----------------------------
+DROP TABLE IF EXISTS `smsmessage`;
+CREATE TABLE `smsmessage`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `From` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发送者',
+  `To` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '接收人',
+  `Sign` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置键值',
+  `TemplateCode` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模板编号',
+  `TemplateParameter` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模板参数',
+  `Content` varchar(400) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模板内容',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `SendTime` datetime(0) NULL DEFAULT NULL COMMENT '发送时间',
+  `Successful` tinyint(1) NOT NULL COMMENT '发送成功',
+  `Result` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发送结果',
+  `Priority` int(11) NOT NULL COMMENT '发送优先级',
+  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '短信消息模板' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for standard
 -- ----------------------------
 DROP TABLE IF EXISTS `standard`;
 CREATE TABLE `standard`  (
@@ -884,7 +681,63 @@ CREATE TABLE `standard`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验标准' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_test
+-- Table structure for stockinouttype
+-- ----------------------------
+DROP TABLE IF EXISTS `stockinouttype`;
+CREATE TABLE `stockinouttype`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '出入库类型名称',
+  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  UNIQUE INDEX `IX_Name`(`Name`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库业务类型' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for stockoutin
+-- ----------------------------
+DROP TABLE IF EXISTS `stockoutin`;
+CREATE TABLE `stockoutin`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
+  `WarehouseId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房Id，引用Warehouse的Id',
+  `WorkNumber` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工单编号',
+  `Process` tinyint(1) NOT NULL COMMENT '业务处理：1采购、2检修、3抢修、4借用、5报废',
+  `IsStockOut` tinyint(1) NOT NULL COMMENT '出入库状态：0出库，1入库',
+  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_WarehouseId`(`WarehouseId`) USING BTREE,
+  CONSTRAINT `FK_StockOutIn_Warehouse_WarehouseId` FOREIGN KEY (`WarehouseId`) REFERENCES `p_warehouse` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库单' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for stockoutinrecord
+-- ----------------------------
+DROP TABLE IF EXISTS `stockoutinrecord`;
+CREATE TABLE `stockoutinrecord`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `StockOutInId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '出入库单编号',
+  `ProductId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片Id，引用Product的Id',
+  `RFID` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具RFID，引用Product的RFID',
+  `IsStockOut` tinyint(1) NOT NULL COMMENT '出入库状态：0出库，1入库',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_StockOutInId`(`StockOutInId`) USING BTREE,
+  INDEX `IX_ProductId`(`ProductId`) USING BTREE,
+  CONSTRAINT `FK_StockOutInRecord_Product_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `p_product` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_StockOutInRecord_StockOutIn_StockOutInId` FOREIGN KEY (`StockOutInId`) REFERENCES `i_stockoutin` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '出入库记录' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for test
 -- ----------------------------
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test`  (
@@ -927,7 +780,7 @@ CREATE TABLE `test`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验单' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testcenter
+-- Table structure for testcenter
 -- ----------------------------
 DROP TABLE IF EXISTS `testcenter`;
 CREATE TABLE `testcenter`  (
@@ -961,7 +814,7 @@ CREATE TABLE `testcenter`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验中心' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testcenterdepartments
+-- Table structure for testcenterdepartments
 -- ----------------------------
 DROP TABLE IF EXISTS `testcenterdepartments`;
 CREATE TABLE `testcenterdepartments`  (
@@ -981,7 +834,7 @@ CREATE TABLE `testcenterdepartments`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验中心送检单位关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testcenterprojects
+-- Table structure for testcenterprojects
 -- ----------------------------
 DROP TABLE IF EXISTS `testcenterprojects`;
 CREATE TABLE `testcenterprojects`  (
@@ -1003,7 +856,7 @@ CREATE TABLE `testcenterprojects`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验中心试验项目配置' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testdata
+-- Table structure for testdata
 -- ----------------------------
 DROP TABLE IF EXISTS `testdata`;
 CREATE TABLE `testdata`  (
@@ -1050,7 +903,7 @@ CREATE TABLE `testdata`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验数据（自动试验设备获取）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testfee
+-- Table structure for testfee
 -- ----------------------------
 DROP TABLE IF EXISTS `testfee`;
 CREATE TABLE `testfee`  (
@@ -1074,7 +927,7 @@ CREATE TABLE `testfee`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验费' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testpictures
+-- Table structure for testpictures
 -- ----------------------------
 DROP TABLE IF EXISTS `testpictures`;
 CREATE TABLE `testpictures`  (
@@ -1090,7 +943,7 @@ CREATE TABLE `testpictures`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验单附件图片' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testposition
+-- Table structure for testposition
 -- ----------------------------
 DROP TABLE IF EXISTS `testposition`;
 CREATE TABLE `testposition`  (
@@ -1122,7 +975,7 @@ CREATE TABLE `testposition`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验位配置' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testrecord
+-- Table structure for testrecord
 -- ----------------------------
 DROP TABLE IF EXISTS `testrecord`;
 CREATE TABLE `testrecord`  (
@@ -1167,7 +1020,7 @@ CREATE TABLE `testrecord`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_testwarning
+-- Table structure for testwarning
 -- ----------------------------
 DROP TABLE IF EXISTS `testwarning`;
 CREATE TABLE `testwarning`  (
@@ -1188,5 +1041,136 @@ CREATE TABLE `testwarning`  (
   CONSTRAINT `FK_TestWarning_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_TestWarning_SmsMessage_SmsMessageId` FOREIGN KEY (`SmsMessageId`) REFERENCES `smsmessage` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '试验预警' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Username` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录账号',
+  `FullName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '真实姓名',
+  `Password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录密码',
+  `Post` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职位',
+  `Phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话号码',
+  `Email` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子邮箱',
+  `RequireReLogin` tinyint(1) NOT NULL COMMENT '重新登录请求',
+  `FailedLoginAttempts` int(11) NOT NULL COMMENT '登录失败次数',
+  `CannotLoginUntilDate` datetime(0) NULL DEFAULT NULL COMMENT '下次登录时间',
+  `Active` tinyint(1) NOT NULL COMMENT '激活状态，只有激活的用户才可以登录系统',
+  `IsSystemAccount` tinyint(1) NOT NULL COMMENT '系统账号，系统账号不可以删除',
+  `LastIpAddress` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最近登录主机IP地址',
+  `LastLoginDate` datetime(0) NULL DEFAULT NULL COMMENT '最近一次登录时间',
+  `LastActivityDate` datetime(0) NULL DEFAULT NULL COMMENT '最近一次活动时间，最近一次操作时间',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  UNIQUE INDEX `IX_Username`(`Username`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('1', 'admin', '系统管理员', 'e31042a18f6aab44676eac536a8a4563', NULL, '18071026720', 'zhengmaoch@qq.com', 0, 0, NULL, 1, 1, '192.168.145.1', '2019-03-07 20:01:57', NULL, 0, '2019-03-07 20:01:57', '2019-03-07 20:01:57');
+
+-- ----------------------------
+-- Table structure for userroles
+-- ----------------------------
+DROP TABLE IF EXISTS `userroles`;
+CREATE TABLE `userroles`  (
+  `UserId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户Id，引用User的Id',
+  `RoleId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色Id，引用Role的Id',
+  PRIMARY KEY (`UserId`, `RoleId`) USING BTREE,
+  INDEX `IX_User_Id`(`UserId`) USING BTREE,
+  INDEX `IX_Role_Id`(`RoleId`) USING BTREE,
+  CONSTRAINT `FK_User_Role_Mapping_Role_Role_Id` FOREIGN KEY (`RoleId`) REFERENCES `role` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_User_Role_Mapping_User_User_Id` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色关系，以服务器为准进行同步' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of userroles
+-- ----------------------------
+INSERT INTO `userroles` VALUES ('1', '1');
+INSERT INTO `userroles` VALUES ('1', '2');
+
+-- ----------------------------
+-- Table structure for voltagelevel
+-- ----------------------------
+DROP TABLE IF EXISTS `voltagelevel`;
+CREATE TABLE `voltagelevel`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电压等级名称',
+  `Code` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标准编码，用于方便第三方进行数据导入',
+  `ExtensionCode` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '扩展编码，用于方便第三方系统对接',
+  `RateVoltage` double NOT NULL COMMENT '电压等级对应的电压值',
+  `VoltageTypeId` int(11) NOT NULL COMMENT '电压类型：10交流，20直流',
+  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  UNIQUE INDEX `IX_Name`(`Name`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '电压等级' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for warehouse
+-- ----------------------------
+DROP TABLE IF EXISTS `warehouse`;
+CREATE TABLE `warehouse`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `DepartmentId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门Id，引用Department的Id',
+  `IsCabinet` tinyint(1) NOT NULL COMMENT '是否为单个工具柜库房',
+  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_DepartmentId`(`DepartmentId`) USING BTREE,
+  CONSTRAINT `FK_Warehouse_Department_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `department` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '库房' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for warehousesetting
+-- ----------------------------
+DROP TABLE IF EXISTS `warehousesetting`;
+CREATE TABLE `warehousesetting`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `WarehouseTypeId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房类型Id，引用WarehouseType的Id',
+  `CategoryId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工具分类Id，引用Category的Id',
+  `VoltageLevelId` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电压等级Id，引用VoltageLevel的Id',
+  `Count` int(11) NOT NULL COMMENT '工具数量配置',
+  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IX_CategoryIdId`(`CategoryId`) USING BTREE,
+  INDEX `IX_VoltageLevelId`(`VoltageLevelId`) USING BTREE,
+  INDEX `IX_WarehouseTypeId`(`WarehouseTypeId`) USING BTREE,
+  CONSTRAINT `FK_WarehouseSetting_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `p_category` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_WarehouseSetting_VoltageLevelId` FOREIGN KEY (`VoltageLevelId`) REFERENCES `p_voltagelevel` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_WarehouseSetting_WarehouseTypeId` FOREIGN KEY (`WarehouseTypeId`) REFERENCES `d_warehousetype` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '库房配置' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for warehousetype
+-- ----------------------------
+DROP TABLE IF EXISTS `warehousetype`;
+CREATE TABLE `warehousetype`  (
+  `Id` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID，用GUID唯一标识',
+  `Name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '库房类型名称',
+  `Description` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `Published` tinyint(1) NOT NULL COMMENT '发布状态，用于控制数据的使用权限',
+  `Deleted` tinyint(1) NOT NULL COMMENT '删除状态，用于逻辑删除和恢复数据',
+  `DisplayOrder` int(11) NOT NULL COMMENT '显示排序，允许用户自定义显示顺序',
+  `CreatedTime` datetime(0) NOT NULL COMMENT '创建时间，记录数据产生的时间',
+  `UpdatedTime` datetime(0) NOT NULL COMMENT '更新时间，用于数据一致性同步',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '库房类型' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
