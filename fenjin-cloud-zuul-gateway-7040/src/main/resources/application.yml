@@ -44,7 +44,7 @@ security:
   oauth2:
     resource:
 #      user-info-uri:  http://192.168.110.9:7050/user
-      user-info-uri:  http://localhost:${server.port}/auth/api/user
+      user-info-uri:  http://localhost:${server.port}/auth/users/user
       prefer-token-info: false
 #      loadBalanced: true
     client:
