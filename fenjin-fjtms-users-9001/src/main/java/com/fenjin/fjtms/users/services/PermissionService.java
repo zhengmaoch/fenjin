@@ -36,7 +36,7 @@ public class PermissionService implements IPermissionService{
     private IRoleRepository roleRepository;
 
     @Override
-    @Cacheable(cacheNames = "permissions", key = "'permissions_'+#permissionname")
+//    @Cacheable(cacheNames = "permissions", key = "'permissionsbypermissionname_'+#permissionname")
     public List<Permission> getAllPermissions(String permissionname) {
 
         if(StringUtil.isEmpty(permissionname)) {
@@ -60,7 +60,7 @@ public class PermissionService implements IPermissionService{
     }
 
     @Override
-    @Cacheable(cacheNames = "permissions", key = "'permissions_'+#roleId")
+//    @Cacheable(cacheNames = "permissions", key = "'permissionsbyroleid_'+#roleId")
     public List<Permission> getPermissionsByRoleId(String roleId) {
 
         Role role = roleRepository.getOne(roleId);

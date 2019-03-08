@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "PermissionController",description = "权限管理控制器")
-@RequestMapping("/permission")
+@RequestMapping("/permissions")
 public class PermissionController extends BaseController {
 
     @Autowired

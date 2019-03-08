@@ -48,7 +48,7 @@ public class Result {
         result.put("list", data);
         this.code = SUCCESS;
         this.message = "操作成功";
-        this.data = result;
+        this.data = data;
         return this;
     }
 

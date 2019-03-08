@@ -36,7 +36,7 @@ public class RoleService implements IRoleService {
     private IUserRepository userRepository;
     
     @Override
-    @Cacheable(cacheNames = "roles", key = "'roles_'+#rolename")
+//    @Cacheable(cacheNames = "roles", key = "'rolesbyrolename_'+#rolename")
     public List<Role> getAllRoles(String rolename) {
         
         if(StringUtil.isEmpty(rolename)) {
@@ -60,7 +60,7 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = "roles", key = "'roles_'+#userId")
+//    @Cacheable(cacheNames = "roles", key = "'rolesbyuserid_'+#userId")
     public List<Role> getRolesByUserId(String userId) {
 
         User user = userRepository.findOne(userId);

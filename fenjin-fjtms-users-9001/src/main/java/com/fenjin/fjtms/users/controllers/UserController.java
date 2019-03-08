@@ -1,6 +1,5 @@
 package com.fenjin.fjtms.users.controllers;
 
-
 import com.fenjin.fjtms.core.BaseController;
 import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.User;

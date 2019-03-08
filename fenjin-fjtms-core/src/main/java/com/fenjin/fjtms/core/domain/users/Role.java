@@ -126,7 +126,7 @@ public class Role implements Serializable {
     }
 
     @ManyToMany
-//    @JsonIgnore
+    @JsonIgnore
     @JoinTable(name = "RolePermissions",joinColumns=@JoinColumn(name="RoleId"),inverseJoinColumns=@JoinColumn(name="PermissionId"))
     public List<Permission> getPermissions(){
         return permissions;

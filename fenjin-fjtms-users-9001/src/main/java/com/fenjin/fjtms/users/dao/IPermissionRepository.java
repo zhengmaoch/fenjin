@@ -11,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @date: 2019-03-05 17:30
  * @version 1.0
  */
-public interface IPermissionRepository extends JpaRepository<Permission, String >, JpaSpecificationExecutor<Permission> {
+public interface IPermissionRepository extends JpaRepository<Permission, String>, JpaSpecificationExecutor<Permission> {
 }
