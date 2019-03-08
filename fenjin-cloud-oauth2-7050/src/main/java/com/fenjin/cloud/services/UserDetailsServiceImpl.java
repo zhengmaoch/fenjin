@@ -8,7 +8,6 @@ import com.fenjin.fjtms.core.services.users.IRoleClientService;
 import com.fenjin.fjtms.core.services.users.IUserClientService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

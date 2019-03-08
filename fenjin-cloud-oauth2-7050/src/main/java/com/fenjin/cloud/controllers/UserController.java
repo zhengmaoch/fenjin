@@ -16,7 +16,7 @@ import java.security.Principal;
  * @date: 2019-03-01 16:49
  */
 @RestController
-@RequestMapping("/oauth")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
