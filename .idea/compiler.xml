@@ -27,9 +27,21 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo" target="1.8" />
+      <module name="fenjin-cloud-config-7020" target="1.8" />
       <module name="fenjin-cloud-config-9003" target="1.8" />
+      <module name="fenjin-cloud-eureka-7002" target="1.8" />
+      <module name="fenjin-cloud-eureka-7003" target="1.8" />
+      <module name="fenjin-cloud-feign-hystrix-7010" target="1.8" />
+      <module name="fenjin-cloud-hystrix-dashboard-7030" target="1.8" />
       <module name="fenjin-core" target="1.8" />
+      <module name="fenjin-fjtms-configuration-8110" target="1.8" />
       <module name="fenjin-fjtms-inventories-8120" target="1.8" />
+      <module name="fenjin-fjtms-inventory-8120" target="1.8" />
+      <module name="fenjin-fjtms-logs-9010" target="1.8" />
+      <module name="fenjin-fjtms-products-8130" target="1.8" />
+      <module name="fenjin-fjtms-reports-8140" target="1.8" />
+      <module name="fenjin-fjtms-system-9020" target="1.8" />
+      <module name="fenjin-fjtms-tests-8150" target="1.8" />
       <module name="fenjin-fjtms-users-9002" target="1.8" />
       <module name="fenjin-fjtms-users-9003" target="1.8" />
       <module name="fenjin-services-cloud-config-client" target="1.5" />

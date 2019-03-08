@@ -57,13 +57,13 @@ eureka:
 #    hostname: 192.168.110.9
     prefer-ip-address: true
 
-#security:
-#  oauth2:
-#    resource:
-#      #      user-info-uri:  http://192.168.110.9:7050/user
-#      user-info-uri:  http://localhost:7040/auth/api/user
-#      prefer-token-info: false
-#      id: fenjin-fjtms-users
+security:
+  oauth2:
+    resource:
+      #      user-info-uri:  http://192.168.110.9:7050/user
+      user-info-uri:  http://localhost:7040/auth/users/user
+      prefer-token-info: false
+      id: fenjin-fjtms-users
 #      loadBalanced: true
 
 info:

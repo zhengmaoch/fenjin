@@ -7,22 +7,156 @@ http://localhost:7040/users/users/get/1
 获取认证token
 POST:
 authorzation type=basic auth,username=android,password=android
-http://localhost:7040/auth/oauth/token?grant_type=password&username=admin&password=31042a18f6aab44676eac536a8a4563
+http://localhost:7040/auth/oauth/token?grant_type=password&username=admin&password=e31042a18f6aab44676eac536a8a4563
+
+{
+    "access_token": "44169d6e-348b-4325-9093-954d975f01db",
+    "token_type": "bearer",
+    "refresh_token": "bc1d909d-05cc-4abc-89c7-32fffeb497a9",
+    "expires_in": 43166,
+    "scope": "read"
+}
 
 使用access_token请求auth服务下的用户信息
 GET:
-http://localhost:7040/auth/users/user?access_token=85e98076-adc1-4098-8891-210b6b4d7b0f
+http://localhost:7040/auth/users/user?access_token=44169d6e-348b-4325-9093-954d975f01db
+
+{
+    "authorities": [
+        {
+            "authority": "Administrators"
+        },
+        {
+            "authority": "ManagePermissions"
+        },
+        {
+            "authority": "ManageRoles"
+        },
+        {
+            "authority": "ManageUsers"
+        },
+        {
+            "authority": "Registered"
+        }
+    ],
+    "details": {
+        "remoteAddress": "192.168.179.1",
+        "sessionId": null,
+        "tokenValue": "44169d6e-348b-4325-9093-954d975f01db",
+        "tokenType": "Bearer",
+        "decodedDetails": null
+    },
+    "authenticated": true,
+    "userAuthentication": {
+        "authorities": [
+            {
+                "authority": "Administrators"
+            },
+            {
+                "authority": "ManagePermissions"
+            },
+            {
+                "authority": "ManageRoles"
+            },
+            {
+                "authority": "ManageUsers"
+            },
+            {
+                "authority": "Registered"
+            }
+        ],
+        "details": {
+            "grant_type": "password",
+            "username": "admin"
+        },
+        "authenticated": true,
+        "principal": {
+            "password": null,
+            "username": "admin",
+            "authorities": [
+                {
+                    "authority": "Administrators"
+                },
+                {
+                    "authority": "ManagePermissions"
+                },
+                {
+                    "authority": "ManageRoles"
+                },
+                {
+                    "authority": "ManageUsers"
+                },
+                {
+                    "authority": "Registered"
+                }
+            ],
+            "accountNonExpired": true,
+            "accountNonLocked": true,
+            "credentialsNonExpired": true,
+            "enabled": true
+        },
+        "credentials": null,
+        "name": "admin"
+    },
+    "credentials": "",
+    "principal": {
+        "password": null,
+        "username": "admin",
+        "authorities": [
+            {
+                "authority": "Administrators"
+            },
+            {
+                "authority": "ManagePermissions"
+            },
+            {
+                "authority": "ManageRoles"
+            },
+            {
+                "authority": "ManageUsers"
+            },
+            {
+                "authority": "Registered"
+            }
+        ],
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "credentialsNonExpired": true,
+        "enabled": true
+    },
+    "oauth2Request": {
+        "clientId": "android",
+        "scope": [
+            "read"
+        ],
+        "requestParameters": {
+            "grant_type": "password",
+            "username": "admin"
+        },
+        "resourceIds": [],
+        "authorities": [],
+        "approved": true,
+        "refresh": false,
+        "redirectUri": null,
+        "responseTypes": [],
+        "extensions": {},
+        "grantType": "password",
+        "refreshTokenRequest": null
+    },
+    "clientOnly": false,
+    "name": "admin"
+}
 
 使用access_token请求users服务下的接口
 GET:
-http://localhost:7040/users/users/get/1?access_token=85e98076-adc1-4098-8891-210b6b4d7b0f
+http://localhost:7040/users/users/get/1?access_token=44169d6e-348b-4325-9093-954d975f01db
 
 刷新token
 POST:
 authorzation type=basic auth,username=android,password=android
-http://localhost:7040/auth/oauth/token?grant_type=refresh_token&refresh_token=85e98076-adc1-4098-8891-210b6b4d7b0f
+http://localhost:7040/auth/oauth/token?grant_type=refresh_token&refresh_token=bc1d909d-05cc-4abc-89c7-32fffeb497a9
 
 
 注销token
 DELEDE：
-http://localhost:7040/auth/users/logout?access_token=85e98076-adc1-4098-8891-210b6b4d7b0f
+http://localhost:7040/auth/users/logout?access_token=44169d6e-348b-4325-9093-954d975f01db
