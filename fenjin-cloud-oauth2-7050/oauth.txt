@@ -4,6 +4,14 @@ http://localhost:9001/users/get/1
 GET:
 http://localhost:7040/users/users/get/1
 
+{
+    "timestamp": 1552059511985,
+    "status": 401,
+    "error": "Unauthorized",
+    "message": "Unauthorized",
+    "path": "/users/get/1"
+}
+
 获取认证token
 POST:
 authorzation type=basic auth,username=android,password=android
@@ -151,12 +159,44 @@ http://localhost:7040/auth/users/user?access_token=44169d6e-348b-4325-9093-954d9
 GET:
 http://localhost:7040/users/users/get/1?access_token=44169d6e-348b-4325-9093-954d975f01db
 
+{
+    "code": 200,
+    "message": "操作成功",
+    "data": {
+        "id": "1",
+        "username": "admin",
+        "fullName": "系统管理员",
+        "password": "e31042a18f6aab44676eac536a8a4563",
+        "post": null,
+        "phone": "18071026720",
+        "email": "zhengmaoch@qq.com",
+        "requireReLogin": false,
+        "failedLoginAttempts": 0,
+        "cannotLoginUntilDate": null,
+        "active": true,
+        "isSystemAccount": true,
+        "lastIpAddress": "192.168.145.1",
+        "lastLoginDate": 1551851659000,
+        "lastActivityDate": null,
+        "deleted": false,
+        "createdTime": 1551851659000,
+        "updatedTime": 1551851659000
+    }
+}
+
 刷新token
 POST:
 authorzation type=basic auth,username=android,password=android
 http://localhost:7040/auth/oauth/token?grant_type=refresh_token&refresh_token=bc1d909d-05cc-4abc-89c7-32fffeb497a9
 
+{
+    "access_token": "ddd81ae3-d1bb-4026-b1cb-b22659e11b3f",
+    "token_type": "bearer",
+    "refresh_token": "bc1d909d-05cc-4abc-89c7-32fffeb497a9",
+    "expires_in": 43199,
+    "scope": "read"
+}
 
 注销token
 DELEDE：
-http://localhost:7040/auth/users/logout?access_token=44169d6e-348b-4325-9093-954d975f01db
+http://localhost:7040/auth/users/logout?access_token=ddd81ae3-d1bb-4026-b1cb-b22659e11b3f
