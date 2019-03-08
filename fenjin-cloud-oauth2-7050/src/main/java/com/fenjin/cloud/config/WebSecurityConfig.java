@@ -99,10 +99,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .exceptionHandling()
 //                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
 //                .and()
-//                .requestMatchers().antMatchers("/api/**")
+//                .requestMatchers().antMatchers("/oauth/**")
 //                .and()
 //                .authorizeRequests()
-//                .antMatchers("/api/**").authenticated()
+//                .antMatchers("/oauth/**").authenticated()
 //                .and()
 //                .httpBasic();
     }

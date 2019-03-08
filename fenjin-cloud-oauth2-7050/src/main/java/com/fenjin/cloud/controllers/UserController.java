@@ -16,7 +16,7 @@ import java.security.Principal;
  * @date: 2019-03-01 16:49
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/oauth")
 public class UserController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @GetMapping("/infomation")
+    @GetMapping("/user")
     public Principal user(Principal user) {
 
         return user;

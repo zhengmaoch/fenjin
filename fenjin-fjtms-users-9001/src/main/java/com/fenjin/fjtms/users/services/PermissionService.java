@@ -63,7 +63,7 @@ public class PermissionService implements IPermissionService{
 //    @Cacheable(cacheNames = "permissions", key = "'permissionsbyroleid_'+#roleId")
     public List<Permission> getPermissionsByRoleId(String roleId) {
 
-        Role role = roleRepository.getOne(roleId);
+        Role role = roleRepository.findOne(roleId);
         return role.getPermissions();
     }
 
