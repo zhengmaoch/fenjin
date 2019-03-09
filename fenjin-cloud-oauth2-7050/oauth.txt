@@ -18,16 +18,16 @@ authorzation type=basic auth,username=android,password=android
 http://localhost:7040/auth/oauth/token?grant_type=password&username=admin&password=e31042a18f6aab44676eac536a8a4563
 
 {
-    "access_token": "44169d6e-348b-4325-9093-954d975f01db",
+    "access_token": "4771f88e-af7c-400f-9b32-64e85fa4fdb0",
     "token_type": "bearer",
-    "refresh_token": "bc1d909d-05cc-4abc-89c7-32fffeb497a9",
-    "expires_in": 43166,
+    "refresh_token": "c5b4b1c5-d773-4824-9583-1e0f9a36d493",
+    "expires_in": 43199,
     "scope": "read"
 }
 
 使用access_token请求auth服务下的用户信息
 GET:
-http://localhost:7040/auth/users/user?access_token=44169d6e-348b-4325-9093-954d975f01db
+http://localhost:7040/auth/users/user?access_token=4771f88e-af7c-400f-9b32-64e85fa4fdb0
 
 {
     "authorities": [
@@ -50,7 +50,7 @@ http://localhost:7040/auth/users/user?access_token=44169d6e-348b-4325-9093-954d9
     "details": {
         "remoteAddress": "192.168.179.1",
         "sessionId": null,
-        "tokenValue": "44169d6e-348b-4325-9093-954d975f01db",
+        "tokenValue": "4771f88e-af7c-400f-9b32-64e85fa4fdb0",
         "tokenType": "Bearer",
         "decodedDetails": null
     },
@@ -106,7 +106,6 @@ http://localhost:7040/auth/users/user?access_token=44169d6e-348b-4325-9093-954d9
         "credentials": null,
         "name": "admin"
     },
-    "credentials": "",
     "principal": {
         "password": null,
         "username": "admin",
@@ -152,12 +151,13 @@ http://localhost:7040/auth/users/user?access_token=44169d6e-348b-4325-9093-954d9
         "refreshTokenRequest": null
     },
     "clientOnly": false,
+    "credentials": "",
     "name": "admin"
 }
 
 使用access_token请求users服务下的接口
 GET:
-http://localhost:7040/users/users/get/1?access_token=44169d6e-348b-4325-9093-954d975f01db
+http://localhost:7040/users/users/get/1?access_token=4771f88e-af7c-400f-9b32-64e85fa4fdb0
 
 {
     "code": 200,
@@ -187,16 +187,28 @@ http://localhost:7040/users/users/get/1?access_token=44169d6e-348b-4325-9093-954
 刷新token
 POST:
 authorzation type=basic auth,username=android,password=android
-http://localhost:7040/auth/oauth/token?grant_type=refresh_token&refresh_token=bc1d909d-05cc-4abc-89c7-32fffeb497a9
-
+http://localhost:7040/auth/oauth/token?grant_type=refresh_token&refresh_token=c5b4b1c5-d773-4824-9583-1e0f9a36d493
 {
-    "access_token": "ddd81ae3-d1bb-4026-b1cb-b22659e11b3f",
+    "access_token": "edabf61e-0a74-464d-8c23-f33d96ec2239",
     "token_type": "bearer",
-    "refresh_token": "bc1d909d-05cc-4abc-89c7-32fffeb497a9",
+    "refresh_token": "c5b4b1c5-d773-4824-9583-1e0f9a36d493",
     "expires_in": 43199,
     "scope": "read"
 }
 
+使用access_token请求users服务下的接口
+GET:
+http://localhost:7040/users/users/get/1?access_token=4771f88e-af7c-400f-9b32-64e85fa4fdb0
+{
+    "error": "invalid_token",
+    "error_description": "4771f88e-af7c-400f-9b32-64e85fa4fdb0"
+}
+
 注销token
 DELEDE：
-http://localhost:7040/auth/users/logout?access_token=ddd81ae3-d1bb-4026-b1cb-b22659e11b3f
+http://localhost:7040/auth/users/logout?access_token=edabf61e-0a74-464d-8c23-f33d96ec2239
+{
+    "code": 200,
+    "message": "操作成功",
+    "data": "注销成功"
+}

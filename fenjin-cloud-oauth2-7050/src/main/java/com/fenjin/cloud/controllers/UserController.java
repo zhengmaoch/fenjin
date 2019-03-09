@@ -33,9 +33,9 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/logout")
-    public Result revokeToken(String token){
+    public Result revokeToken(String access_token){
 
-        if (consumerTokenServices.revokeToken(token)){
+        if (consumerTokenServices.revokeToken(access_token)){
             return new Result().success("注销成功");
         }else {
             return new Result().failed("注销失败");

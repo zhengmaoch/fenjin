@@ -5,7 +5,7 @@ spring:
   application:
     name: fenjin-cloud-oauth2
   datasource:
-    url: jdbc:mysql://localhost:3306/fenjin-auth?characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/fjtms?characterEncoding=utf-8
 #    url: jdbc:mysql://192.168.110.9:13306/fenjin-auth?characterEncoding=utf-8
     username: root
     password: 123456
