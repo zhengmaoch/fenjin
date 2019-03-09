@@ -1,7 +1,6 @@
 package com.fenjin.cloud.controllers;
 
 import com.fenjin.fjtms.core.Result;
-import com.fenjin.fjtms.core.services.users.IUserClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +20,6 @@ public class UserController {
 
     @Autowired
     private ConsumerTokenServices consumerTokenServices;
-
-    @Autowired
-    private IUserClientService userService;
 
     /**
      * 通过token获取用户信息

@@ -29,6 +29,21 @@ spring:
         max-active: 100
         max-wait: -1
 
+  # Jpa结合hibernate完成数据访问的配置
+  jpa:
+    database: MYSQL
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+      #      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+#        default_schema: fjtms
+
 security:
   oauth2:
     resource:

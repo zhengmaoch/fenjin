@@ -1,13 +1,7 @@
 package com.fenjin.cloud.services;
 
-import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.Permission;
 import com.fenjin.fjtms.core.domain.users.Role;
-import com.fenjin.fjtms.core.services.users.IPermissionClientService;
-import com.fenjin.fjtms.core.services.users.IRoleClientService;
-import com.fenjin.fjtms.core.services.users.IUserClientService;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,45 +26,39 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private IUserClientService userService;
-
-    @Autowired
-    private IRoleClientService roleService;
-
-    @Autowired
-    private IPermissionClientService permissionService;
+    private IAuthService authService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Result userResult = userService.getByUsername(username);
-        if (userResult.getCode() != Result.SUCCESS) {
+        com.fenjin.fjtms.core.domain.users.User user = authService.getUserByUsername(username);
+//        if (userResult.getCode() != Result.SUCCESS) {
+        if(user == null){
             throw new UsernameNotFoundException("用户:" + username + "不存在!");
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        com.fenjin.fjtms.core.domain.users.User user = mapper.convertValue(userResult.getData(), com.fenjin.fjtms.core.domain.users.User.class);
+//        ObjectMapper mapper = new ObjectMapper();
+//        com.fenjin.fjtms.core.domain.users.User user = mapper.convertValue(userResult.getData(), com.fenjin.fjtms.core.domain.users.User.class);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         // 获取角色
-        Result roleResult = roleService.getByUserId(user.getId());
-        if (roleResult.getCode() == Result.SUCCESS){
-            List<Role> roles = mapper.convertValue(roleResult.getData(), new TypeReference<List<Role>>() { });
+        List<Role> roles = authService.getRolesByUserId(user.getId());
+//        if (roleResult.getCode() == Result.SUCCESS){
+//            List<Role> roles = mapper.convertValue(roleResult.getData(), new TypeReference<List<Role>>() { });
             for (Role role:roles){
                 GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getSystemName());
                 grantedAuthorities.add(grantedAuthority);
                 //获取权限
-                Result permissionResult  = permissionService.getByRoleId(role.getId());
-                if (permissionResult.getCode() == Result.SUCCESS){
-                    List<Permission> permissions = mapper.convertValue(permissionResult.getData(), new TypeReference<List<Permission>>() { });
-                    for (Permission permission:permissions
-                    ) {
+                List<Permission> permissions  = authService.getPermissionsByRoleId(role.getId());
+//                if (permissionResult.getCode() == Result.SUCCESS){
+//                    List<Permission> permissions = mapper.convertValue(permissionResult.getData(), new TypeReference<List<Permission>>() { });
+                    for (Permission permission:permissions) {
                         GrantedAuthority authority = new SimpleGrantedAuthority(permission.getSystemName());
                         grantedAuthorities.add(authority);
                     }
-                }
+//                }
             }
-        }
+//        }
 
         boolean enabled = true; // 可用性 :true:可用 false:不可用
         boolean accountNonExpired = true; // 过期性 :true:没过期 false:过期

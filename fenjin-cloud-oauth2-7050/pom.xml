@@ -27,6 +27,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fenjin</groupId>
+            <artifactId>fenjin-fjtms-users-9001</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- 将微服务注册进eureka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
