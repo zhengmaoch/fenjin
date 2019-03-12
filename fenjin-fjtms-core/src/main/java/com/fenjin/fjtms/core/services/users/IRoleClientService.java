@@ -4,6 +4,7 @@ import com.fenjin.fjtms.core.Result;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @date: 2019-03-01 17:56
  */
 
-@FeignClient(value = "FENJIN-FJTMS-USERS", fallbackFactory = RoleClientServiceFallbackFactory.class)
+@FeignClient(value = "FENJIN-FJTMS-USERS", path = "/roles", fallbackFactory = RoleClientServiceFallbackFactory.class)
 public interface IRoleClientService {
 
-    @GetMapping("/roles/getByUserId/{userId}")
-    Result getByUserId(@PathVariable("userId") String userId);
+    @GetMapping
+    Result getByUserId(@RequestParam("userId") String userId);
 }
