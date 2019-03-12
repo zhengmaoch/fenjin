@@ -4,6 +4,7 @@ package com.fenjin.fjtms.users.services;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.models.users.UserSearchModel;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +15,23 @@ import java.util.List;
  * @version 1.0
  */
 public interface IUserService {
+
+    /**
+     * 根据指定的条件查询用户列表
+     * @param createdFrom
+     * @param createdTo
+     * @param username
+     * @param fullName
+     * @param roleIds
+     * @param phone
+     * @param email
+     * @param sorts
+     * @param page
+     * @return 用户列表
+     */
+    List<User> getAllUsers(Date createdFrom, Date createdTo, String username, String fullName,
+                           String roleIds, String phone, String email, boolean active,
+                           String sorts, String page);
 
     /**
      * 分页查询用户信息

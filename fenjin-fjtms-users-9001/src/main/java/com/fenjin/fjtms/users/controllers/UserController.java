@@ -1,9 +1,12 @@
 package com.fenjin.fjtms.users.controllers;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.fenjin.fjtms.core.BaseController;
 import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.models.users.UserSearchModel;
+import com.fenjin.fjtms.core.utils.JsonUtil;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.services.ChangePasswordRequest;
 import com.fenjin.fjtms.users.services.IRoleService;
@@ -24,6 +27,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -116,7 +120,7 @@ public class UserController extends BaseController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
-    @ApiOperation(value = "修改用户", notes = "传输Json格式用户对象", produces = "application/json")
+    @ApiOperation(value = "修改用户信息", notes = "传输Json格式用户对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User")
     public Result edit(@Valid @RequestBody User user, BindingResult bindingResult) {
 
@@ -178,15 +182,35 @@ public class UserController extends BaseController {
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "分页查询指定条件的用户集合")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "body", name = "userSearchModel", value = "用户查询参数", required = false, dataType = "UserSearchModel"),
-            @ApiImplicitParam(paramType = "query", name = "pageIndex", value = "当前页数", required = true, dataType = "Integer"),
-            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页记录数", required = true, dataType = "Integer")
+            @ApiImplicitParam(paramType = "query", name = "createdFrom", value = "开始日期", dataType = "Date"),
+            @ApiImplicitParam(paramType = "query", name = "createdTo", value = "结束日期", dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "fullName", value = "姓名", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "roleIds", value = "角色Id集合", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "phone", value = "电话号码",  dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "email", value = "电子邮箱", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "active", value = "激活", dataType = "boolean"),
+            @ApiImplicitParam(paramType = "query", name = "sorts", value = "排序属性，英文逗号分隔，前缀-为倒序", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "filters", value = "输出属性过滤，多个条件用英文逗号分隔",  dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "page", value = "分页，格式为{页数},{每页记录数}，例如'1,20'", defaultValue = "1,20", dataType = "String")
     })
-    public Result list(@RequestBody(required = false) UserSearchModel userSearchModel, @PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
+    public Result list(@RequestParam Date createdFrom, @RequestParam Date createdTo, @RequestParam String username,
+                       @RequestParam String fullName, @RequestParam String roleIds, @RequestParam String phone,
+                       @RequestParam String email, @RequestParam boolean active, @RequestParam String sorts,
+                       @RequestParam String filters, @RequestParam(defaultValue = "1,20") String page) {
 
-        int total = userService.getAllUsers(userSearchModel, 0, Integer.MAX_VALUE).size();
-        List users = userService.getAllUsers(userSearchModel, pageIndex, pageSize);
-        return Result(pageIndex, pageSize, total, users);
+        int total = userService.getAllUsers(createdFrom, createdTo, username, fullName, roleIds, phone,
+                email, active, sorts, "1," + Integer.MAX_VALUE).size();
+
+        List users = userService.getAllUsers(createdFrom, createdTo, username, fullName, roleIds, phone,
+                email, active, sorts, page);
+
+        // 处理过滤
+        if(!StringUtil.isEmpty(filters)) {
+            return new Result().pageSuccess(total, JsonUtil.objectToJson(users, filters));
+        }else {
+            return new Result().pageSuccess(total, JsonUtil.objectToJson(users));
+        }
     }
 
     @GetMapping("/{id}")

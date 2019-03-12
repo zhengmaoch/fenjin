@@ -91,7 +91,7 @@ public class RoleController extends BaseController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ManageRoles')")
-    @ApiOperation(value = "修改角色", notes = "传输Json格式角色对象", produces = "application/json")
+    @ApiOperation(value = "修改角色信息", notes = "传输Json格式角色对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "role", value = "有效的角色实例", required = true, dataType = "Role")
     public Result edit(@Valid @RequestBody Role role, BindingResult bindingResult) {
 

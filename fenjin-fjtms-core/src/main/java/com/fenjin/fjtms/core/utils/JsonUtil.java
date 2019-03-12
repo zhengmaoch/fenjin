@@ -1,5 +1,7 @@
 package com.fenjin.fjtms.core.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +27,16 @@ public class JsonUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String objectToJson(Object data, String fields) {
+
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter();
+        for (String field : fields.split(",")) {
+            filter.getIncludes().add(field);
+        }
+
+        return JSON.toJSONString(data, filter);
     }
 
     /**

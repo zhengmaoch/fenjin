@@ -92,7 +92,7 @@ public class PermissionController extends BaseController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
-    @ApiOperation(value = "修改权限", notes = "传输Json格式权限对象", produces = "application/json")
+    @ApiOperation(value = "修改权限信息", notes = "传输Json格式权限对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "permission", value = "有效的权限实例", required = true, dataType = "Permission")
     public Result edit(@Valid @RequestBody Permission permission, BindingResult bindingResult) {
 
@@ -113,8 +113,6 @@ public class PermissionController extends BaseController {
         else {
             return Result(false);
         }
-
-
     }
 
     @GetMapping

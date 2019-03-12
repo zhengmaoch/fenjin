@@ -44,30 +44,30 @@ public class Result {
         return this;
     }
 
-    /**
-     * 成功返回List数据
-     *
-     * @param data 获取的数据
-     */
-    public Result success(List data) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", data);
-        this.code = SUCCESS;
-        this.message = "操作成功";
-        this.data = data;
-        return this;
-    }
+//    /**
+//     * 成功返回List数据
+//     *
+//     * @param data 获取的数据
+//     */
+//    public Result success(Object data) {
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("list", data);
+//        this.code = SUCCESS;
+//        this.message = "操作成功";
+//        this.data = data;
+//        return this;
+//    }
 
     /**
      * 返回分页成功数据
      */
-    public Result pageSuccess(int pageIndex, int pageSize, int total, List data) {
+    public Result pageSuccess(int total, Object data) {
 //        PageInfo pageInfo = new PageInfo(data);
         Map<String, Object> result = new HashMap<>();
-        result.put("pageSize", pageSize);
+//        result.put("pageSize", pageSize);
 //        result.put("totalPage", pageInfo.getPages());
         result.put("total", total);
-        result.put("pageIndex", pageIndex);
+//        result.put("pageIndex", pageIndex);
         result.put("list", data);
         this.code = SUCCESS;
         this.message = "操作成功";
