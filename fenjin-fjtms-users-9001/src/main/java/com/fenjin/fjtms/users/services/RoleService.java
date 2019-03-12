@@ -69,34 +69,30 @@ public class RoleService implements IRoleService {
 
     @Transactional
     @Override
-    public boolean createRole(Role role) {
+    public Role createRole(Role role) {
 
         role.setCreatedTime(new Date());
         role.setUpdatedTime(new Date());
         role.setDeleted(false);
-        Role result = roleRepository.save(role);
-        return result.getId().length() > 0;
+        return roleRepository.save(role);
     }
 
     @Transactional
     @Override
     @CacheEvict(cacheNames = "roles", allEntries = true)
-    public boolean deleteRole(Role role) {
+    public Role deleteRole(Role role) {
 
         role.setDeleted(true);
         role.setName(role.getName() + "-Deleted-" + new Date());
-        updateRole(role);
-
-        return true;
+        return updateRole(role);
     }
 
     @Transactional
     @Override
     @CacheEvict(cacheNames = "roles", allEntries = true)
-    public boolean updateRole(Role role) {
+    public Role updateRole(Role role) {
 
         role.setUpdatedTime(new Date());
-        roleRepository.save(role);
-        return true;
+        return roleRepository.save(role);
     }
 }

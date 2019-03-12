@@ -36,7 +36,6 @@ public class UserService implements IUserService {
     private IUserRepository userRepository;
 
     @Override
-//    @Cacheable(cacheNames = "users", key = "'users_'+#userSearchModel + '_' + #pageIndex + '_' + #pageSize", condition = "#pageSize>0")
     public List<User> getAllUsers(UserSearchModel userSearchModel, int pageIndex, int pageSize) {
 
         Pageable pageable=new PageRequest(pageIndex, pageSize);
@@ -129,42 +128,38 @@ public class UserService implements IUserService {
         return userRepository.findOne(specification);
     }
 
-
     /**
      * insertUser,updateUser,delete方法需要绑定事务
      * 使用@Transactional进行事务绑定
      */
     @Transactional
     @Override
-    public boolean createUser(User user) {
+    @CacheEvict(cacheNames = "users", allEntries = true)
+    public User createUser(User user) {
 
         user.setCreatedTime(new Date());
         user.setUpdatedTime(new Date());
         user.setDeleted(false);
-        User result = userRepository.save(user);
-        return result.getId().length() > 0;
+        return userRepository.save(user);
     }
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "users", allEntries = true)
-    public boolean deleteUser(User user) {
+    @CacheEvict(cacheNames = "users", key = "'users_'+#id", beforeInvocation=true)
+    public User deleteUser(User user) {
 
         user.setDeleted(true);
         user.setUsername(user.getUsername() + "-Deleted-" + new Date());
-        updateUser(user);
-
-        return true;
+        return updateUser(user);
     }
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "users", allEntries = true)
-    public boolean updateUser(User user) {
+    @CacheEvict(cacheNames = "users", key = "'users_'+#id")
+    public User updateUser(User user) {
 
         user.setUpdatedTime(new Date());
-        userRepository.save(user);
-        return true;
+        return userRepository.save(user);
     }
 
 }

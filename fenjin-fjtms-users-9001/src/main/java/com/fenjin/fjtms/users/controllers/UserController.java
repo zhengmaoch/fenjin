@@ -6,6 +6,8 @@ import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.services.ChangePasswordRequest;
+import com.fenjin.fjtms.users.services.IRoleService;
+import com.fenjin.fjtms.users.services.IUserService;
 import com.fenjin.fjtms.users.services.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,7 +33,10 @@ import java.util.List;
 public class UserController extends BaseController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
+
+    @Autowired
+    private IRoleService roleService;
 
     // 服务发现客户端
     @Autowired
@@ -40,10 +45,10 @@ public class UserController extends BaseController {
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "创建新用户", notes = "用户Id由系统自动生成，Json格式用户对象", produces = "application/json")
-    @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User")
-    public Result create(@Valid @RequestBody User user, BindingResult bindingResult) {
-
-        // 后续问题：前台除了提供用户基本信息，也需要提供该用户的用户角色，用户所属部门等信息。
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User"),
+            @ApiImplicitParam(paramType="body", name = "roleIds", value = "当前用户的角色Id列表", dataType = "List<String>")})
+    public Result create(@Valid @RequestBody User user, @RequestBody List<String> roleIds, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             FieldError error = (FieldError) bindingResult.getAllErrors().get(0);
@@ -61,6 +66,14 @@ public class UserController extends BaseController {
             // 密码加密
             BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword().trim()));
+
+            // 设置用户的角色
+            if(roleIds != null){
+                for (String roleId: roleIds) {
+                    user.getRoles().add(roleService.getRoleById(roleId));
+                }
+            }
+
             return Result(userService.createUser(user));
         }
         catch (Exception e){
@@ -113,8 +126,7 @@ public class UserController extends BaseController {
         }
         if(user != null){
             try {
-                userService.updateUser(user);
-                return Result(true);
+                return Result(userService.updateUser(user));
             }
             catch (Exception e){
                 log.error(e.getMessage());
@@ -124,11 +136,9 @@ public class UserController extends BaseController {
         else {
             return Result(false);
         }
-
-
     }
 
-    @PutMapping
+    @PutMapping("/password")
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "修改用户密码", notes = "传输Json格式用户对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "request", value = "有效的用户密码请求", required = true, dataType = "ChangePasswordRequest")
@@ -188,7 +198,7 @@ public class UserController extends BaseController {
         return Result(userService.getUserById(id));
     }
 
-    @GetMapping
+    @GetMapping("/username/{username}")
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "查询指定username的用户")
     @ApiImplicitParam(paramType="query", name = "username", value = "用户名", required = true, dataType = "String")
@@ -197,10 +207,10 @@ public class UserController extends BaseController {
         return Result(userService.getUserByUsername(username));
     }
 
-    @GetMapping("/discovery")
+    @GetMapping("/info")
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "获取当前微服务部署地址和端口号")
-    public Result discovery()
+    public Result info()
     {
         List<String> list = discoveryClient.getServices();
         System.out.println("**********" + list);

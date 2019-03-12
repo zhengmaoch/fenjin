@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @ClassName: IUserService
- * @Descriprion: TODO(用一句话描述这个类的作用)
+ * @Descriprion: TODO(用户服务)
  * @author: changzhengmao
  * @date: 2019-02-28 17:30
  * @version 1.0
@@ -49,20 +49,20 @@ public interface IUserService {
      * 创建用户
      * @param user
      */
-    boolean createUser(User user);
+    User createUser(User user);
 
     /**
      * 删除用户
      * @param user
      * @return
      */
-    boolean deleteUser(User user);
+    User deleteUser(User user);
 
     /**
      * 修改用户
      * @param user
      * @return
      */
-    boolean updateUser(User user);
+    User updateUser(User user);
 
 }

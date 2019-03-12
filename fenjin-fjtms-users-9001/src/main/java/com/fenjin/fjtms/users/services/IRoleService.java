@@ -38,19 +38,19 @@ public interface IRoleService {
      * 创建角色
      * @param role
      */
-    boolean createRole(Role role);
+    Role createRole(Role role);
 
     /**
      * 删除角色
      * @param role
      * @return
      */
-    boolean deleteRole(Role role);
+    Role deleteRole(Role role);
 
     /**
      * 修改角色
      * @param role
      * @return
      */
-    boolean updateRole(Role role);
+    Role updateRole(Role role);
 }

@@ -4,6 +4,7 @@ package com.fenjin.fjtms.users.controllers;
 import com.fenjin.fjtms.core.BaseController;
 import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.Permission;
+import com.fenjin.fjtms.users.services.IPermissionService;
 import com.fenjin.fjtms.users.services.PermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -27,19 +28,17 @@ import java.util.List;
 public class PermissionController extends BaseController {
 
     @Autowired
-    private PermissionService permissionService;
+    private IPermissionService permissionService;
 
     // 服务发现客户端
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @PostMapping("/create")
+    @PostMapping
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "创建新权限", notes = "权限Id由系统自动生成，Json格式权限对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "permission", value = "有效的权限实例", required = true, dataType = "Permission")
     public Result create(@Valid @RequestBody Permission permission, BindingResult bindingResult) {
-
-        // 后续问题：前台除了提供权限基本信息，也需要提供该权限的权限角色，权限所属部门等信息。
 
         if (bindingResult.hasErrors()) {
             FieldError error = (FieldError) bindingResult.getAllErrors().get(0);
@@ -59,7 +58,7 @@ public class PermissionController extends BaseController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "删除指定Id的权限", notes = "该操作为逻辑删除")
     @ApiImplicitParam(paramType="query", name = "id", value = "权限Id", required = true, dataType = "String")
@@ -74,7 +73,7 @@ public class PermissionController extends BaseController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "根据Id集合批量删除权限", notes = "该操作为逻辑删除", produces = "application/json")
     @ApiImplicitParam(paramType="query", name = "ids", value = "权限Id集合", dataType = "List<String>")
@@ -91,7 +90,7 @@ public class PermissionController extends BaseController {
         }
     }
 
-    @PutMapping("/edit")
+    @PutMapping
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "修改权限", notes = "传输Json格式权限对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "permission", value = "有效的权限实例", required = true, dataType = "Permission")
@@ -118,17 +117,16 @@ public class PermissionController extends BaseController {
 
     }
 
-    @PostMapping("/list")
+    @GetMapping
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "查询指定条件的权限集合")
     public Result list(@RequestBody(required = false) String permissionName) {
 
-        List<Permission> permissions = permissionService.getAllPermissions(permissionName);
-        return Result(permissions);
+        return Result(permissionService.getAllPermissions(permissionName));
     }
 
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "查询指定Id的权限")
     @ApiImplicitParam(paramType="query", name = "id", value = "权限Id", required = true, dataType = "String")
@@ -137,19 +135,18 @@ public class PermissionController extends BaseController {
         return Result(permissionService.getPermissionById(id));
     }
 
-    @GetMapping("/getByRoleId/{roleId}")
+    @GetMapping("/roleid/{roleId}")
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "查询指定roleId的权限集合")
     public Result getByRoleId(@PathVariable String roleId) {
 
-        List<Permission> permissions = permissionService.getPermissionsByRoleId(roleId);
-        return Result(permissions);
+        return Result(permissionService.getPermissionsByRoleId(roleId));
     }
 
-    @GetMapping("/discovery")
+    @GetMapping("/info")
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "获取当前微服务部署地址和端口号")
-    public Result discovery()
+    public Result info()
     {
         List<String> list = discoveryClient.getServices();
         System.out.println("**********" + list);

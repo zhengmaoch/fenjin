@@ -69,34 +69,31 @@ public class PermissionService implements IPermissionService{
 
     @Transactional
     @Override
-    public boolean createPermission(Permission permission) {
+    @CacheEvict(cacheNames = "permissions", allEntries = true)
+    public Permission createPermission(Permission permission) {
 
         permission.setCreatedTime(new Date());
         permission.setUpdatedTime(new Date());
         permission.setDeleted(false);
-        Permission result = permissionRepository.save(permission);
-        return result.getId().length() > 0;
+        return permissionRepository.save(permission);
     }
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "permissions", allEntries = true)
-    public boolean deletePermission(Permission permission) {
+    @CacheEvict(cacheNames = "permissions", key = "'permissions_'+#id")
+    public Permission deletePermission(Permission permission) {
 
         permission.setDeleted(true);
         permission.setName(permission.getName() + "-Deleted-" + new Date());
-        updatePermission(permission);
-
-        return true;
+        return updatePermission(permission);
     }
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "permissions", allEntries = true)
-    public boolean updatePermission(Permission permission) {
+    @CacheEvict(cacheNames = "permissions", key = "'permissions_'+#id")
+    public Permission updatePermission(Permission permission) {
 
         permission.setUpdatedTime(new Date());
-        permissionRepository.save(permission);
-        return true;
+        return permissionRepository.save(permission);
     }
 }

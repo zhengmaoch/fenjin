@@ -39,19 +39,19 @@ public interface IPermissionService {
      * 创建权限
      * @param permission
      */
-    boolean createPermission(Permission permission);
+    Permission createPermission(Permission permission);
 
     /**
      * 删除权限
      * @param permission
      * @return
      */
-    boolean deletePermission(Permission permission);
+    Permission deletePermission(Permission permission);
 
     /**
      * 修改权限
      * @param permission
      * @return
      */
-    boolean updatePermission(Permission permission);
+    Permission updatePermission(Permission permission);
 }
