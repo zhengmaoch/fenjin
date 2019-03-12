@@ -9,7 +9,6 @@
     </parent>
 
     <artifactId>fenjin-fjtms-core</artifactId>
-    <description>fjtms专用核心类库，不包含fenjin-core中的内容</description>
 
     <dependencies>
         <dependency>

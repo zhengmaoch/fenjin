@@ -1,6 +1,6 @@
 package com.fenjin.fjtms.core;
 
-import com.fenjin.fjtms.core.utils.JsonUtil;
+import lombok.Data;
 import org.springframework.validation.BindingResult;
 
 import java.util.HashMap;
@@ -8,19 +8,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 通用返回对象
+ * 服务器返回
  */
+@Data
 public class Result {
     //操作成功
     public static final int SUCCESS = 200;
-    //操作失败
-    public static final int FAILED = 500;
-    //参数校验失败
-    public static final int VALIDATE_FAILED = 404;
     //未认证
     public static final int UNAUTHORIZED = 401;
     //未授权
     public static final int  FORBIDDEN = 403;
+    //请求资源找不到
+    public static final int NOT_FOUND = 404;
+    //请求格式不正确
+    public static final int NOT_ACCEPTABLE = 406;
+    //参数校验失败
+    public static final int VALIDATE_FAILED = 422;
+    //操作失败
+    public static final int FAILED = 500;
+
 
     private int code;
     private String message;
@@ -79,6 +85,24 @@ public class Result {
     }
 
     /**
+     * 请求资源找不到
+     */
+    public Result notFound() {
+        this.code = NOT_FOUND;
+        this.message = "请求资源不存在";
+        return this;
+    }
+
+    /**
+     * 请求格式不正确
+     */
+    public Result notAcceptable() {
+        this.code = NOT_ACCEPTABLE;
+        this.message = "请求格式不正确";
+        return this;
+    }
+
+    /**
      * 自定义失败提示信息
      */
     public Result failed(String message) {
@@ -89,7 +113,6 @@ public class Result {
 
     /**
      * 参数验证失败使用
-     *
      * @param message 错误信息
      */
     public Result validateFailed(String message) {
@@ -100,7 +123,6 @@ public class Result {
 
     /**
      * 未登录时使用
-     *
      * @param message 错误信息
      */
     public Result unauthorized(String message) {
@@ -112,7 +134,6 @@ public class Result {
 
     /**
      * 未授权时使用
-     *
      * @param message 错误信息
      */
     public Result forbidden(String message) {
@@ -129,34 +150,5 @@ public class Result {
     public Result validateFailed(BindingResult result) {
         validateFailed(result.getFieldError().getDefaultMessage());
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return JsonUtil.objectToJson(this);
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
     }
 }

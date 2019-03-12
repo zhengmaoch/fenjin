@@ -37,7 +37,7 @@ public class UserController extends BaseController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @PostMapping("/create")
+    @PostMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "创建新用户", notes = "用户Id由系统自动生成，Json格式用户对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User")
@@ -69,7 +69,7 @@ public class UserController extends BaseController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "删除指定Id的用户", notes = "该操作为逻辑删除")
     @ApiImplicitParam(paramType="query", name = "id", value = "用户Id", required = true, dataType = "String")
@@ -84,7 +84,7 @@ public class UserController extends BaseController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "根据Id集合批量删除用户", notes = "该操作为逻辑删除", produces = "application/json")
     @ApiImplicitParam(paramType="query", name = "ids", value = "用户Id集合", dataType = "List<String>")
@@ -101,7 +101,7 @@ public class UserController extends BaseController {
         }
     }
 
-    @PutMapping("/edit")
+    @PutMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "修改用户", notes = "传输Json格式用户对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User")
@@ -128,7 +128,7 @@ public class UserController extends BaseController {
 
     }
 
-    @PutMapping("/changepassword")
+    @PutMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "修改用户密码", notes = "传输Json格式用户对象", produces = "application/json")
     @ApiImplicitParam(paramType="body", name = "request", value = "有效的用户密码请求", required = true, dataType = "ChangePasswordRequest")
@@ -164,7 +164,7 @@ public class UserController extends BaseController {
         return Result(userService.updateUser(user));
     }
 
-    @PostMapping("/list/{pageIndex}/{pageSize}")
+    @GetMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "分页查询指定条件的用户集合")
     @ApiImplicitParams({
@@ -179,7 +179,7 @@ public class UserController extends BaseController {
         return Result(pageIndex, pageSize, total, users);
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "查询指定Id的用户")
     @ApiImplicitParam(paramType="query", name = "id", value = "用户Id", required = true, dataType = "String")
@@ -188,7 +188,7 @@ public class UserController extends BaseController {
         return Result(userService.getUserById(id));
     }
 
-    @GetMapping("/getByUsername/{username}")
+    @GetMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "查询指定username的用户")
     @ApiImplicitParam(paramType="query", name = "username", value = "用户名", required = true, dataType = "String")
