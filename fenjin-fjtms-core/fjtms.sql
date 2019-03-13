@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 13/03/2019 10:29:26
+ Date: 13/03/2019 17:53:21
 */
 
 SET NAMES utf8mb4;
@@ -1164,8 +1164,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'admin', '系统管理员', 'e31042a18f6aab44676eac536a8a4563', NULL, NULL, '18071026720', 'zhengmaoch@qq.com', 0, 0, NULL, 1, 0, 1, '192.168.145.1', '2019-03-06 13:54:19', NULL, '2019-03-06 13:54:19', '2019-03-06 13:54:19');
+INSERT INTO `user` VALUES ('1', 'admin', '系统管理员', '$2a$10$WSsvmxr1qzI/4VYxOTgSk.BQpYxW9iZv26yzzEM6TMepRdCLogbQC', NULL, NULL, '18071026720', 'zhengmaoch@qq.com', 0, 0, NULL, 1, 0, 1, '192.168.145.1', '2019-03-06 13:54:19', NULL, '2019-03-06 13:54:19', '2019-03-06 13:54:19');
 INSERT INTO `user` VALUES ('402811816941c9480169421198aa0004', 'zhengmaoch', 'string', 'chang781023', NULL, 'string', '18071026720', 'zhengmaoch@qq.com', 1, 0, '2019-03-03 13:34:28', 1, 0, 1, 'string', '2019-03-03 13:34:28', '2019-03-03 13:34:28', '2019-03-03 13:40:43', '2019-03-03 13:40:43');
+INSERT INTO `user` VALUES ('402811816975f177016975f8bc150000', 'string', 'string', '$2a$10$WSsvmxr1qzI/4VYxOTgSk.BQpYxW9iZv26yzzEM6TMepRdCLogbQC', NULL, 'string', '18071026720', 'string@aaa.aa', 1, 0, '2019-03-13 15:26:59', 1, 0, 1, 'string', '2019-03-13 15:26:59', '2019-03-13 15:26:59', '2019-03-13 15:33:49', '2019-03-13 15:33:49');
 
 -- ----------------------------
 -- Table structure for userroles
@@ -1190,6 +1191,7 @@ CREATE TABLE `userroles`  (
 -- ----------------------------
 INSERT INTO `userroles` VALUES ('1', '1');
 INSERT INTO `userroles` VALUES ('1', '2');
+INSERT INTO `userroles` VALUES ('402811816975f177016975f8bc150000', '1');
 
 -- ----------------------------
 -- Table structure for voltagelevel
