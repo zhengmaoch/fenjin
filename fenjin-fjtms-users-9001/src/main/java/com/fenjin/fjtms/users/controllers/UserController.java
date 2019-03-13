@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.fenjin.fjtms.core.BaseController;
 import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import com.fenjin.fjtms.core.utils.JsonUtil;
 import com.fenjin.fjtms.core.utils.StringUtil;
+import com.fenjin.fjtms.users.models.UserModel;
 import com.fenjin.fjtms.users.services.ChangePasswordRequest;
 import com.fenjin.fjtms.users.services.IRoleService;
 import com.fenjin.fjtms.users.services.IUserService;
@@ -17,6 +19,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -27,6 +30,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,10 +54,8 @@ public class UserController extends BaseController {
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "创建新用户", notes = "用户Id由系统自动生成，Json格式用户对象", produces = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User"),
-            @ApiImplicitParam(paramType="body", name = "roleIds", value = "当前用户的角色Id列表", dataType = "List<String>")})
-    public Result create(@Valid @RequestBody User user, @RequestBody List<String> roleIds, BindingResult bindingResult) {
+    @ApiImplicitParam(paramType="body", name = "userModel", value = "有效的UserModel", required = true, dataType = "UserModel")
+    public Result create(@Valid @RequestBody UserModel userModel, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             FieldError error = (FieldError) bindingResult.getAllErrors().get(0);
@@ -60,20 +63,22 @@ public class UserController extends BaseController {
         }
         try {
 
-            if(userService.getUserByUsername(user.getUsername()) != null){
+            if(userService.getUserByUsername(userModel.getUsername()) != null){
                 return new Result().validateFailed("用户名已存在");
             }
-            if(!StringUtil.isEmpty(user.getEmail()) && userService.getUserByEmail(user.getEmail()) != null){
+            if(!StringUtil.isEmpty(userModel.getEmail()) && userService.getUserByEmail(userModel.getEmail()) != null){
                 return new Result().validateFailed("邮箱已存在");
             }
 
+            User user = new User();
+            BeanUtils.copyProperties(userModel, user);
             // 密码加密
             BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword().trim()));
 
             // 设置用户的角色
-            if(roleIds != null){
-                for (String roleId: roleIds) {
+            if(userModel.getRoleIds() != null){
+                for (String roleId: userModel.getRoleIds()) {
                     user.getRoles().add(roleService.getRoleById(roleId));
                 }
             }
@@ -121,15 +126,25 @@ public class UserController extends BaseController {
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "修改用户信息", notes = "传输Json格式用户对象", produces = "application/json")
-    @ApiImplicitParam(paramType="body", name = "user", value = "有效的用户实例", required = true, dataType = "User")
-    public Result edit(@Valid @RequestBody User user, BindingResult bindingResult) {
+    @ApiImplicitParam(paramType="body", name = "userModel", value = "有效的UserModel", required = true, dataType = "UserModel")
+    public Result edit(@Valid @RequestBody UserModel userModel, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             FieldError error = (FieldError) bindingResult.getAllErrors().get(0);
             return new Result().validateFailed(error.getDefaultMessage());
         }
-        if(user != null){
+        if(userModel != null){
             try {
+                User user = new User();
+                BeanUtils.copyProperties(userModel, user);
+
+                // 设置用户的角色
+                if(userModel.getRoleIds() != null){
+                    for (String roleId: userModel.getRoleIds()) {
+                        user.getRoles().add(roleService.getRoleById(roleId));
+                    }
+                }
+
                 return Result(userService.updateUser(user));
             }
             catch (Exception e){
@@ -186,27 +201,27 @@ public class UserController extends BaseController {
             @ApiImplicitParam(paramType = "query", name = "createdTo", value = "结束日期", dataType = "Integer"),
             @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "fullName", value = "姓名", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "roleIds", value = "角色Id集合", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "roleIds", value = "角色Id集合", dataType = "List<String>"),
             @ApiImplicitParam(paramType = "query", name = "phone", value = "电话号码",  dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "email", value = "电子邮箱", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "active", value = "激活", dataType = "boolean"),
-            @ApiImplicitParam(paramType = "query", name = "sorts", value = "排序属性，英文逗号分隔，前缀-为倒序", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "filters", value = "输出属性过滤，多个条件用英文逗号分隔",  dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "page", value = "分页，格式为{页数},{每页记录数}，例如'1,20'", defaultValue = "1,20", dataType = "String")
+            @ApiImplicitParam(paramType = "query", name = "sorts", value = "排序属性，前缀-为倒序", dataType = "List<String>"),
+            @ApiImplicitParam(paramType = "query", name = "filters", value = "输出属性过滤",  dataType = "List<String>"),
+            @ApiImplicitParam(paramType = "query", name = "page", value = "分页，格式为{页数},{每页记录数}，例如'1,20'", dataType = "List<Integer>")
     })
     public Result list(@RequestParam Date createdFrom, @RequestParam Date createdTo, @RequestParam String username,
-                       @RequestParam String fullName, @RequestParam String roleIds, @RequestParam String phone,
-                       @RequestParam String email, @RequestParam boolean active, @RequestParam String sorts,
-                       @RequestParam String filters, @RequestParam(defaultValue = "1,20") String page) {
+                       @RequestParam String fullName, @RequestParam List<String> roleIds, @RequestParam String phone,
+                       @RequestParam String email, @RequestParam boolean active, @RequestParam List<String> sorts,
+                       @RequestParam List<String> filters, @RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
 
         int total = userService.getAllUsers(createdFrom, createdTo, username, fullName, roleIds, phone,
-                email, active, sorts, "1," + Integer.MAX_VALUE).size();
+                email, active, sorts, 0, Integer.MAX_VALUE).size();
 
         List users = userService.getAllUsers(createdFrom, createdTo, username, fullName, roleIds, phone,
-                email, active, sorts, page);
+                email, active, sorts, pageIndex, pageSize);
 
         // 处理过滤
-        if(!StringUtil.isEmpty(filters)) {
+        if(filters != null) {
             return new Result().pageSuccess(total, JsonUtil.objectToJson(users, filters));
         }else {
             return new Result().pageSuccess(total, JsonUtil.objectToJson(users));
@@ -219,7 +234,14 @@ public class UserController extends BaseController {
     @ApiImplicitParam(paramType="query", name = "id", value = "用户Id", required = true, dataType = "String")
     public Result get(@PathVariable String id) {
 
-        return Result(userService.getUserById(id));
+        User user = userService.getUserById(id);
+        UserModel userModel = new UserModel();
+        BeanUtils.copyProperties(user, userModel);
+        List<Role> roles = user.getRoles();
+        for(Role role : roles){
+            userModel.getRoleIds().add(role.getId());
+        }
+        return Result(userModel);
     }
 
     @GetMapping("/username/{username}")

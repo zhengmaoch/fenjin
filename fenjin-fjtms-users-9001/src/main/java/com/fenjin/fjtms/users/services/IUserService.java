@@ -26,21 +26,13 @@ public interface IUserService {
      * @param phone
      * @param email
      * @param sorts
-     * @param page
+     * @param pageIndex
+     * @param pageSize
      * @return 用户列表
      */
     List<User> getAllUsers(Date createdFrom, Date createdTo, String username, String fullName,
-                           String roleIds, String phone, String email, boolean active,
-                           String sorts, String page);
-
-    /**
-     * 分页查询用户信息
-     * @param userSearchModel
-     * @param pageIndex
-     * @param pageSize
-     * @return
-     */
-    List<User> getAllUsers(UserSearchModel userSearchModel, int pageIndex, int pageSize);
+                           List<String> roleIds, String phone, String email, boolean active,
+                           List<String> sorts, int pageIndex, int pageSize);
 
     /**
      * 根据Id查询用户信息

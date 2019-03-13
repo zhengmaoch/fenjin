@@ -36,8 +36,9 @@ public class UserService implements IUserService {
     private IUserRepository userRepository;
 
     @Override
-    public List<User> getAllUsers(Date createdFrom, Date createdTo, String username, String fullName, String roleIds,
-                                  String phone, String email, boolean active, String sorts, String page) {
+    public List<User> getAllUsers(Date createdFrom, Date createdTo, String username, String fullName,
+                                  List<String> roleIds, String phone, String email, boolean active,
+                                  List<String> sorts, int pageIndex, int pageSize) {
 
         // 查询条件处理
         Specification<User> specification = new Specification<User>() {
@@ -59,7 +60,7 @@ public class UserService implements IUserService {
 
                 // 过滤角色id
                 Join<User, UserRoles> join = root.join("roles", JoinType.LEFT);
-                predicates.add(join.get("roleId").in(roleIds.split(",")));
+                predicates.add(join.get("roleId").in(roleIds));
 
                 if (!StringUtil.isEmpty(phone)) {
                     predicates.add(cb.like(root.get("phone").as(String.class), "%" + phone + "%"));
@@ -75,20 +76,12 @@ public class UserService implements IUserService {
         };
 
         // 分页处理
-        int pageIndex = 1;
-        int pageSize = 20;
         Pageable pageable = new PageRequest(pageIndex, pageSize);;
-        if(!StringUtil.isEmpty(page) && page.contains(",")){
-            pageIndex = Integer.valueOf(page.split(",")[0]);
-            pageSize = Integer.valueOf(page.split(",")[1]);
-            pageable = new PageRequest(pageIndex, pageSize);
-        }
 
         // 处理排序
-        if (!StringUtil.isEmpty(sorts) && sorts.contains(",")){
-            String[] ss = sorts.split(",");
+        if(sorts != null){
             List<Sort.Order> orders = new ArrayList<>();
-            for(String s: ss){
+            for(String s: sorts){
                 if(s.substring(0,1) == "-"){
                     orders.add(new Sort.Order(Sort.Direction.DESC,s.substring(1)));
                 }
@@ -99,58 +92,6 @@ public class UserService implements IUserService {
             pageable = new PageRequest(pageIndex, pageSize, new Sort(orders));
         }
         return userRepository.findAll(specification, pageable).getContent();
-    }
-
-    @Override
-    public List<User> getAllUsers(UserSearchModel userSearchModel, int pageIndex, int pageSize) {
-
-        Pageable pageable = new PageRequest(pageIndex, pageSize);
-
-        if (userSearchModel != null) {
-            Specification<User> specification = new Specification<User>() {
-                @Override
-                public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                    List<Predicate> predicates = new ArrayList<>();
-                    if (userSearchModel.getSearchCreatedFrom() != null) {
-                        predicates.add(cb.greaterThanOrEqualTo(root.get("createdTime"), userSearchModel.getSearchCreatedFrom()));
-                    }
-                    if (userSearchModel.getSearchCreatedTo() != null) {
-                        predicates.add(cb.lessThanOrEqualTo(root.get("createdTime"), userSearchModel.getSearchCreatedTo()));
-                    }
-
-                    if (!StringUtil.isEmpty(userSearchModel.getSearchUsername())) {
-                        predicates.add(cb.equal(root.get("username"), userSearchModel.getSearchUsername()));
-                    }
-                    if (!StringUtil.isEmpty(userSearchModel.getSearchFullname())) {
-                        predicates.add(cb.like(root.get("fullName").as(String.class), "%" + userSearchModel.getSearchFullname() + "%"));
-                    }
-                    if (!StringUtil.isEmpty(userSearchModel.getSearchDepartmentId())) {
-                        predicates.add(cb.equal(root.get("departmentId"), userSearchModel.getSearchDepartmentId()));
-                    }
-                    if (!StringUtil.isEmpty(userSearchModel.getSearchPhone())) {
-                        predicates.add(cb.like(root.get("phone").as(String.class), "%" + userSearchModel.getSearchPhone() + "%"));
-                    }
-                    if (!StringUtil.isEmpty(userSearchModel.getSearchIpAddress())) {
-                        predicates.add(cb.like(root.get("lastIpAddress").as(String.class), "%" + userSearchModel.getSearchIpAddress() + "%"));
-                    }
-                    if (userSearchModel.getSearchLastActivityFrom() != null) {
-                        predicates.add(cb.greaterThanOrEqualTo(root.get("lastActivityDate"), userSearchModel.getSearchLastActivityFrom()));
-                    }
-
-                    predicates.add(cb.isFalse(root.get("deleted")));
-
-                    if (predicates.size() > 0) {
-                        return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
-                    }
-                    return null;
-                }
-            };
-
-            return userRepository.findAll(specification, pageable).getContent();
-        } else {
-            return userRepository.findAll(pageable).getContent();
-        }
-
     }
 
     @Override

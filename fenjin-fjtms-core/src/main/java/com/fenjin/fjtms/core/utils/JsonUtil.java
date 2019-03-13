@@ -29,11 +29,11 @@ public class JsonUtil {
         return null;
     }
 
-    public static String objectToJson(Object data, String fields) {
+    public static String objectToJson(Object data, List<String> filters) {
 
         SimplePropertyPreFilter filter = new SimplePropertyPreFilter();
-        for (String field : fields.split(",")) {
-            filter.getIncludes().add(field);
+        for (String f : filters) {
+            filter.getIncludes().add(f);
         }
 
         return JSON.toJSONString(data, filter);
