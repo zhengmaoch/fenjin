@@ -3,6 +3,7 @@ package com.fenjin.fjtms.users.services;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.domain.users.UserRoles;
 import com.fenjin.fjtms.core.models.users.UserSearchModel;
+import com.fenjin.fjtms.core.utils.DateUtils;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -154,7 +156,7 @@ public class UserService implements IUserService {
     public User deleteUser(User user) {
 
         user.setDeleted(true);
-        user.setUsername(user.getUsername() + "-Deleted-" + new Date());
+        user.setUsername(user.getUsername() + "-Deleted-" + DateUtils.toString(new Date()));
         return updateUser(user);
     }
 

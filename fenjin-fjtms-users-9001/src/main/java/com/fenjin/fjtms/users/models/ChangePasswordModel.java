@@ -1,4 +1,4 @@
-package com.fenjin.fjtms.users.services;
+package com.fenjin.fjtms.users.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @ClassName: ChangePasswordRequest
+ * @ClassName: ChangePasswordModel
  * @Descriprion: TODO(修改密码请求对象)
  * @author: changzhengmao
  * @date: 2019-03-07 09:01
@@ -20,7 +20,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ChangePasswordRequest implements Serializable {
+public class ChangePasswordModel implements Serializable {
 
     public String userId;
     public boolean validateRequest;

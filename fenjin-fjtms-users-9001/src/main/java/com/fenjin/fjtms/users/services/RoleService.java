@@ -2,6 +2,7 @@ package com.fenjin.fjtms.users.services;
 
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.domain.users.User;
+import com.fenjin.fjtms.core.utils.DateUtils;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IRoleRepository;
 import com.fenjin.fjtms.users.dao.IUserRepository;
@@ -39,12 +40,12 @@ public class RoleService implements IRoleService {
 //    @Cacheable(cacheNames = "roles", key = "'rolesbyrolename_'+#rolename")
     public List<Role> getAllRoles(String rolename) {
         
-        if(StringUtil.isEmpty(rolename)) {
-            return null;
-        }
         Specification<Role> specification = new Specification<Role>() {
             @Override
             public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                if(StringUtil.isEmpty(rolename)) {
+                    return null;
+                }
                 return cb.like(root.get("name").as(String.class), "%" + rolename + "%");
             }
         };
@@ -83,7 +84,7 @@ public class RoleService implements IRoleService {
     public Role deleteRole(Role role) {
 
         role.setDeleted(true);
-        role.setName(role.getName() + "-Deleted-" + new Date());
+        role.setName(role.getName() + "-Deleted-" + DateUtils.toString(new Date()));
         return updateRole(role);
     }
 

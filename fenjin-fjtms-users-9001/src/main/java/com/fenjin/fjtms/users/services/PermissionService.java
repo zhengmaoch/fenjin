@@ -2,6 +2,7 @@ package com.fenjin.fjtms.users.services;
 
 import com.fenjin.fjtms.core.domain.users.Permission;
 import com.fenjin.fjtms.core.domain.users.Role;
+import com.fenjin.fjtms.core.utils.DateUtils;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IPermissionRepository;
 import com.fenjin.fjtms.users.dao.IRoleRepository;
@@ -39,12 +40,12 @@ public class PermissionService implements IPermissionService{
 //    @Cacheable(cacheNames = "permissions", key = "'permissionsbypermissionname_'+#permissionname")
     public List<Permission> getAllPermissions(String permissionname) {
 
-        if(StringUtil.isEmpty(permissionname)) {
-            return null;
-        }
         Specification<Permission> specification = new Specification<Permission>() {
             @Override
             public Predicate toPredicate(Root<Permission> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                if(StringUtil.isEmpty(permissionname)) {
+                    return null;
+                }
                 return cb.like(root.get("name").as(String.class), "%" + permissionname + "%");
             }
         };
@@ -84,7 +85,7 @@ public class PermissionService implements IPermissionService{
     public Permission deletePermission(Permission permission) {
 
         permission.setDeleted(true);
-        permission.setName(permission.getName() + "-Deleted-" + new Date());
+        permission.setName(permission.getName() + "-Deleted-" + DateUtils.toString(new Date()));
         return updatePermission(permission);
     }
 

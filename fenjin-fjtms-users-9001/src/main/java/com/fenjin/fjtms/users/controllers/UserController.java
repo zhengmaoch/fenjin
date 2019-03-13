@@ -1,19 +1,15 @@
 package com.fenjin.fjtms.users.controllers;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.fenjin.fjtms.core.BaseController;
 import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.domain.users.User;
-import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import com.fenjin.fjtms.core.utils.JsonUtil;
 import com.fenjin.fjtms.core.utils.StringUtil;
+import com.fenjin.fjtms.users.models.ChangePasswordModel;
 import com.fenjin.fjtms.users.models.UserModel;
-import com.fenjin.fjtms.users.services.ChangePasswordRequest;
 import com.fenjin.fjtms.users.services.IRoleService;
 import com.fenjin.fjtms.users.services.IUserService;
-import com.fenjin.fjtms.users.services.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,8 +26,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,7 +69,6 @@ public class UserController extends BaseController {
             // 密码加密
             BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword().trim()));
-
             // 设置用户的角色
             if(userModel.getRoleIds() != null){
                 for (String roleId: userModel.getRoleIds()) {
@@ -160,8 +153,8 @@ public class UserController extends BaseController {
     @PutMapping("/password")
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "修改用户密码", notes = "传输Json格式用户对象", produces = "application/json")
-    @ApiImplicitParam(paramType="body", name = "request", value = "有效的用户密码请求", required = true, dataType = "ChangePasswordRequest")
-    public Result changePassword(@RequestBody ChangePasswordRequest request, BindingResult bindingResult) {
+    @ApiImplicitParam(paramType="body", name = "request", value = "有效的用户密码请求", required = true, dataType = "ChangePasswordModel")
+    public Result changePassword(@RequestBody ChangePasswordModel request, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             FieldError error = (FieldError) bindingResult.getAllErrors().get(0);
@@ -206,8 +199,9 @@ public class UserController extends BaseController {
             @ApiImplicitParam(paramType = "query", name = "email", value = "电子邮箱", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "active", value = "激活", dataType = "boolean"),
             @ApiImplicitParam(paramType = "query", name = "sorts", value = "排序属性，前缀-为倒序", dataType = "List<String>"),
-            @ApiImplicitParam(paramType = "query", name = "filters", value = "输出属性过滤",  dataType = "List<String>"),
-            @ApiImplicitParam(paramType = "query", name = "page", value = "分页，格式为{页数},{每页记录数}，例如'1,20'", dataType = "List<Integer>")
+            @ApiImplicitParam(paramType = "query", name = "filters", value = "属性过滤",  dataType = "List<String>"),
+            @ApiImplicitParam(paramType = "query", name = "pageIndex", value = "分页页数", dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页记录数", dataType = "Integer")
     })
     public Result list(@RequestParam Date createdFrom, @RequestParam Date createdTo, @RequestParam String username,
                        @RequestParam String fullName, @RequestParam List<String> roleIds, @RequestParam String phone,
