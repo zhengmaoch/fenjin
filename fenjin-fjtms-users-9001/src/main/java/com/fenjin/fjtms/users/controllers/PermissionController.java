@@ -2,6 +2,7 @@ package com.fenjin.fjtms.users.controllers;
 
 
 import com.fenjin.fjtms.core.BaseController;
+import com.fenjin.fjtms.core.RequestBodyList;
 import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.Permission;
 import com.fenjin.fjtms.users.services.IPermissionService;
@@ -76,11 +77,11 @@ public class PermissionController extends BaseController {
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('ManagePermissions')")
     @ApiOperation(value = "根据Id集合批量删除权限", notes = "该操作为逻辑删除", produces = "application/json")
-    @ApiImplicitParam(paramType="query", name = "ids", value = "权限Id集合", dataType = "List<String>")
-    public Result delete(@RequestBody List<String> ids) {
+    @ApiImplicitParam(paramType="query", name = "ids", value = "权限Id的RequestBodyList集合", dataType = "RequestBodyList<String>")
+    public Result delete(@RequestBody RequestBodyList<String> ids) {
 
         if(ids != null){
-            for(String id : ids){
+            for(String id : ids.getLists()){
                 permissionService.deletePermission(permissionService.getPermissionById(id));
             }
             return Result(true);

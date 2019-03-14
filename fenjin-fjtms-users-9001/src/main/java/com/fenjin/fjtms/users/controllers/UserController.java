@@ -1,6 +1,7 @@
 package com.fenjin.fjtms.users.controllers;
 
 import com.fenjin.fjtms.core.BaseController;
+import com.fenjin.fjtms.core.RequestBodyList;
 import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.domain.users.User;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -102,11 +104,11 @@ public class UserController extends BaseController {
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
     @ApiOperation(value = "根据Id集合批量删除用户", notes = "该操作为逻辑删除", produces = "application/json")
-    @ApiImplicitParam(paramType = "query", name = "ids", value = "用户Id集合", dataType = "List<String>")
-    public Result delete(@RequestBody List<String> ids) {
+    @ApiImplicitParam(paramType = "body", name = "ids", value = "用户Id集合RequestBodyList对象", dataType = "RequestBodyList<String>")
+    public Result delete(@RequestBody RequestBodyList<String> ids) {
 
         if (ids != null) {
-            for (String id : ids) {
+            for (String id : ids.getLists()) {
                 userService.deleteUser(userService.getUserById(id));
             }
             return Result(true);
@@ -117,7 +119,7 @@ public class UserController extends BaseController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ManageUsers')")
-    @ApiOperation(value = "修改用户信息", notes = "传输Json格式用户对象", produces = "application/json")
+    @ApiOperation(value = "修改用户信息", notes = "传输Json格式UserModel对象", produces = "application/json")
     @ApiImplicitParam(paramType = "body", name = "userModel", value = "有效的UserModel", required = true, dataType = "UserModel")
     public Result edit(@Valid @RequestBody UserModel userModel, BindingResult bindingResult) {
 

@@ -4,6 +4,7 @@ import com.fenjin.fjtms.core.domain.users.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,5 +18,5 @@ import java.util.List;
 @EqualsAndHashCode
 public class UserModel extends User {
 
-    private List<String> roleIds;
+    private List<String> roleIds = new ArrayList<>();
 }

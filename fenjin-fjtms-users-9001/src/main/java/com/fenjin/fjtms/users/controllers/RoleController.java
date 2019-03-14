@@ -1,6 +1,7 @@
 package com.fenjin.fjtms.users.controllers;
 
 import com.fenjin.fjtms.core.BaseController;
+import com.fenjin.fjtms.core.RequestBodyList;
 import com.fenjin.fjtms.core.Result;
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.users.services.IRoleService;
@@ -75,11 +76,11 @@ public class RoleController extends BaseController {
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('ManageRoles')")
     @ApiOperation(value = "根据Id集合批量删除角色", notes = "该操作为逻辑删除", produces = "application/json")
-    @ApiImplicitParam(paramType="query", name = "ids", value = "角色Id集合", dataType = "List<String>")
-    public Result delete(@RequestBody List<String> ids) {
+    @ApiImplicitParam(paramType="query", name = "ids", value = "角色Id的RequestBodyList集合", dataType = "RequestBodyList<String>")
+    public Result delete(@RequestBody RequestBodyList<String> ids) {
 
         if(ids != null){
-            for(String id : ids){
+            for(String id : ids.getLists()){
                 roleService.deleteRole(roleService.getRoleById(id));
             }
             return Result(true);

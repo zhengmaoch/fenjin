@@ -5,15 +5,14 @@ import com.fenjin.cloud.dao.IUserRepository;
 import com.fenjin.fjtms.core.domain.users.Permission;
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.domain.users.User;
+import com.fenjin.fjtms.core.domain.users.UserRoles;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,16 +33,23 @@ public class AuthService implements IAuthService {
 
     @Override
     public User getUserByUsername(String username) {
+
         if(StringUtil.isEmpty(username)) {
             return null;
         }
-            Specification<User> specification = new Specification<User>() {
-                @Override
-                public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                    return cb.equal(root.get("username"), username);
+        // 查询条件处理
+        Specification<User> specification = new Specification<User>() {
+            @Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (!StringUtil.isEmpty(username)) {
+                    predicates.add(cb.equal(root.get("username"), username));
                 }
-            };
-
+                predicates.add(cb.isTrue(root.get("active")));
+                predicates.add(cb.isFalse(root.get("deleted")));
+                return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
+            }
+        };
         return userRepository.findOne(specification);
     }
 

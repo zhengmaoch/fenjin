@@ -158,6 +158,7 @@ public class UserService implements IUserService {
     public User deleteUser(User user) {
 
         user.setDeleted(true);
+        user.setActive(false);
         user.setUsername(user.getUsername() + "-Deleted-" + DateUtils.toString(new Date()));
         return updateUser(user);
     }
