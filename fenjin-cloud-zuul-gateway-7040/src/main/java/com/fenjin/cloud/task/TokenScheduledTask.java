@@ -17,9 +17,11 @@ import org.springframework.scheduling.annotation.Scheduled;
  * @date: 2019-03-12 23:23
  */
 public class TokenScheduledTask {
+
     private static Logger logger = LoggerFactory.getLogger(TokenScheduledTask.class);
 
-    public final static long ONE_Minute = 60 * 1000 * 60 * 20;
+    // 刷新频率
+    public final static long REFRESH_FREQUENCY = 60 * 1000 * 60 * 20;
 
     @Autowired
     private IAuthClientService authClientService;
@@ -27,7 +29,7 @@ public class TokenScheduledTask {
     /**
      * 刷新Token
      */
-    @Scheduled(fixedDelay = ONE_Minute)
+    @Scheduled(fixedDelay = REFRESH_FREQUENCY)
     public void reloadApiToken() {
         String token = this.getToken();
         while (StringUtils.isBlank(token)) {

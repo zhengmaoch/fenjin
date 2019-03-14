@@ -61,8 +61,10 @@ public class UserService implements IUserService {
                 }
 
                 // 过滤角色id
-                Join<User, UserRoles> join = root.join("roles", JoinType.LEFT);
-                predicates.add(join.get("roleId").in(roleIds));
+                if(roleIds != null) {
+                    Join<User, UserRoles> join = root.join("roles", JoinType.LEFT);
+                    predicates.add(join.get("roleId").in(roleIds));
+                }
 
                 if (!StringUtil.isEmpty(phone)) {
                     predicates.add(cb.like(root.get("phone").as(String.class), "%" + phone + "%"));
