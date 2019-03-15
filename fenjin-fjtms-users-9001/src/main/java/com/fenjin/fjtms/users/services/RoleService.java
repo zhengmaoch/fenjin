@@ -70,6 +70,7 @@ public class RoleService implements IRoleService {
 
     @Transactional
     @Override
+    @CacheEvict(cacheNames = "roles", allEntries = true)
     public Role createRole(Role role) {
 
         role.setCreatedTime(new Date());

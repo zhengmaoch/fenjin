@@ -81,7 +81,7 @@ public class PermissionService implements IPermissionService{
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "permissions", key = "'permissions_'+#id")
+    @CacheEvict(cacheNames = "permissions", allEntries = true)
     public Permission deletePermission(Permission permission) {
 
         permission.setDeleted(true);
@@ -91,7 +91,7 @@ public class PermissionService implements IPermissionService{
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "permissions", key = "'permissions_'+#id")
+    @CacheEvict(cacheNames = "permissions", allEntries = true)
     public Permission updatePermission(Permission permission) {
 
         permission.setUpdatedTime(new Date());

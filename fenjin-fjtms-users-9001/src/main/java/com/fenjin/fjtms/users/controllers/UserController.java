@@ -193,19 +193,19 @@ public class UserController extends BaseController {
             @ApiImplicitParam(paramType = "query", name = "createdTo", value = "结束日期", required = false, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "fullName", value = "姓名", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "roleIds", value = "角色Id集合", dataType = "List<String>"),
+            @ApiImplicitParam(paramType = "body", name = "roleIds", value = "角色Id集合", required = false, dataType = "RequestBodyList<String>"),
             @ApiImplicitParam(paramType = "query", name = "phone", value = "电话号码", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "email", value = "电子邮箱", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "active", value = "激活", dataType = "Boolean"),
-            @ApiImplicitParam(paramType = "query", name = "sorts", value = "排序属性，前缀-为倒序", dataType = "List<String>"),
-            @ApiImplicitParam(paramType = "query", name = "filters", value = "属性过滤", dataType = "List<String>"),
+            @ApiImplicitParam(paramType = "body", name = "sorts", value = "排序属性，前缀-为倒序", required = false, dataType = "RequestBodyList<String>"),
+            @ApiImplicitParam(paramType = "body", name = "filters", value = "属性过滤", required = false, dataType = "RequestBodyList<String>"),
             @ApiImplicitParam(paramType = "query", name = "pageIndex", value = "分页页数", dataType = "Integer"),
             @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页记录数", dataType = "Integer")
     })
     public Result list(@RequestParam(required = false) String createdFrom, @RequestParam(required = false) String createdTo, @RequestParam(required = false) String username,
-                       @RequestParam(required = false) String fullName, @RequestParam(required = false) List<String> roleIds, @RequestParam(required = false) String phone,
-                       @RequestParam(required = false) String email, @RequestParam(required = false) Boolean active, @RequestParam(required = false) List<String> sorts,
-                       @RequestParam(required = false) List<String> filters, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) Integer pageSize) {
+                       @RequestParam(required = false) String fullName, @RequestBody(required = false) RequestBodyList<String> roleIds, @RequestParam(required = false) String phone,
+                       @RequestParam(required = false) String email, @RequestParam(required = false) Boolean active, @RequestBody(required = false) RequestBodyList<String> sorts,
+                       @RequestBody(required = false) RequestBodyList<String> filters, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) Integer pageSize) {
 
         Date from = null;
         Date to = null;
@@ -228,14 +228,14 @@ public class UserController extends BaseController {
             pageSize = 20;
         }
 
-        int total = userService.getAllUsers(from, to, username, fullName, roleIds, phone,
-                email, active, sorts, 0, Integer.MAX_VALUE).size();
-        List users = userService.getAllUsers(from, to, username, fullName, roleIds, phone,
-                email, active, sorts, pageIndex - 1, pageSize);
+        int total = userService.getAllUsers(from, to, username, fullName, roleIds == null? null : roleIds.getLists(), phone,
+                email, active, sorts == null? null : sorts.getLists(), 0, Integer.MAX_VALUE).size();
+        List users = userService.getAllUsers(from, to, username, fullName, roleIds == null? null : roleIds.getLists(), phone,
+                email, active, sorts == null? null : sorts.getLists(), pageIndex - 1, pageSize);
 
         // 处理过滤
         if (filters != null) {
-            return new Result().pageSuccess(total, JsonUtil.objectToJson(users, filters));
+            return new Result().pageSuccess(total, JsonUtil.objectToJson(users, filters.getLists()));
         } else {
             return new Result().pageSuccess(total, users);
         }

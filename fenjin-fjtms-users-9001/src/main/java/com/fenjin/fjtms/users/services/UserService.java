@@ -62,7 +62,7 @@ public class UserService implements IUserService {
 
                 // 过滤角色id
                 if(roleIds != null) {
-                    Join<User, UserRoles> join = root.join("roles", JoinType.LEFT);
+                    Join<User, UserRoles> join = root.join("userroles", JoinType.LEFT);
                     predicates.add(join.get("roleId").in(roleIds));
                 }
 
@@ -99,7 +99,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    @Cacheable(cacheNames = "users", key = "'users_'+#id")
+//    @Cacheable(cacheNames = "users", key = "'users_'+#id")
     public User getUserById(String id) {
 
         return userRepository.findOne(id);
@@ -154,7 +154,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "users", key = "'users_'+#id", beforeInvocation = true)
+    @CacheEvict(cacheNames = "users", allEntries = true, beforeInvocation = true)
     public User deleteUser(User user) {
 
         user.setDeleted(true);
@@ -165,7 +165,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "users", key = "'users_'+#id")
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public User updateUser(User user) {
 
         user.setUpdatedTime(new Date());
