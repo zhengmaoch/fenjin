@@ -1,6 +1,6 @@
 package com.fenjin.fjtms.core.services.auths;
 
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.Result;
 import com.fenjin.fjtms.core.config.FeignConfiguration;
 import com.fenjin.fjtms.core.query.AuthQuery;
 import org.springframework.cloud.netflix.feign.FeignClient;

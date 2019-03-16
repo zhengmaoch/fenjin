@@ -1,6 +1,6 @@
 package com.fenjin.cloud.task;
 
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.Result;
 import com.fenjin.fjtms.core.query.AuthQuery;
 import com.fenjin.fjtms.core.services.auths.IAuthClientService;
 import org.apache.commons.lang.StringUtils;

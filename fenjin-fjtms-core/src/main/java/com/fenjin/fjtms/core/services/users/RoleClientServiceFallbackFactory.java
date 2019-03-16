@@ -1,6 +1,6 @@
 package com.fenjin.fjtms.core.services.users;
 
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.Result;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 

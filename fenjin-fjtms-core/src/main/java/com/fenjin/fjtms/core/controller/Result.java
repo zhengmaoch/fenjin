@@ -1,10 +1,9 @@
-package com.fenjin.fjtms.core;
+package com.fenjin.fjtms.core.controller;
 
 import lombok.Data;
 import org.springframework.validation.BindingResult;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

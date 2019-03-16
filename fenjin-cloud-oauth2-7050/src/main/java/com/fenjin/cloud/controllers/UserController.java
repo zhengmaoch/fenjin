@@ -1,6 +1,6 @@
 package com.fenjin.cloud.controllers;
 
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.web.bind.annotation.*;

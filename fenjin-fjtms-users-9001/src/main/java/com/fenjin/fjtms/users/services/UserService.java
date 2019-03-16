@@ -2,7 +2,6 @@ package com.fenjin.fjtms.users.services;
 
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.domain.users.UserRoles;
-import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import com.fenjin.fjtms.core.utils.DateUtils;
 import com.fenjin.fjtms.core.utils.JsonUtil;
 import com.fenjin.fjtms.core.utils.StringUtil;
@@ -11,18 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

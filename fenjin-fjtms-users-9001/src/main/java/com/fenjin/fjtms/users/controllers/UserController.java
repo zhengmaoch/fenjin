@@ -1,8 +1,8 @@
 package com.fenjin.fjtms.users.controllers;
 
-import com.fenjin.fjtms.core.BaseController;
-import com.fenjin.fjtms.core.RequestBodyList;
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.BaseController;
+import com.fenjin.fjtms.core.controller.RequestBodyList;
+import com.fenjin.fjtms.core.controller.Result;
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.utils.DateUtils;
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.fenjin.fjtms.core;
+package com.fenjin.fjtms.core.controller;
 
 import java.util.List;
 

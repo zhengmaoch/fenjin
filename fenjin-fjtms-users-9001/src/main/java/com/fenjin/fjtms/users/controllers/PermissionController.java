@@ -1,12 +1,11 @@
 package com.fenjin.fjtms.users.controllers;
 
 
-import com.fenjin.fjtms.core.BaseController;
-import com.fenjin.fjtms.core.RequestBodyList;
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.BaseController;
+import com.fenjin.fjtms.core.controller.RequestBodyList;
+import com.fenjin.fjtms.core.controller.Result;
 import com.fenjin.fjtms.core.domain.users.Permission;
 import com.fenjin.fjtms.users.services.IPermissionService;
-import com.fenjin.fjtms.users.services.PermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

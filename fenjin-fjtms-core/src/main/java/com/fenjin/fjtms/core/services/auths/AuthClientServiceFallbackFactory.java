@@ -1,8 +1,7 @@
 package com.fenjin.fjtms.core.services.auths;
 
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.Result;
 import com.fenjin.fjtms.core.query.AuthQuery;
-import com.fenjin.fjtms.core.services.users.IUserClientService;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 

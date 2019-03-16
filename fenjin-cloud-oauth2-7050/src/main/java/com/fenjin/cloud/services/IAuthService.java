@@ -4,7 +4,6 @@ package com.fenjin.cloud.services;
 import com.fenjin.fjtms.core.domain.users.Permission;
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.domain.users.User;
-import com.fenjin.fjtms.core.models.users.UserSearchModel;
 
 import java.util.List;
 

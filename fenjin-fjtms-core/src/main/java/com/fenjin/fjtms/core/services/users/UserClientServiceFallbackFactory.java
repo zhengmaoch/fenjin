@@ -1,14 +1,8 @@
 package com.fenjin.fjtms.core.services.users;
 
-import com.fenjin.fjtms.core.Result;
-import com.fenjin.fjtms.core.domain.users.User;
-import com.fenjin.fjtms.core.models.users.UserSearchModel;
-import com.fenjin.fjtms.core.query.AuthQuery;
+import com.fenjin.fjtms.core.controller.Result;
 import feign.hystrix.FallbackFactory;
-import org.bouncycastle.asn1.ocsp.ResponseData;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * 通过FallbackFactory实现对IUserClientService所有方法的降级处理，
