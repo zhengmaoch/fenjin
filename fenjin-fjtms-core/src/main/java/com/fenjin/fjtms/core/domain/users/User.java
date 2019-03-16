@@ -259,7 +259,7 @@ public class User implements Serializable {
         return Objects.hash(id, username, fullName, password, post, phone, email, requireReLogin, failedLoginAttempts, cannotLoginUntilDate, active, deleted, isSystemAccount, lastIpAddress, lastLoginDate, lastActivityDate, createdTime, updatedTime);
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinTable(name = "UserRoles",joinColumns=@JoinColumn(name="UserId"),inverseJoinColumns=@JoinColumn(name="RoleId"))
     public List<Role> getRoles(){
