@@ -1,14 +1,22 @@
 package com.fenjin.fjtms.users.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fenjin.fjtms.core.utils.GenericJackson2JsonRedisSerializerEx;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.cache.support.NullValue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -18,6 +26,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -57,7 +66,6 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @return
      */
     @Bean
-    @SuppressWarnings("unchecked")
     public RedisTemplate<String, Object> redisTemplate(JedisConnectionFactory factory) {
 
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
@@ -65,21 +73,26 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.setConnectionFactory(factory);
 
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值（默认使用JDK的序列化方式）
-        GenericJackson2JsonRedisSerializerEx jacksonSeial = new GenericJackson2JsonRedisSerializerEx();
+        Jackson2JsonRedisSerializer jacksonSeial = new Jackson2JsonRedisSerializer(Object.class);
 
-//        GenericJackson2JsonRedisSerializer jacksonSeial = new GenericJackson2JsonRedisSerializer();
+        ObjectMapper om = new ObjectMapper();
+        // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和public
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        // 指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会跑出异常
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+//        om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        om.registerModule(new JavaTimeModule());
+//        om.registerModule(new Hibernate4Module());
+//        om.registerModule((new SimpleModule())
+//                .addSerializer(new RedisConfig.NullValueSerializer()));
+//        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+//        GenericJackson2JsonRedisSerializer jacksonSeial = new GenericJackson2JsonRedisSerializer(om);
+        jacksonSeial.setObjectMapper(om);
 
-//        ObjectMapper om = new ObjectMapper();
-//        // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和public
-//        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-//        // 指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会跑出异常
-//        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-//        jacksonSeial.setObjectMapper(om);
-
-        // 值采用json序列化
-        template.setValueSerializer(jacksonSeial);
         //使用StringRedisSerializer来序列化和反序列化redis的key值
         template.setKeySerializer(new StringRedisSerializer());
+        // 值采用json序列化
+        template.setValueSerializer(jacksonSeial);
 
         // 设置hash key 和value序列化模式
         template.setHashKeySerializer(new StringRedisSerializer());
@@ -109,6 +122,22 @@ public class RedisConfig extends CachingConfigurerSupport {
                 return sb.toString();
             }
         };
+    }
+
+    protected class NullValueSerializer extends StdSerializer<NullValue> {
+        private static final long serialVersionUID = 1999052150548658807L;
+        private final String classIdentifier="@class";
+
+        NullValueSerializer() {
+            super(NullValue.class);
+        }
+
+        @Override
+        public void serialize(NullValue value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            jgen.writeStartObject();
+            jgen.writeStringField(this.classIdentifier, NullValue.class.getName());
+            jgen.writeEndObject();
+        }
     }
 }
 

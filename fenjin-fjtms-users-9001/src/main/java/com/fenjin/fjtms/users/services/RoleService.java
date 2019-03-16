@@ -3,13 +3,18 @@ package com.fenjin.fjtms.users.services;
 import com.fenjin.fjtms.core.domain.users.Role;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.utils.DateUtils;
+import com.fenjin.fjtms.core.utils.JsonUtil;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IRoleRepository;
 import com.fenjin.fjtms.users.dao.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +33,11 @@ import java.util.List;
  * @date: 2019-03-05 19:34
  */
 @Service
+@CacheConfig(cacheNames="roles")
 public class RoleService implements IRoleService {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private IRoleRepository roleRepository;
@@ -37,7 +46,7 @@ public class RoleService implements IRoleService {
     private IUserRepository userRepository;
     
     @Override
-//    @Cacheable(cacheNames = "roles", key = "'rolesbyrolename_'+#rolename")
+//    @Cacheable(key = "'rolesbyrolename_'+#rolename")
     public List<Role> getAllRoles(String rolename) {
         
         Specification<Role> specification = new Specification<Role>() {
@@ -54,23 +63,28 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = "roles", key = "'roles_'+#id")
+    @Cacheable(key = "'roles_'+#id")
     public Role getRoleById(String id) {
         
         return roleRepository.findOne(id);
     }
 
     @Override
-//    @Cacheable(cacheNames = "roles", key = "'rolesbyuserid_'+#userId")
+//    @Cacheable(key = "'rolesbyuserid_'+#userId")
     public List<Role> getRolesByUserId(String userId) {
 
+        String key = "rolesbyuserid_" + userId;
+        if(redisTemplate.hasKey(key)){
+            return redisTemplate.opsForList().range(key, 0, -1);
+        }
         User user = userRepository.findOne(userId);
+        redisTemplate.opsForList().rightPushAll(key, user.getRoles());
         return user.getRoles();
     }
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "roles", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Role createRole(Role role) {
 
         role.setCreatedTime(new Date());
@@ -81,7 +95,7 @@ public class RoleService implements IRoleService {
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "roles", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Role deleteRole(Role role) {
 
         role.setDeleted(true);
@@ -91,7 +105,7 @@ public class RoleService implements IRoleService {
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "roles", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Role updateRole(Role role) {
 
         role.setUpdatedTime(new Date());

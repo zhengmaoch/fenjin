@@ -4,9 +4,11 @@ import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.domain.users.UserRoles;
 import com.fenjin.fjtms.core.models.users.UserSearchModel;
 import com.fenjin.fjtms.core.utils.DateUtils;
+import com.fenjin.fjtms.core.utils.JsonUtil;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.annotation.Order;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +35,11 @@ import java.util.List;
  * @date: 2019-02-28 17:30
  */
 @Service
+@CacheConfig(cacheNames="users")
 public class UserService implements IUserService {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private IUserRepository userRepository;
@@ -99,14 +106,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-//    @Cacheable(cacheNames = "users", key = "'users_'+#id")
+//    @Cacheable(key = "'users_'+#id")
     public User getUserById(String id) {
 
-        return userRepository.findOne(id);
+        String key = "users_" + id;
+        if(redisTemplate.hasKey(key)){
+            return JsonUtil.jsonToPojo((String)redisTemplate.opsForValue().get(key), User.class);
+        }
+        User user = userRepository.findOne(id);
+        redisTemplate.opsForValue().set(key, JsonUtil.objectToJson(user));
+        return user;
     }
 
     @Override
-    @Cacheable(cacheNames = "users", key = "'usersbyusername_'+#username")
+    @Cacheable(key = "'usersbyusername_'+#username")
     public User getUserByUsername(String username) {
         if (StringUtil.isEmpty(username)) {
             return null;
@@ -122,7 +135,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    @Cacheable(cacheNames = "users", key = "'usersbyemail_'+#email")
+    @Cacheable(key = "'usersbyemail_'+#email")
     public User getUserByEmail(String email) {
         if (StringUtil.isEmpty(email)) {
             return null;
@@ -143,7 +156,7 @@ public class UserService implements IUserService {
      */
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "users", allEntries = true)
+    @CacheEvict(allEntries = true)
     public User createUser(User user) {
 
         user.setCreatedTime(new Date());
@@ -154,18 +167,17 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "users", allEntries = true, beforeInvocation = true)
+    @CacheEvict(allEntries = true, beforeInvocation = true)
     public User deleteUser(User user) {
 
         user.setDeleted(true);
-        user.setActive(false);
         user.setUsername(user.getUsername() + "-Deleted-" + DateUtils.toString(new Date()));
         return updateUser(user);
     }
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "users", allEntries = true)
+    @CacheEvict(allEntries = true)
     public User updateUser(User user) {
 
         user.setUpdatedTime(new Date());

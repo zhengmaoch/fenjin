@@ -103,8 +103,7 @@ public class PermissionController extends BaseController {
         }
         if(permission != null){
             try {
-                permissionService.updatePermission(permission);
-                return Result(true);
+                return Result(permissionService.updatePermission(permission));
             }
             catch (Exception e){
                 log.error(e.getMessage());

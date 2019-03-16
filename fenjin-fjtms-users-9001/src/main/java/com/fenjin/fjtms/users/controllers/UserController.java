@@ -250,7 +250,7 @@ public class UserController extends BaseController {
         User user = userService.getUserById(id);
         UserModel userModel = new UserModel();
         BeanUtils.copyProperties(user, userModel);
-        List<Role> roles = user.getRoles();
+        List<Role> roles = roleService.getRolesByUserId(id);
         for (Role role : roles) {
             userModel.getRoleIds().add(role.getId());
         }

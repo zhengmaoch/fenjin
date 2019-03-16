@@ -1,4 +1,4 @@
-http://localhost:9001/users/get/1
+http://localhost:9001/users/1
 
 请求测试一下未认证效果
 GET:
@@ -198,7 +198,7 @@ http://localhost:7040/auth/oauth/token?grant_type=refresh_token&refresh_token=c5
 
 使用access_token请求users服务下的接口
 GET:
-http://localhost:7040/users/users/get/1?access_token=4771f88e-af7c-400f-9b32-64e85fa4fdb0
+http://localhost:7040/users/users/get/1?access_token=01444938-5678-458a-b729-dc3250f8a573
 {
     "error": "invalid_token",
     "error_description": "4771f88e-af7c-400f-9b32-64e85fa4fdb0"

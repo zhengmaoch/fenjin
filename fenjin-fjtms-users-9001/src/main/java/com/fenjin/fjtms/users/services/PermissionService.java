@@ -2,14 +2,17 @@ package com.fenjin.fjtms.users.services;
 
 import com.fenjin.fjtms.core.domain.users.Permission;
 import com.fenjin.fjtms.core.domain.users.Role;
+import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.utils.DateUtils;
 import com.fenjin.fjtms.core.utils.StringUtil;
 import com.fenjin.fjtms.users.dao.IPermissionRepository;
 import com.fenjin.fjtms.users.dao.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +31,11 @@ import java.util.List;
  * @date: 2019-03-05 19:34
  */
 @Service
+@CacheConfig(cacheNames="permissions")
 public class PermissionService implements IPermissionService{
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private IPermissionRepository permissionRepository;
@@ -37,7 +44,7 @@ public class PermissionService implements IPermissionService{
     private IRoleRepository roleRepository;
 
     @Override
-//    @Cacheable(cacheNames = "permissions", key = "'permissionsbypermissionname_'+#permissionname")
+//    @Cacheable(key = "'permissionsbypermissionname_'+#permissionname")
     public List<Permission> getAllPermissions(String permissionname) {
 
         Specification<Permission> specification = new Specification<Permission>() {
@@ -61,16 +68,21 @@ public class PermissionService implements IPermissionService{
     }
 
     @Override
-//    @Cacheable(cacheNames = "permissions", key = "'permissionsbyroleid_'+#roleId")
+//    @Cacheable(key = "'permissionsbyroleid_'+#roleId")
     public List<Permission> getPermissionsByRoleId(String roleId) {
 
+        String key = "permissionsbyroleid_" + roleId;
+        if(redisTemplate.hasKey(key)){
+            return redisTemplate.opsForList().range(key, 0, -1);
+        }
         Role role = roleRepository.findOne(roleId);
+        redisTemplate.opsForList().rightPushAll(key, role.getPermissions());
         return role.getPermissions();
     }
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "permissions", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Permission createPermission(Permission permission) {
 
         permission.setCreatedTime(new Date());
@@ -81,7 +93,7 @@ public class PermissionService implements IPermissionService{
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "permissions", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Permission deletePermission(Permission permission) {
 
         permission.setDeleted(true);
@@ -91,7 +103,7 @@ public class PermissionService implements IPermissionService{
 
     @Transactional
     @Override
-    @CacheEvict(cacheNames = "permissions", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Permission updatePermission(Permission permission) {
 
         permission.setUpdatedTime(new Date());
