@@ -1,6 +1,6 @@
 package com.fenjin.cloud.cotrollers;
 
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.Result;
 import com.fenjin.fjtms.core.domain.users.User;
 import com.fenjin.fjtms.core.services.users.IUserClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,8 @@ public class UserController {
 //        return userClientService.g(id);
 //    }
 
-    @GetMapping("/getByUsername/{username}")
-    public Result get(@PathVariable("username") String username){
+    @GetMapping("/username/{username}")
+    public Result getByUsername(@PathVariable("username") String username){
 
         return userClientService.getByUsername(username);
     }

@@ -1,4 +1,4 @@
-package com.fenjin.cloud.configbeans;
+package com.fenjin.cloud.config;
 
 
 import com.netflix.loadbalancer.*;

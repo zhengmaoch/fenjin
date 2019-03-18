@@ -66,6 +66,7 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @return
      */
     @Bean
+    @SuppressWarnings("unchecked")
     public RedisTemplate<String, Object> redisTemplate(JedisConnectionFactory factory) {
 
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
@@ -122,22 +123,6 @@ public class RedisConfig extends CachingConfigurerSupport {
                 return sb.toString();
             }
         };
-    }
-
-    protected class NullValueSerializer extends StdSerializer<NullValue> {
-        private static final long serialVersionUID = 1999052150548658807L;
-        private final String classIdentifier="@class";
-
-        NullValueSerializer() {
-            super(NullValue.class);
-        }
-
-        @Override
-        public void serialize(NullValue value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeStartObject();
-            jgen.writeStringField(this.classIdentifier, NullValue.class.getName());
-            jgen.writeEndObject();
-        }
     }
 }
 

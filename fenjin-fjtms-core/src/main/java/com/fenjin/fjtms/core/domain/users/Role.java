@@ -125,7 +125,7 @@ public class Role implements Serializable {
         return Objects.hash(id, name, active, isSystemRole, systemName, deleted, createdTime, updatedTime);
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinTable(name = "RolePermissions",joinColumns=@JoinColumn(name="RoleId"),inverseJoinColumns=@JoinColumn(name="PermissionId"))
     public List<Permission> getPermissions(){

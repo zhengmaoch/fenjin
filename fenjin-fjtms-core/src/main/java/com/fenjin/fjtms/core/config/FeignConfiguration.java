@@ -33,6 +33,7 @@ public class FeignConfiguration {
     }
     @Bean
     public Request.Options options() {
+
         return new Request.Options(5000, 10000);
     }
 

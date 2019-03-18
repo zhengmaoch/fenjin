@@ -1,6 +1,6 @@
 package com.fenjin.cloud.cotrollers;
 
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.Result;
 import com.fenjin.fjtms.core.services.users.IPermissionClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +22,9 @@ public class PermissionController {
     @Autowired
     private IPermissionClientService permissionClientService;
 
-    @GetMapping("/getByRoleId/{roleId}")
+    @GetMapping("/roleid/{roleId}")
     Result getByRoleId(@PathVariable String roleId){
+
         return permissionClientService.getByRoleId(roleId);
     }
 }

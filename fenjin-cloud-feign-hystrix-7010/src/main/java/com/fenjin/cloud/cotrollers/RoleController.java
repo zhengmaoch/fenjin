@@ -1,6 +1,6 @@
 package com.fenjin.cloud.cotrollers;
 
-import com.fenjin.fjtms.core.Result;
+import com.fenjin.fjtms.core.controller.Result;
 import com.fenjin.fjtms.core.services.users.IRoleClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +22,8 @@ public class RoleController {
     @Autowired
     private IRoleClientService roleClientService;
 
-    @GetMapping("/getByUserId/{userId}")
-    public Result get(@PathVariable("userId") String userId){
+    @GetMapping("/userid/{userId}")
+    public Result getByUserId(@PathVariable("userId") String userId){
 
         return roleClientService.getByUserId(userId);
     }

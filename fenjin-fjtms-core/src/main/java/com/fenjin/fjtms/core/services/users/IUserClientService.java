@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 客户端面向接口编程来访问微服务FENJIN-FJTMS-USERS，服务降级熔断由UserClientServiceFallbackFactory负责处理
  */
-@FeignClient(value = "FENJIN-FJTMS-USERS", path = "/users", configuration = FeignConfiguration.class, fallbackFactory = UserClientServiceFallbackFactory.class)
+@FeignClient(value = "FENJIN-FJTMS-USERS", path = "/users", fallbackFactory = UserClientServiceFallbackFactory.class)
 public interface IUserClientService {
 
     /**

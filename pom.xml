@@ -186,7 +186,7 @@
         <!--<module>fenjin-fjtms-system-9020</module>-->
         <!--<module>fenjin-fjtms-tests-8150</module>-->
         <module>fenjin-fjtms-users-9001</module>
-        <!--Jenkins http://192.168.110.9:4445 -->
+        <!--Jenkins http://192.168.110.9:18080 -->
     </modules>
 
     <build>

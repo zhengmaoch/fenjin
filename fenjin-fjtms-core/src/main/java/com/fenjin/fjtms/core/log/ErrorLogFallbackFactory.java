@@ -14,6 +14,7 @@ public class ErrorLogFallbackFactory implements FallbackFactory<IErrorLog> {
     public IErrorLog create(Throwable throwable) {
         return new IErrorLog() {
             @Override
+            @SuppressWarnings("unchecked")
             public Map create(Map errorLog) {
                 errorLog =new HashMap();
                 errorLog.put("status","404");
