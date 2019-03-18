@@ -1,0 +1,73 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: fenjin-fjtms-users #微服务名称
+  datasource:
+    url: jdbc:mysql://localhost:3306/fjtms
+    username: root
+    password: 123456
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    dbcp2:
+      min-idle: 5
+      initial-size: 5
+      max-total: 5
+      max-wait-millis: 200
+  redis:
+    host: localhost
+    #    host: 192.168.110.9
+    port: 6379
+    database: 2
+    timeout: 10000
+    jedis:
+      pool:
+        max-idle: 50
+        min-idle: 20
+        max-active: 100
+        max-wait: -1
+
+  # Jpa结合hibernate完成数据访问的配置
+  jpa:
+    database: MYSQL
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+      #      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+#        default_schema: fjtms
+
+eureka:
+  client: #微服务注册进eureka服务
+    service-url:
+      #      单机配置
+      defaultZone: http://localhost:7001/eureka
+  #      集群配置
+  #      defaultZone: http://fenjin.eureka7001.com:7001/eureka/,http://fenjin.eureka7002.com:7002/eureka/,http://fenjin.eureka7003.com:7003/eureka/
+  instance:
+    instance-id: fenjin-fjtms-users-9001
+    #    hostname: 192.168.110.9
+    prefer-ip-address: true
+
+security:
+  oauth2:
+    resource:
+      user-info-uri:  http://localhost:7040/auth/users/user
+      prefer-token-info: false
+      id: fenjin-fjtms-users
+#      loadBalanced: true
+
+info:
+  app.name: fenjin-fjtms-users
+  company.name: www.fenjin.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+
+logging:
+  level: info

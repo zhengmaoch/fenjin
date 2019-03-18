@@ -1,0 +1,76 @@
+server:
+  port: 7050
+
+spring:
+  application:
+    name: fenjin-cloud-oauth2
+  datasource:
+    url: jdbc:mysql://192.168.110.9:13306/fjtms?characterEncoding=utf-8
+    username: root
+    password: 123456
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    dbcp2:
+      min-idle: 5
+      initial-size: 5
+      max-total: 5
+      max-wait-millis: 200
+  redis:
+    host: 192.168.110.9
+    port: 16379
+    database: 3
+    timeout: 10000
+    jedis:
+      pool:
+        max-idle: 50
+        min-idle: 20
+        max-active: 100
+        max-wait: -1
+
+  # Jpa结合hibernate完成数据访问的配置
+  jpa:
+    database: MYSQL
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+      #      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+#        default_schema: fjtms
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+  basic:
+    enabled: false
+
+eureka:
+  client: #微服务注册进eureka服务
+    service-url:
+      #      单机配置
+      defaultZone: http://192.168.110.9:7001/eureka
+  #      集群配置
+  #      defaultZone: http://fenjin.eureka7001.com:7001/eureka/,http://fenjin.eureka7002.com:7002/eureka/,http://fenjin.eureka7003.com:7003/eureka/
+  instance:
+    instance-id: fenjin-cloud-oauth2-7050
+    hostname: 192.168.110.9
+#    prefer-ip-address: true
+
+#配置服务降级熔断
+feign:
+  hystrix:
+    enabled: true
+
+info:
+  app.name: fenjin-cloud-oauth2
+  company.name: www.fenjin.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+
+logging:
+  level: info
